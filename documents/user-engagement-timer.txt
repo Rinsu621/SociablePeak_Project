@@ -1,0 +1,60 @@
+Page Load:
+    When the webpage initially loads, the $(document).ready() function is triggered. This ensures that all DOM elements are fully loaded before the script begins execution.
+
+Initialization:
+    Inside the $(document).ready() function, the startTimer() function is called first if the timer isn't already active (timerActive is false). This sets up the timer from the beginning or resumes based on previously stored data in local storage.
+
+Start Timer:
+    startTimer():
+    Checks if timerActive is false to avoid multiple intervals being set up.
+    Retrieves the startTime from local storage or sets it if it’s not already set.
+    Initializes an interval (setInterval(updateTime, 1000)) that runs the updateTime() function every second.
+    Sets timerActive to true indicating that the timer is running.
+
+Update Time:
+    updateTime():
+    Calculates the elapsed time since startTime.
+    Converts the total elapsed milliseconds into hours, minutes, and seconds.
+    Formats these into a string (HH:MM:SS) and updates the #timerDisplay on the webpage.
+    Updates the elapsed time in local storage (localStorage.setItem('elapsedTime', elapsed)).
+
+User Switches to Another Tab or Minimizes the Browser:
+    $(document).on('visibilitychange', function()) is triggered.
+    Checks if document.visibilityState === 'visible'.
+        If false (user has left the tab or minimized the browser):
+            Calls stopTimer():
+                Clears the interval that runs updateTime() using clearInterval(interval).
+                Runs updateTime() one final time to ensure the last second of activity is recorded before pausing.
+                Sets timerActive to false.
+            If true (user returns to the tab):
+                Calls startTimer() to resume the timer.
+
+Window Focus and Blur (optional):
+    These events ($(window).on('focus', startTimer) and $(window).on('blur', stopTimer)) serve as additional safeguards to handle focus-related changes not captured by visibilitychange. The functionality is similar to the visibility change handlers but triggered by different browser events.
+
+Window Before Unload:
+    When the user is about to leave the page, $(window).on('beforeunload', function()) is triggered.
+    Calls stopTimer() to ensure the timer stops and the last recorded time is saved.
+
+Page Load
+    |
+    V
+startTimer() -----> Timer Starts (interval begins)
+    |
+    V
+updateTime() -----> Every Second (updates display and local storage)
+    |
+    V
+User changes tab/minimizes
+    |                  |
+    |-----> visibilitychange event
+                   |
+                   |---> stopTimer() -----> Timer Stops (interval cleared)
+                   |---> updateTime() -----> Final Update before pausing
+                   |
+                   V
+                   User returns
+                       |
+                       |-----> visibilitychange event
+                                      |
+                                      |---> startTimer() -----> Timer Resumes

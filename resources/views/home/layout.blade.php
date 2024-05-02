@@ -9,12 +9,18 @@
     <link rel="shortcut icon" href="{{ asset('/images/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/socialv.css') }}">
-    <link rel="stylesheet" href="{{ asset('/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('/vendor/remixicon/fonts/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/vanillajs-datepicker/dist/css/datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
-
+    <style>
+        span#timerDisplay {
+            background: #449ad9;
+            color: #ffff;
+            padding: 3px 3px 3px 3px;
+        }
+    </style>
 </head>
 
 <body class="  ">
@@ -359,9 +365,15 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav  ms-auto navbar-list">
                             <li>
-                                <a href="../dashboard/index.html" class="  d-flex align-items-center">
+                                <div id="timerDisplayDiv">
+                                    <span id="timerDisplay">
+                                        Timer: 0 seconds
+                                    </span>   
+                                </div>
+
+                                {{-- <a href="../dashboard/index.html" class="  d-flex align-items-center">
                                     <i class="ri-home-line"></i>
-                                </a>
+                                </a> --}}
                             </li>
                             <li class="nav-item dropdown">
                                 <a href="#" class="dropdown-toggle" id="group-drop" data-bs-toggle="dropdown"
@@ -779,6 +791,80 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Retrieve the start time and elapsed time from local storage
+            let startTime = localStorage.getItem('startTime');
+            let elapsedStored = parseInt(localStorage.getItem('elapsedTime'), 10) || 0;
+            let timerActive = false;
+            let interval;
+        
+            function startTimer() {
+                if (!timerActive) {
+                    // Update or set start time based on previously stored elapsed time
+                    startTime = Date.now() - elapsedStored * 1000;
+                    localStorage.setItem('startTime', startTime);
+                    interval = setInterval(updateTime, 1000);
+                    timerActive = true;
+                    
+                    // console.log('Date.now()'+Date.now());
+                    // console.log('elapsedStored'+elapsedStored);
+                    // console.log('interval'+interval);
+                }
+            }
+        
+            function stopTimer() {
+                if (timerActive) {
+                    clearInterval(interval);
+                    updateTime(); // Final update before pausing
+                    timerActive = false;
+                }
+            }
+        
+            function updateTime() {
+                let elapsed = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
+                let hours = Math.floor(elapsed / 3600);
+                let minutes = Math.floor((elapsed % 3600) / 60);
+                let seconds = elapsed % 60;
+        
+                // Formatting time to HH:MM:SS
+                let formattedTime = [
+                    hours.toString().padStart(2, '0'),
+                    minutes.toString().padStart(2, '0'),
+                    seconds.toString().padStart(2, '0')
+                ].join(':');
+        
+                localStorage.setItem('elapsedTime', elapsed);
+                elapsedStored = elapsed;
+                // console.log('elapsed'+elapsed);
+                $('#timerDisplay').text('Timer: ' + formattedTime);
+            }
+        
+            // Start timer initially
+            startTimer();
+        
+            // Event listener for tab changes
+            $(document).on('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    startTimer();
+                } else {
+                    stopTimer();
+                }
+            });
+        
+
+            // Additional focus and blur events for handling app switching
+            $(window).on('focus', startTimer);
+            $(window).on('blur', stopTimer);
+
+            // Before unload: handle tab close/navigate away
+            $(window).on('beforeunload', function() {
+                stopTimer();
+            });
+        });
+    </script>
+        
+        
 </body>
 
 </html>
