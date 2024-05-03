@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('/vendor/vanillajs-datepicker/dist/css/datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/vendor/toastr/toastr.min.css') }}">
     <style>
         span#timerDisplay {
             background: #449ad9;
@@ -36,298 +37,22 @@
             <div id="sidebar-scrollbar">
                 <nav class="iq-sidebar-menu">
                     <ul id="iq-sidebar-toggle" class="iq-menu">
-                        <li class="active">
-                            <a href="../dashboard/index.html" class=" ">
+                        <li class="{{ Request::segment(1) == '' ? 'active' : '' }}">
+                            <a href="{{ route('homePage') }}" class=" ">
                                 <i class="las la-newspaper"></i><span>Newsfeed</span>
                             </a>
                         </li>
-                        <li class="">
-                            <a href="../app/profile.html" class=" ">
-                                <i class="las la-user"></i><span>Profile</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="../app/group.html" class=" ">
-                                <i class="las la-users"></i><span>Group</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="../app/todo.html" class=" ">
-                                <i class="las la-check-circle"></i><span>Todo</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="../dashboard/calendar.html" class=" ">
-                                <i class="las la-calendar"></i><span>Calendar</span>
-                            </a>
-                        </li>
+
                         <li class=" ">
                             <a href="#mailbox" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false">
-                                <i class="ri-mail-line"></i><span>Email</span><i
+                                <i class="las la-chart-pie"></i><span>Analytics</span><i
                                     class="ri-arrow-right-s-line iq-arrow-right"></i>
                             </a>
                             <ul id="mailbox" class="iq-submenu collapse" data-bs-parent="#iq-sidebar-toggle">
-                                <li class="">
-                                    <a href="../app/email.html"><i class="  ri-inbox-line"></i>Inbox</a>
-                                </li>
-                                <li class="">
-                                    <a href="../app/email-compose.html"><i class="ri-edit-line"></i>Email Compose</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="">
-                            <a href="#ui-elements" data-bs-toggle="collapse" class="  collapsed"
-                                aria-expanded="false"><i class="ri-focus-2-line"></i><span>Ui-Elements</span><i
-                                    class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                            <ul id="ui-elements" class="iq-submenu collapse" data-bs-parent="#iq-sidebar-toggle">
-                                <li class="">
-                                    <a href="#ui-kit" data-bs-toggle="collapse" class="  collapsed"
-                                        aria-expanded="false"><i class="ri-pencil-ruler-line"></i><span>UI Kit</span><i
-                                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="ui-kit" class="iq-submenu collapse" data-bs-parent="#ui-elements">
-                                        <li class="">
-                                            <a href="../dashboard/ui-color.html"><i class="ri-font-color"></i>Colors</a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="../dashboard/ui-typography.html"><i
-                                                    class="ri-text"></i>Typography</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-alerts.html"><i
-                                                    class="ri-alert-line"></i>Alerts</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-badges.html"><i
-                                                    class="ri-building-3-line"></i>Badges</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-breadcrumb.html"><i
-                                                    class="ri-menu-2-line"></i>Breadcrumb</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-buttons.html"><i
-                                                    class="ri-checkbox-blank-line"></i>Buttons</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-cards.html"><i
-                                                    class="ri-bank-card-line"></i>Cards</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-carousel.html"><i
-                                                    class="ri-slideshow-line"></i>Carousel</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-embed-video.html"><i
-                                                    class="ri-slideshow-2-line"></i>Video</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-grid.html"><i class="ri-grid-line"></i>Grid</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-images.html"><i
-                                                    class="ri-image-line"></i>Images</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-list-group.html"><i
-                                                    class="ri-file-list-3-line"></i>list
-                                                Group</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-modal.html"><i
-                                                    class="ri-stop-mini-line"></i>Modal</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-notifications.html"><i
-                                                    class="ri-notification-line"></i>Notifications</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="ui-pagination.html"><i class="ri-pages-line"></i>Pagination</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-popovers.html"><i
-                                                    class="ri-folder-shield-2-line"></i>Popovers</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-progressbars.html"><i
-                                                    class="ri-battery-low-line"></i>Progressbars</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-tabs.html"><i
-                                                    class="ri-database-line"></i>Tabs</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/ui-tooltips.html"><i
-                                                    class="ri-record-mail-line"></i>Tooltips</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="#forms" class="  collapsed" data-bs-toggle="collapse"
-                                        aria-expanded="false"><i class="ri-profile-line"></i><span>Forms</span><i
-                                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="forms" class="iq-submenu collapse" data-bs-parent="#ui-elements">
-                                        <li class="">
-                                            <a href="../dashboard/form-layout.html"><i class="ri-tablet-line"></i>Form
-                                                Elements</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/form-validation.html"><i
-                                                    class="ri-device-line"></i>Form
-                                                Validation</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/form-switch.html"><i class="ri-toggle-line"></i>Form
-                                                Switch</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/form-chechbox.html"><i
-                                                    class="ri-checkbox-line"></i>Form
-                                                Checkbox</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/form-radio.html"><i
-                                                    class="ri-radio-button-line"></i>Form Radio</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="#wizard-form" class="  collapsed" data-bs-toggle="collapse"
-                                        aria-expanded="false"><i class="ri-archive-drawer-line"></i><span>Forms
-                                            Wizard</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="wizard-form" class="iq-submenu collapse" data-bs-parent="#ui-elements">
-                                        <li class="">
-                                            <a href="../dashboard/form-wizard.html"><i
-                                                    class="ri-clockwise-line"></i>Simple Wizard</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/form-wizard-validate.html"><i
-                                                    class="ri-clockwise-2-line"></i>Validate Wizard</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/form-wizard-vertical.html"><i
-                                                    class="ri-anticlockwise-line"></i>Vertical Wizard</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="#tables" class="  collapsed" data-bs-toggle="collapse"
-                                        aria-expanded="false"><i class="ri-table-line"></i><span>Table</span><i
-                                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="tables" class="iq-submenu collapse" data-bs-parent="#ui-elements">
-                                        <li class="">
-                                            <a href="../dashboard/tables-basic.html"><i
-                                                    class="ri-table-line"></i>Basic Tables</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/data-table.html"><i
-                                                    class="ri-database-line"></i>Data Table</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/table-editable.html"><i
-                                                    class="ri-refund-line"></i>Editable Table</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="#icons" class="  collapsed" data-bs-toggle="collapse"
-                                        aria-expanded="false"><i class="ri-list-check"></i><span>Icons</span><i
-                                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="icons" class="iq-submenu collapse" data-bs-parent="#ui-elements">
-                                        <li class="">
-                                            <a href="../dashboard/icon-fontawesome-5.html"><i
-                                                    class="ri-facebook-fill"></i>Font Awesome 5</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/icon-lineawesome.html"><i
-                                                    class="ri-keynote-line"></i>line Awesome</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/icon-remixicon.html"><i
-                                                    class="ri-remixicon-line"></i>Remixicon</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="">
-                            <a href="#pages" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i
-                                    class="ri-pages-line"></i><span>Pages</span><i
-                                    class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                            <ul id="pages" class="iq-submenu collapse" data-bs-parent="#iq-sidebar-toggle">
-                                <li class="">
-                                    <a href="#authentication" class="  collapsed" data-bs-toggle="collapse"
-                                        aria-expanded="false"><i
-                                            class="ri-pages-line"></i><span>Authentication</span><i
-                                            class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="authentication" class="iq-submenu collapse" data-bs-parent="#pages">
-                                        <li class="">
-                                            <a href="../dashboard/sign-in.html"><i
-                                                    class="ri-login-box-line"></i>Login</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/sign-up.html"><i
-                                                    class="ri-login-circle-line"></i>Register</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-recoverpw.html"><i
-                                                    class="ri-record-mail-line"></i>Recover Password</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-confirm-mail.html"><i
-                                                    class="ri-file-code-line"></i>Confirm Mail</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-lock-screen.html"><i
-                                                    class="ri-lock-line"></i>Lock Screen</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="#extra-pages" class="  collapsed" data-bs-toggle="collapse"
-                                        aria-expanded="false"><i class="ri-pantone-line"></i><span>Extra
-                                            Pages</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-                                    <ul id="extra-pages" class="iq-submenu collapse" data-bs-parent="#pages">
-                                        <li class="">
-                                            <a href="../dashboard/pages-timeline.html"><i
-                                                    class="ri-map-pin-time-line"></i>Timeline</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-invoice.html"><i
-                                                    class="ri-question-answer-line"></i>Invoice</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/blank-page.html"><i
-                                                    class="ri-invision-line"></i>Blank Page</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-error.html"><i
-                                                    class="ri-error-warning-line"></i>Error 404</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-error-500.html"><i
-                                                    class="ri-error-warning-line"></i>Error 500</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-pricing.html"><i
-                                                    class="ri-price-tag-line"></i>Pricing</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-pricing-one.html"><i
-                                                    class="ri-price-tag-2-line"></i>Pricing 1</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-maintenance.html"><i
-                                                    class="ri-archive-line"></i>Maintenance</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-comingsoon.html"><i
-                                                    class="ri-mastercard-line"></i>Coming Soon</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="../dashboard/pages-faq.html"><i
-                                                    class="ri-compasses-line"></i>Faq</a>
-                                        </li>
-                                    </ul>
+                                <li class="{{ Request::segment(1) == 'user-engagement' ? 'active' : '' }}">
+                                    <a href="{{ route('userEngagementDataView') }}" class=" ">
+                                        <i class="las la-chart-pie"></i><span>User Engagement</span>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -368,7 +93,7 @@
                                 <div id="timerDisplayDiv">
                                     <span id="timerDisplay">
                                         Timer: 0 seconds
-                                    </span>   
+                                    </span>
                                 </div>
 
                                 {{-- <a href="../dashboard/index.html" class="  d-flex align-items-center">
@@ -634,14 +359,15 @@
                                         class="img-fluid rounded-circle me-3" alt="user">
                                     <div class="caption">
                                         {{-- $firstName = strstr($name, ' ', true); // Get the substring before the first occurrence of space --}}
-                                        <h6 class="mb-0 line-height">{{strstr(auth()->user()->name,' ', true)}}</h6>
+                                        <h6 class="mb-0 line-height">{{ strstr(auth()->user()->name, ' ', true) }}
+                                        </h6>
                                     </div>
                                 </a>
                                 <div class="sub-drop dropdown-menu caption-menu" aria-labelledby="drop-down-arrow">
                                     <div class="card shadow-none m-0">
                                         <div class="card-header  bg-primary">
                                             <div class="header-title">
-                                                <h5 class="mb-0 text-white">Hello {{(auth()->user()->name)}}</h5>
+                                                <h5 class="mb-0 text-white">Hello {{ auth()->user()->name }}</h5>
                                                 <span class="text-white font-size-12">Available</span>
                                             </div>
                                         </div>
@@ -696,10 +422,12 @@
                                                 </div>
                                             </a>
                                             <div class="d-inline-block w-100 text-center p-3">
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
                                                     @csrf
                                                 </form>
-                                                <a class="btn btn-primary iq-sign-btn" href="#" role="button"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <a class="btn btn-primary iq-sign-btn" href="#"
+                                                    role="button"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     Sign out
                                                     <i class="ri-login-box-line ms-2"></i>
                                                 </a>
@@ -749,8 +477,15 @@
     <!-- app JavaScript -->
     <script src="{{ asset('/js/charts/weather-chart.js') }}"></script>
     <script src="{{ asset('/js/app.js') }}"></script>
-    <script src="../vendor/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script>
+    <script src="{{ asset('/vendor/toastr/toastr.min.js') }}"></script>
+    <script src="{{ asset('/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
     <script src="{{ asset('/js/lottie.js') }}"></script>
+
+    {{-- create a csrf token to post form in user-engagement.js file --}}
+    <script>
+        let csrfToken = '{{ csrf_token() }}';
+    </script>
+    <script src="{{ asset('/js/user-engagement.js') }}"></script>
 
 
     <!-- offcanvas start -->
@@ -791,80 +526,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            // Retrieve the start time and elapsed time from local storage
-            let startTime = localStorage.getItem('startTime');
-            let elapsedStored = parseInt(localStorage.getItem('elapsedTime'), 10) || 0;
-            let timerActive = false;
-            let interval;
-        
-            function startTimer() {
-                if (!timerActive) {
-                    // Update or set start time based on previously stored elapsed time
-                    startTime = Date.now() - elapsedStored * 1000;
-                    localStorage.setItem('startTime', startTime);
-                    interval = setInterval(updateTime, 1000);
-                    timerActive = true;
-                    
-                    // console.log('Date.now()'+Date.now());
-                    // console.log('elapsedStored'+elapsedStored);
-                    // console.log('interval'+interval);
-                }
-            }
-        
-            function stopTimer() {
-                if (timerActive) {
-                    clearInterval(interval);
-                    updateTime(); // Final update before pausing
-                    timerActive = false;
-                }
-            }
-        
-            function updateTime() {
-                let elapsed = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
-                let hours = Math.floor(elapsed / 3600);
-                let minutes = Math.floor((elapsed % 3600) / 60);
-                let seconds = elapsed % 60;
-        
-                // Formatting time to HH:MM:SS
-                let formattedTime = [
-                    hours.toString().padStart(2, '0'),
-                    minutes.toString().padStart(2, '0'),
-                    seconds.toString().padStart(2, '0')
-                ].join(':');
-        
-                localStorage.setItem('elapsedTime', elapsed);
-                elapsedStored = elapsed;
-                // console.log('elapsed'+elapsed);
-                $('#timerDisplay').text('Timer: ' + formattedTime);
-            }
-        
-            // Start timer initially
-            startTimer();
-        
-            // Event listener for tab changes
-            $(document).on('visibilitychange', function() {
-                if (document.visibilityState === 'visible') {
-                    startTimer();
-                } else {
-                    stopTimer();
-                }
-            });
-        
-
-            // Additional focus and blur events for handling app switching
-            $(window).on('focus', startTimer);
-            $(window).on('blur', stopTimer);
-
-            // Before unload: handle tab close/navigate away
-            $(window).on('beforeunload', function() {
-                stopTimer();
-            });
-        });
-    </script>
-        
-        
 </body>
 
 </html>

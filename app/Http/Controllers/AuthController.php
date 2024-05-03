@@ -33,7 +33,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('home');
+            return redirect()->route('homePage');
         }
 
         return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email or password.']);
@@ -70,7 +70,7 @@ class AuthController extends Controller
         }
         
         // If no exception occurred, redirect to the intended URL
-        return redirect()->route('home');
+        return redirect()->route('homePage');
     }
 
     public function logout()

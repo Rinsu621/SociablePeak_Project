@@ -7,6 +7,24 @@ Initialization:
 Start Timer:
     startTimer():
     Checks if timerActive is false to avoid multiple intervals being set up.
+
+    //save date in localstorage to keep daily engagement data of the user
+    Save today's date in Y-m-d format in local storage
+    Check if today's date matches the date stored in local storage
+    If not same or null
+        if not same
+            save the storedDate, elapsedTime & startTime in database using ajax
+            update stored date in local storage
+            reset the elapsedTime and startTime
+        if null //this is a first page load condition
+            store current time
+            store current date
+
+    else //this means user has already opened this page before today
+        do nothing
+    //
+
+    
     Retrieves the startTime from local storage or sets it if it’s not already set.
     Initializes an interval (setInterval(updateTime, 1000)) that runs the updateTime() function every second.
     Sets timerActive to true indicating that the timer is running.
@@ -18,6 +36,8 @@ Update Time:
     Formats these into a string (HH:MM:SS) and updates the #timerDisplay on the webpage.
     Updates the elapsed time in local storage (localStorage.setItem('elapsedTime', elapsed)).
 
+
+
 User Switches to Another Tab or Minimizes the Browser:
     $(document).on('visibilitychange', function()) is triggered.
     Checks if document.visibilityState === 'visible'.
@@ -25,6 +45,8 @@ User Switches to Another Tab or Minimizes the Browser:
             Calls stopTimer():
                 Clears the interval that runs updateTime() using clearInterval(interval).
                 Runs updateTime() one final time to ensure the last second of activity is recorded before pausing.
+                pauses the timer
+                increase user tab switch counter by 1
                 Sets timerActive to false.
             If true (user returns to the tab):
                 Calls startTimer() to resume the timer.
@@ -58,3 +80,91 @@ User changes tab/minimizes
                        |-----> visibilitychange event
                                       |
                                       |---> startTimer() -----> Timer Resumes
+
+
+Codebase
+
+        $(document).ready(function() {
+            // Retrieve the start time and elapsed time from local storage
+            let startTime = localStorage.getItem('startTime');
+            let elapsedStored = parseInt(localStorage.getItem('elapsedTime'), 10) || 0;
+            let timerActive = false;
+            let interval;
+
+            function startTimer() {
+                if (!timerActive) {
+                    // Save today's date in Y-m-d format in local storage
+                    let currentDate = new Date().toISOString().slice(0, 10);
+                    localStorage.setItem('currentDate', currentDate);
+
+                    // Check if today's date matches the date stored in local storage
+                    let storedDate = localStorage.getItem('storedDate');
+                    if (storedDate === null || storedDate !== currentDate) {
+                        console.log("Not same");
+                        // If not same, update stored date in local storage
+                        localStorage.setItem('storedDate', currentDate);
+                    } else {
+                        console.log("Same");
+                    }
+                    
+                    // Update or set start time based on previously stored elapsed time
+                    startTime = Date.now() - elapsedStored * 1000;
+                    localStorage.setItem('startTime', startTime);
+                    interval = setInterval(updateTime, 1000);
+                    timerActive = true;
+
+                    // console.log('Date.now()'+Date.now());
+                    // console.log('elapsedStored'+elapsedStored);
+                    // console.log('interval'+interval);
+                }
+            }
+
+            function stopTimer() {
+                if (timerActive) {
+                    clearInterval(interval);
+                    updateTime(); // Final update before pausing
+                    timerActive = false;
+                }
+            }
+
+            function updateTime() {
+                let elapsed = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
+                let hours = Math.floor(elapsed / 3600);
+                let minutes = Math.floor((elapsed % 3600) / 60);
+                let seconds = elapsed % 60;
+
+                // Formatting time to HH:MM:SS
+                let formattedTime = [
+                    hours.toString().padStart(2, '0'),
+                    minutes.toString().padStart(2, '0'),
+                    seconds.toString().padStart(2, '0')
+                ].join(':');
+
+                localStorage.setItem('elapsedTime', elapsed);
+                elapsedStored = elapsed;
+                // console.log('elapsed'+elapsed);
+                $('#timerDisplay').text('Timer: ' + formattedTime);
+            }
+
+            // Start timer initially
+            startTimer();
+
+            // Event listener for tab changes
+            $(document).on('visibilitychange', function() {
+                if (document.visibilityState === 'visible') {
+                    startTimer();
+                } else {
+                    stopTimer();
+                }
+            });
+
+
+            // Additional focus and blur events for handling app switching
+            $(window).on('focus', startTimer);
+            $(window).on('blur', stopTimer);
+
+            // Before unload: handle tab close/navigate away
+            $(window).on('beforeunload', function() {
+                stopTimer();
+            });
+        });

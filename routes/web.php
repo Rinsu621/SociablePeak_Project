@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\UserEngagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +15,14 @@ use App\Http\Controllers\AuthController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [AuthController::class, 'home'])->name('home');
+
+Route::get('clear', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+});
+
+Route::get('/', [AuthController::class, 'home'])->name('homePage');
 
 // Route::get('/', function () {
 //     return view('auth/signup');
@@ -25,3 +34,9 @@ Route::post('register', [AuthController::class, 'register'])->name('registerStor
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('anaytics', [AnalyticsController::class, 'index'])->name('anaytics');
+Route::get('user-engagement', [UserEngagementController::class, 'userEngagementDataView'])->name('userEngagementDataView');
+
+Route::post('store-user-data', [UserEngagementController::class, 'storeUserData'])->name('storeUserData');

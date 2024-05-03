@@ -197,7 +197,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12">
+            {{-- <div class="col-sm-12">
                 <div class="card card-block card-stretch card-height">
                     <div class="card-body">
                         <div class="user-post-data">
@@ -271,7 +271,6 @@
                         <div class="user-post">
                             <div class="ratio ratio-16x9">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/OaimMVSKU_U?si=Mm7kfb4WRiXvcTqQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                                {{-- <iframe src="https://www.youtube.com/embed/j_GsIanLxZk?rel=0" allowfullscreen></iframe> --}}
                             </div>
                         </div>
                         <div class="comment-area mt-3">
@@ -410,7 +409,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="col-sm-12">
                 <div class="card card-block card-stretch card-height">
                     <div class="card-body">
@@ -1261,7 +1260,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12">
+            {{-- <div class="col-sm-12">
                 <div class="card card-block card-stretch card-height">
                     <div class="card-body">
                         <div class="user-post-data">
@@ -1335,7 +1334,6 @@
                         <div class="user-post">
                             <div class="ratio ratio-16x9">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/OaimMVSKU_U?si=Mm7kfb4WRiXvcTqQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                                {{-- <iframe src="https://www.youtube.com/embed/j_GsIanLxZk?rel=0" allowfullscreen></iframe> --}}
                             </div>
                         </div>
                         <div class="comment-area mt-3">
@@ -1474,7 +1472,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="col-lg-4">
             <div class="card">
