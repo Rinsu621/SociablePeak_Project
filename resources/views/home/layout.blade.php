@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/toastr/toastr.min.css') }}">
+    @yield('style')
     <style>
         span#timerDisplay {
             background: #449ad9;
@@ -487,7 +488,7 @@
     </script>
     <script src="{{ asset('/js/user-engagement.js') }}"></script>
 
-
+    @yield('script')
     <!-- offcanvas start -->
 
     <div class="offcanvas offcanvas-bottom share-offcanvas" tabindex="-1" id="share-btn"

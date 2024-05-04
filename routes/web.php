@@ -35,8 +35,10 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-
 Route::get('anaytics', [AnalyticsController::class, 'index'])->name('anaytics');
 Route::get('user-engagement', [UserEngagementController::class, 'userEngagementDataView'])->name('userEngagementDataView');
+Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEngagement'])->name('seedUserEngagement');
+
 
 Route::post('store-user-data', [UserEngagementController::class, 'storeUserData'])->name('storeUserData');
+Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEngagement'])->name('seedUserEngagement');

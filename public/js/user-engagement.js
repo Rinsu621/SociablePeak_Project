@@ -27,6 +27,9 @@ $(document).ready(function() {
         storedTime = formattedTime;
     }
 
+    if (storedTime === null){
+        storeCurrentTime();
+    }
     function storeUserData() {
         var updateData = {
             'date': storedDate,
@@ -73,7 +76,6 @@ $(document).ready(function() {
             } else {
                 console.log("Same Date - Do nothing");
             }
-
             // Update or set start time based on previously stored elapsed time
             startTime = Date.now() - elapsedStored * 1000;
             localStorage.setItem('startTime', startTime);
