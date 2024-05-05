@@ -43,6 +43,11 @@
                                 <i class="las la-newspaper"></i><span>Newsfeed</span>
                             </a>
                         </li>
+                        <li class="{{ Request::segment(1) == 'profile' ? 'active' : '' }}">
+                            <a href="{{ route('profile') }}" class=" ">
+                                <i class="las la-user"></i><span>Profile</span>
+                            </a>
+                        </li>
 
                         <li class=" ">
                             <a href="#mailbox" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false">
@@ -486,8 +491,19 @@
     <script>
         let csrfToken = '{{ csrf_token() }}';
     </script>
-    <script src="{{ asset('/js/user-engagement.js') }}"></script>
+    {{-- <script src="{{ asset('/js/user-engagement.js') }}"></script> --}}
 
+
+    @if(session('message'))
+        <script>
+            toastr.success('{{ session('message') }}');
+        </script>
+    @endif
+    @if ($errors->any())
+        <script>
+            toastr.error('{{$errors->first()}}');
+        </script>
+    @endif
     @yield('script')
     <!-- offcanvas start -->
 

@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserEngagementController;
 
 /*
@@ -22,23 +25,32 @@ Route::get('clear', function () {
     Artisan::call('config:cache');
 });
 
-Route::get('/', [AuthController::class, 'home'])->name('homePage');
+Route::get('/', [HomeController::class, 'home'])->name('homePage');
 
 // Route::get('/', function () {
 //     return view('auth/signup');
 // });
 
+//Auth
 Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [AuthController::class, 'register'])->name('registerStore');
-
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+//Auth
 
+//Analytics
 Route::get('anaytics', [AnalyticsController::class, 'index'])->name('anaytics');
 Route::get('user-engagement', [UserEngagementController::class, 'userEngagementDataView'])->name('userEngagementDataView');
 Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEngagement'])->name('seedUserEngagement');
-
-
 Route::post('store-user-data', [UserEngagementController::class, 'storeUserData'])->name('storeUserData');
 Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEngagement'])->name('seedUserEngagement');
+//Analytics
+
+//Posts
+Route::post('postStore', [PostController::class, 'postStore'])->name('postStore');
+//Posts
+
+//Profile
+Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+//Profile

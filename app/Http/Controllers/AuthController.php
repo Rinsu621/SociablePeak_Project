@@ -9,14 +9,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function home()
-    {
-        if (Auth::check()) {
-            return view('home.homepage');
-        } else {
-            return redirect()->route('login');
-        }
-    }
 
     public function showLoginForm()
     {

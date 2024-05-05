@@ -1,4 +1,4 @@
-@extends('home.layout')
+@extends('layout')
 
 @section('content')
     <div class="row">
@@ -78,118 +78,121 @@
                                             class="ri-close-fill"></i></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img">
-                                            <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
-                                                class="avatar-60 rounded-circle img-fluid">
-                                        </div>
-                                        <form class="post-text ms-3 w-100" action="javascript:void();">
-                                            <input type="text" class="form-control rounded"
-                                                placeholder="Write something here..." style="border:none;">
-                                        </form>
-                                    </div>
-                                    <hr>
-                                    <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/07.png') }}"
-                                                    alt="icon" class="img-fluid"> Photo/Video</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/08.png') }}"
-                                                    alt="icon" class="img-fluid"> Tag Friend</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/09.png') }}"
-                                                    alt="icon" class="img-fluid"> Feeling/Activity</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/10.png') }}"
-                                                    alt="icon" class="img-fluid"> Check in</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/11.png') }}"
-                                                    alt="icon" class="img-fluid"> Live Video</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/12.png') }}"
-                                                    alt="icon" class="img-fluid"> Gif</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/13.png') }}"
-                                                    alt="icon" class="img-fluid"> Watch Party</div>
-                                        </li>
-                                        <li class="col-md-6 mb-3">
-                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                    href="#"></a><img src="{{ asset('/images/small/14.png') }}"
-                                                    alt="icon" class="img-fluid"> Play with Friends</div>
-                                        </li>
-                                    </ul>
-                                    <hr>
-                                    <div class="other-option">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center">
-                                                <div class="user-img me-3">
-                                                    <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
-                                                        class="avatar-60 rounded-circle img-fluid">
-                                                </div>
-                                                <h6>Your Story</h6>
+                                    <form action="{{route('postStore')}}" method="post">
+                                        @csrf
+                                        <div class="d-flex align-items-center">
+                                            <div class="user-img">
+                                                <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
+                                                    class="avatar-60 rounded-circle img-fluid">
                                             </div>
-                                            <div class="card-post-toolbar">
-                                                <div class="dropdown">
-                                                    <span class="dropdown-toggle" data-bs-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false" role="button">
-                                                        <span class="btn btn-primary">Friend</span>
-                                                    </span>
-                                                    <div class="dropdown-menu m-0 p-0">
-                                                        <a class="dropdown-item p-3" href="#">
-                                                            <div class="d-flex align-items-top">
-                                                                <i class="ri-save-line h4"></i>
-                                                                <div class="data ms-2">
-                                                                    <h6>Public</h6>
-                                                                    <p class="mb-0">Anyone on or off Facebook</p>
+                                            {{-- <form class="post-text ms-3 w-100" action="javascript:void();"> --}}
+                                                <input type="text" class="form-control rounded" name="description"
+                                                    placeholder="Write something here..." style="border:none;">
+                                            {{-- </form> --}}
+                                        </div>
+                                        <hr>
+                                        <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/07.png') }}"
+                                                        alt="icon" class="img-fluid"> Photo/Video</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/08.png') }}"
+                                                        alt="icon" class="img-fluid"> Tag Friend</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/09.png') }}"
+                                                        alt="icon" class="img-fluid"> Feeling/Activity</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/10.png') }}"
+                                                        alt="icon" class="img-fluid"> Check in</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/11.png') }}"
+                                                        alt="icon" class="img-fluid"> Live Video</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/12.png') }}"
+                                                        alt="icon" class="img-fluid"> Gif</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/13.png') }}"
+                                                        alt="icon" class="img-fluid"> Watch Party</div>
+                                            </li>
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
+                                                        href="#"></a><img src="{{ asset('/images/small/14.png') }}"
+                                                        alt="icon" class="img-fluid"> Play with Friends</div>
+                                            </li>
+                                        </ul>
+                                        <hr>
+                                        <div class="other-option">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="user-img me-3">
+                                                        <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
+                                                            class="avatar-60 rounded-circle img-fluid">
+                                                    </div>
+                                                    <h6>Your Story</h6>
+                                                </div>
+                                                <div class="card-post-toolbar">
+                                                    <div class="dropdown">
+                                                        <span class="dropdown-toggle" data-bs-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false" role="button">
+                                                            <span class="btn btn-primary">Friend</span>
+                                                        </span>
+                                                        <div class="dropdown-menu m-0 p-0">
+                                                            <a class="dropdown-item p-3" href="#">
+                                                                <div class="d-flex align-items-top">
+                                                                    <i class="ri-save-line h4"></i>
+                                                                    <div class="data ms-2">
+                                                                        <h6>Public</h6>
+                                                                        <p class="mb-0">Anyone on or off Facebook</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item p-3" href="#">
-                                                            <div class="d-flex align-items-top">
-                                                                <i class="ri-close-circle-line h4"></i>
-                                                                <div class="data ms-2">
-                                                                    <h6>Friends</h6>
-                                                                    <p class="mb-0">Your Friend on facebook</p>
+                                                            </a>
+                                                            <a class="dropdown-item p-3" href="#">
+                                                                <div class="d-flex align-items-top">
+                                                                    <i class="ri-close-circle-line h4"></i>
+                                                                    <div class="data ms-2">
+                                                                        <h6>Friends</h6>
+                                                                        <p class="mb-0">Your Friend on facebook</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item p-3" href="#">
-                                                            <div class="d-flex align-items-top">
-                                                                <i class="ri-user-unfollow-line h4"></i>
-                                                                <div class="data ms-2">
-                                                                    <h6>Friends except</h6>
-                                                                    <p class="mb-0">Don't show to some friends</p>
+                                                            </a>
+                                                            <a class="dropdown-item p-3" href="#">
+                                                                <div class="d-flex align-items-top">
+                                                                    <i class="ri-user-unfollow-line h4"></i>
+                                                                    <div class="data ms-2">
+                                                                        <h6>Friends except</h6>
+                                                                        <p class="mb-0">Don't show to some friends</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item p-3" href="#">
-                                                            <div class="d-flex align-items-top">
-                                                                <i class="ri-notification-line h4"></i>
-                                                                <div class="data ms-2">
-                                                                    <h6>Only Me</h6>
-                                                                    <p class="mb-0">Only me</p>
+                                                            </a>
+                                                            <a class="dropdown-item p-3" href="#">
+                                                                <div class="d-flex align-items-top">
+                                                                    <i class="ri-notification-line h4"></i>
+                                                                    <div class="data ms-2">
+                                                                        <h6>Only Me</h6>
+                                                                        <p class="mb-0">Only me</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </a>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -1065,7 +1068,7 @@
                                 <div class="w-100">
                                     <div class="d-flex justify-content-between">
                                         <div class="">
-                                            <h5 class="mb-0 d-inline-block">Bni Cyst</h5>
+                                            <h5 class="mb-0 d-inline-block">{{auth()->user()->name}}</h5>
                                             <p class="ms-1 mb-0 d-inline-block">Changed Profile Picture</p>
                                             <p class="mb-0">3 day ago</p>
                                         </div>
