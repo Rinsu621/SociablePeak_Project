@@ -491,7 +491,7 @@
     <script>
         let csrfToken = '{{ csrf_token() }}';
     </script>
-    {{-- <script src="{{ asset('/js/user-engagement.js') }}"></script> --}}
+    <script src="{{ asset('/js/user-engagement.js') }}"></script>
 
 
     @if(session('message'))
