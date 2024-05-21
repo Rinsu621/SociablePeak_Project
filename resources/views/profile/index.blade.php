@@ -2,11 +2,18 @@
 
 @section('style')
    <style>
-      .profile-img{
+      .friends-tab-profile-img{
          min-height: 140px;
          max-height: 140px;
          min-width: 140px;
          max-width: 140px;
+         object-fit: contain;
+      }
+      .timeline-friends-profile-img{
+         min-height: 90px;
+         max-height: 90px;
+         min-width: 90px;
+         max-width: 90px;
          object-fit: contain;
       }
    </style>
@@ -175,43 +182,17 @@
                          </div>
                          <div class="card-body">
                             <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                               <li class="">
-                                  <a href="#">
-                                  <img src="{{asset('/images/template/user/05.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Anna Rexia</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/06.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Tara Zona</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/07.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Polly Tech</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/08.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Bill Emia</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/09.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Moe Fugga</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/10.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Hal Appeno </h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/07.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Zack Lee</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/06.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Terry Aki</h6>
-                               </li>
-                               <li class="">
-                                  <a href="#"><img src="{{asset('/images/template/user/05.jpg')}}" alt="gallary-image" class="img-fluid" /></a>
-                                  <h6 class="mt-2 text-center">Greta Life</h6>
-                               </li>
+                              @if($friends->isEmpty())
+                                 <p>You have no friends.</p>
+                              @else
+                                 @foreach ($friends as $key => $item)
+                                    <li class="">
+                                       <a href="#">
+                                       <img class="timeline-friends-profile-img" src="{{asset('/images/user/'.$item->friendDetail->image)}}" alt="gallary-image" class="img-fluid" /></a>
+                                       <h6 class="mt-2 text-center">{{$item->friend->name}}</h6>
+                                    </li>
+                                 @endforeach
+                              @endempty
                             </ul>
                          </div>
                       </div>
@@ -913,7 +894,7 @@
                                              <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                    <a href="#">
-                                                   <img class="profile-img" src="{{asset('/images/user/'.$item->friendDetail->image)}}" alt="profile-img" class="img-fluid">
+                                                   <img class="friends-tab-profile-img" src="{{asset('/images/user/'.$item->friendDetail->image)}}" alt="profile-img" class="img-fluid">
                                                    </a>
                                                    <div class="friend-info ms-3">
                                                       <h5>{{$item->friend->name}}</h5>
