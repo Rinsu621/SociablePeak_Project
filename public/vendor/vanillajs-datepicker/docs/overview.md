@@ -6,13 +6,13 @@
 
 When Datepicker object is attached to an `<input>` element, it's configured as a regular date picker.
 
-![](./images/datepicker.jpg)
+![](./images/template/datepicker.jpg)
 
 ##### Inline picker
 
 When Datepicker object is attached to a block element, it's configured as an inline picker.
 
-![](./images/datepicker-inline.jpg)
+![](./images/template/datepicker-inline.jpg)
 
 - The picker element is embedded to the block element. (always shown)
 - Initial selection can be set in the `data-date` attribute
@@ -22,7 +22,7 @@ When Datepicker object is attached to a block element, it's configured as an inl
 
 Date range picker is essentially a wrapper/controller of 2 date pickers. It's the only type of DateRangePicker object.
 
-![](./images/rangepicker.jpg)
+![](./images/template/rangepicker.jpg)
 
 - Date range picker cannot be attached to elements that contain less than 2 `<input>` elements
 - Regular date picker is attached to each of `<input>` elements
@@ -30,7 +30,7 @@ Date range picker is essentially a wrapper/controller of 2 date pickers. It's th
 
 ## Picker Element
 
-![](./images/picker-structure.jpg)
+![](./images/template/picker-structure.jpg)
 
 1. **Title bar**
 2. **View switch**:  
@@ -55,25 +55,25 @@ Date range picker is essentially a wrapper/controller of 2 date pickers. It's th
 
 The view to select a date. The days are displayed in monthly calendar layout. Optionally, ISO week numbers can be shown in the view.
 
-![](./images/view-days.jpg)
+![](./images/template/view-days.jpg)
 
 ##### Months view
 
 The view to select a month. The months are shown in short name.
 
-![](./images/view-months.jpg)
+![](./images/template/view-months.jpg)
 
 ##### Years view
 
 The view to select a year.
 
-![](./images/view-years.jpg)
+![](./images/template/view-years.jpg)
 
 ##### Decades view
 
 The view to select a decade.
 
-![](./images/view-decades.jpg)
+![](./images/template/view-decades.jpg)
 
 
 ## Multidate Mode
@@ -83,7 +83,7 @@ When [`maxNumberOfDates`](options?id=maxnumberofdates) config option is set to o
 In this mode, the day cells in the days view act as toggle switch of the date's select status. The order of selection is kept; newly selected date is appended to the existing selection and the oldest item in the selection drops if the number of selected dates exceeds the option's value.  
 In the input field, selected dates are joined with the delimiter string set in the [`dateDelimiter`](options?id=dateDelimiter) config option.
 
-![](./images/multidate.jpg)
+![](./images/template/multidate.jpg)
 
 Multidate mode is not applied to the pickers of date range picker.
 

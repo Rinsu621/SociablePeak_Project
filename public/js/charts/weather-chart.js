@@ -90,42 +90,42 @@
     tileLayer.addTo(map);
 
   var cloudy = L.icon({
-    iconUrl: '../assets/images/weather/cloudy.png',
+    iconUrl: '../assets/images/template/weather/cloudy.png',
     iconSize:     [70, 70], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
 
   var day = L.icon({
-    iconUrl: '../assets/images/weather/day.png',
+    iconUrl: '../assets/images/template/weather/day.png',
     iconSize:     [70, 70], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
 
   var rainy = L.icon({
-    iconUrl: '../assets/images/weather/rainy-1.png',
+    iconUrl: '../assets/images/template/weather/rainy-1.png',
     iconSize:     [70, 70], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
 
   var snowy = L.icon({
-    iconUrl: '../assets/images/weather/snowy-6.png',
+    iconUrl: '../assets/images/template/weather/snowy-6.png',
     iconSize:     [70, 70], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
 
   var cloudy22 = L.icon({
-    iconUrl: '../assets/images/weather/cloudy-day-1.png',
+    iconUrl: '../assets/images/template/weather/cloudy-day-1.png',
     iconSize:     [70, 70], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
 
   var thunder = L.icon({
-    iconUrl: '../assets/images/weather/thunder.png',
+    iconUrl: '../assets/images/template/weather/thunder.png',
     iconSize:     [70, 70], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor

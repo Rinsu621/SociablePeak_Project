@@ -66,7 +66,7 @@ const datepicker = new Datepicker(elem, {
 }); 
 ```
 
-![](./images/datepicker.jpg)
+![](./images/template/datepicker.jpg)
 
 
 – **Inline picker**
@@ -89,7 +89,7 @@ const datepicker = new Datepicker(elem, {
 }); 
 ```
 
-![](./images/datepicker-inline.jpg)
+![](./images/template/datepicker-inline.jpg)
 
 
 ##### Date range picker
@@ -131,7 +131,7 @@ const rangepicker = new DateRangePicker(elem, {
 }); 
 ```
 
-![](./images/rangepicker.jpg)
+![](./images/template/rangepicker.jpg)
 
 ##### Stylesheet
 

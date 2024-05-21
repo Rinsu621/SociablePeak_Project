@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -54,3 +56,12 @@ Route::post('postStore', [PostController::class, 'postStore'])->name('postStore'
 //Profile
 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 //Profile
+
+//Chat
+Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
+//Chat
+
+
+//Friends
+Route::get('create-friends', [FriendController::class, 'createFriends'])->name('createFriends');
+//Friends

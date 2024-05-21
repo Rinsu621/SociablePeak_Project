@@ -671,49 +671,49 @@ Index Of Script
         imageSeries.data = [{
           "latitude": 40.416775,
           "longitude": -3.703790,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/rainy-1.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/rainy-1.svg",
           "width": 32,
           "height": 32,
           "label": "Madrid: +22C"
         }, {
           "latitude": 48.856614,
           "longitude": 2.352222,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/thunder.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/thunder.svg",
           "width": 32,
           "height": 32,
           "label": "Paris: +18C"
         }, {
           "latitude": 52.520007,
           "longitude": 13.404954,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/cloudy-day-1.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/cloudy-day-1.svg",
           "width": 32,
           "height": 32,
           "label": "Berlin: +13C"
         }, {
           "latitude": 52.229676,
           "longitude": 21.012229,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/day.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/day.svg",
           "width": 32,
           "height": 32,
           "label": "Warsaw: +22C"
         }, {
           "latitude": 41.872389,
           "longitude": 12.480180,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/day.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/day.svg",
           "width": 32,
           "height": 32,
           "label": "Rome: +29C"
         }, {
           "latitude": 51.507351,
           "longitude": -0.127758,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/rainy-7.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/rainy-7.svg",
           "width": 32,
           "height": 32,
           "label": "London: +10C"
         }, {
           "latitude": 59.329323,
           "longitude": 18.068581,
-          "imageURL": "https://www.amcharts.com/lib/images/weather/animated/rainy-1.svg",
+          "imageURL": "https://www.amcharts.com/lib/images/template/weather/animated/rainy-1.svg",
           "width": 32,
           "height": 32,
           "label": "Stockholm: +8C"

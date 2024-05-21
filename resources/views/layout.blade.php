@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SocialV | Responsive Bootstrap 5 Admin Dashboard Template</title>
 
-    <link rel="shortcut icon" href="{{ asset('/images/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/socialv.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}"> --}}
@@ -48,6 +48,11 @@
                                 <i class="las la-user"></i><span>Profile</span>
                             </a>
                         </li>
+                        <li class="{{ Request::segment(1) == 'chat' ? 'active' : '' }}">
+                            <a href="{{ route('chat.index') }}" class=" ">
+                                <i class="ri-mail-line"></i><span>Chat</span>
+                            </a>
+                        </li>
 
                         <li class=" ">
                             <a href="#mailbox" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false">
@@ -73,7 +78,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light p-0">
                     <div class="iq-navbar-logo d-flex justify-content-between">
                         <a href="../dashboard/index.html">
-                            <img src="{{ asset('/images/logo.png') }}" class="img-fluid" alt="">
+                            <img src="{{ asset('/images/template/logo.png') }}" class="img-fluid" alt="">
                             <span>SocialV</span>
                         </a>
                         <div class="iq-menu-bt align-self-center">
@@ -123,7 +128,7 @@
                                                     class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/01.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/01.jpg') }}" alt="">
                                                         <div class="ms-3">
                                                             <h6 class="mb-0 ">Jaques Amole</h6>
                                                             <p class="mb-0">40 friends</p>
@@ -142,7 +147,7 @@
                                                     class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/02.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/02.jpg') }}" alt="">
                                                         <div class="ms-3">
                                                             <h6 class="mb-0 ">Lucy Tania</h6>
                                                             <p class="mb-0">12 friends</p>
@@ -161,7 +166,7 @@
                                                     class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/03.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/03.jpg') }}" alt="">
                                                         <div class=" ms-3">
                                                             <h6 class="mb-0 ">Manny Petty</h6>
                                                             <p class="mb-0">3 friends</p>
@@ -180,7 +185,7 @@
                                                     class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/04.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/04.jpg') }}" alt="">
                                                         <div class="ms-3">
                                                             <h6 class="mb-0 ">Marsha Mello</h6>
                                                             <p class="mb-0">15 friends</p>
@@ -219,7 +224,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/01.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/01.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Emma Watson Bni</h6>
@@ -234,7 +239,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/02.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/02.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">New customer is join</h6>
@@ -249,7 +254,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/03.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/03.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3 w-100">
                                                         <h6 class="mb-0 ">Two customer is left</h6>
@@ -264,7 +269,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/04.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/04.jpg') }}" alt="">
                                                     </div>
                                                     <div class="w-100 ms-3">
                                                         <h6 class="mb-0 ">New Mail from Fenny</h6>
@@ -297,7 +302,7 @@
                                                 <div class="d-flex  align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/01.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/01.jpg') }}" alt="">
                                                     </div>
                                                     <div class=" w-100 ms-3">
                                                         <h6 class="mb-0 ">Bni Emma Watson</h6>
@@ -309,7 +314,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/02.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/02.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
@@ -321,7 +326,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/03.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/03.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Why do we use it?</h6>
@@ -333,7 +338,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/04.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/04.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Variations Passages</h6>
@@ -345,7 +350,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="">
                                                         <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/user/05.jpg') }}" alt="">
+                                                            src="{{ asset('/images/template/user/05.jpg') }}" alt="">
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Lorem Ipsum generators</h6>
@@ -361,7 +366,7 @@
                                 <a href="#" class="   d-flex align-items-center dropdown-toggle"
                                     id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    <img src="{{ asset('/images/user/1.jpg') }}"
+                                    <img src="{{ asset('/images/template/user/1.jpg') }}"
                                         class="img-fluid rounded-circle me-3" alt="user">
                                     <div class="caption">
                                         {{-- $firstName = strstr($name, ' ', true); // Get the substring before the first occurrence of space --}}
@@ -491,7 +496,7 @@
     <script>
         let csrfToken = '{{ csrf_token() }}';
     </script>
-    <script src="{{ asset('/js/user-engagement.js') }}"></script>
+    {{-- <script src="{{ asset('/js/user-engagement.js') }}"></script> --}}
 
 
     @if(session('message'))
@@ -517,27 +522,27 @@
         <div class="offcanvas-body small">
             <div class="d-flex flex-wrap align-items-center">
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/icon/08.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/08.png') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>Facebook</h6>
                 </div>
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/icon/09.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/09.png') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>Twitter</h6>
                 </div>
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/icon/10.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/10.png') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>Instagram</h6>
                 </div>
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/icon/11.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/11.png') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>Google Plus</h6>
                 </div>
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/icon/13.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/13.png') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>In</h6>
                 </div>
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/icon/12.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/12.png') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>YouTube</h6>
                 </div>
             </div>

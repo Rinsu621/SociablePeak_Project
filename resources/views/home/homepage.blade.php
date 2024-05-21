@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="user-img">
-                                <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
+                                <img src="{{ asset('/images/template/user/1.jpg') }}" alt="userimg"
                                     class="avatar-60 rounded-circle">
                             </div>
                             <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal"
@@ -26,19 +26,19 @@
                         <ul class=" post-opt-block d-flex list-inline m-0 p-0 flex-wrap">
                             <li class="me-3 mb-md-0 mb-2">
                                 <a href="#" class="btn btn-soft-primary">
-                                    <img src="{{ asset('/images/small/07.png') }}" alt="icon" class="img-fluid me-2">
+                                    <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid me-2">
                                     Photo/Video
                                 </a>
                             </li>
                             <li class="me-3 mb-md-0 mb-2">
                                 <a href="#" class="btn btn-soft-primary">
-                                    <img src="{{ asset('/images/small/08.png') }}" alt="icon" class="img-fluid me-2">
+                                    <img src="{{ asset('/images/template/small/08.png') }}" alt="icon" class="img-fluid me-2">
                                     Tag Friend
                                 </a>
                             </li>
                             <li class="me-3">
                                 <a href="#" class="btn btn-soft-primary">
-                                    <img src="{{ asset('/images/small/09.png') }}" alt="icon" class="img-fluid me-2">
+                                    <img src="{{ asset('/images/template/small/09.png') }}" alt="icon" class="img-fluid me-2">
                                     Feeling/Activity
                                 </a>
                             </li>
@@ -82,7 +82,7 @@
                                         @csrf
                                         <div class="d-flex align-items-center">
                                             <div class="user-img">
-                                                <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
+                                                <img src="{{ asset('/images/template/user/1.jpg') }}" alt="userimg"
                                                     class="avatar-60 rounded-circle img-fluid">
                                             </div>
                                             {{-- <form class="post-text ms-3 w-100" action="javascript:void();"> --}}
@@ -94,42 +94,42 @@
                                         <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/07.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/07.png') }}"
                                                         alt="icon" class="img-fluid"> Photo/Video</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/08.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/08.png') }}"
                                                         alt="icon" class="img-fluid"> Tag Friend</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/09.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/09.png') }}"
                                                         alt="icon" class="img-fluid"> Feeling/Activity</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/10.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/10.png') }}"
                                                         alt="icon" class="img-fluid"> Check in</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/11.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/11.png') }}"
                                                         alt="icon" class="img-fluid"> Live Video</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/12.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/12.png') }}"
                                                         alt="icon" class="img-fluid"> Gif</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/13.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/13.png') }}"
                                                         alt="icon" class="img-fluid"> Watch Party</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                        href="#"></a><img src="{{ asset('/images/small/14.png') }}"
+                                                        href="#"></a><img src="{{ asset('/images/template/small/14.png') }}"
                                                         alt="icon" class="img-fluid"> Play with Friends</div>
                                             </li>
                                         </ul>
@@ -138,7 +138,7 @@
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     <div class="user-img me-3">
-                                                        <img src="{{ asset('/images/user/1.jpg') }}" alt="userimg"
+                                                        <img src="{{ asset('/images/template/user/1.jpg') }}" alt="userimg"
                                                             class="avatar-60 rounded-circle img-fluid">
                                                     </div>
                                                     <h6>Your Story</h6>
@@ -206,7 +206,7 @@
                         <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
-                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/user/02.jpg') }}"
+                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/template/user/02.jpg') }}"
                                         alt="">
                                 </div>
                                 <div class="w-100">
@@ -284,37 +284,37 @@
                                             <div class="dropdown">
                                                 <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <img src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                    <img src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                         alt="">
                                                 </span>
                                                 <div class="dropdown-menu py-2">
                                                     <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Like"><img
-                                                            src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Love"><img
-                                                            src="{{ asset('/images/icon/02.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/02.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Happy"><img
-                                                            src="{{ asset('/images/icon/03.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/03.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="HaHa"><img
-                                                            src="{{ asset('/images/icon/04.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/04.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Think"><img
-                                                            src="{{ asset('/images/icon/05.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/05.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Sade"><img
-                                                            src="{{ asset('/images/icon/06.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/06.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Lovely"><img
-                                                            src="{{ asset('/images/icon/07.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/07.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                 </div>
                                             </div>
@@ -367,7 +367,7 @@
                                 <li class="mb-2">
                                     <div class="d-flex flex-wrap">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/02.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -385,7 +385,7 @@
                                 <li>
                                     <div class="d-flex flex-wrap">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/03.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/03.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -419,7 +419,7 @@
                         <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
-                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/user/01.jpg') }}"
+                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/template/user/01.jpg') }}"
                                         alt="">
                                 </div>
                                 <div class="w-100">
@@ -489,15 +489,15 @@
                         <div class="user-post">
                             <div class=" d-grid grid-rows-2 grid-flow-col gap-3">
                                 <div class="row-span-2 row-span-md-1">
-                                    <img src="{{ asset('/images/page-img/p2.jpg') }}" alt="post-image"
+                                    <img src="{{ asset('/images/template/page-img/p2.jpg') }}" alt="post-image"
                                         class="img-fluid rounded w-100">
                                 </div>
                                 <div class="row-span-1">
-                                    <img src="{{ asset('/images/page-img/p1.jpg') }}" alt="post-image"
+                                    <img src="{{ asset('/images/template/page-img/p1.jpg') }}" alt="post-image"
                                         class="img-fluid rounded w-100">
                                 </div>
                                 <div class="row-span-1 ">
-                                    <img src="{{ asset('/images/page-img/p3.jpg') }}" alt="post-image"
+                                    <img src="{{ asset('/images/template/page-img/p3.jpg') }}" alt="post-image"
                                         class="img-fluid rounded w-100">
                                 </div>
                             </div>
@@ -510,37 +510,37 @@
                                             <div class="dropdown">
                                                 <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <img src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                    <img src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                         alt="">
                                                 </span>
                                                 <div class="dropdown-menu py-2">
                                                     <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Like"><img
-                                                            src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Love"><img
-                                                            src="{{ asset('/images/icon/02.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/02.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Happy"><img
-                                                            src="{{ asset('/images/icon/03.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/03.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="HaHa"><img
-                                                            src="{{ asset('/images/icon/04.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/04.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Think"><img
-                                                            src="{{ asset('/images/icon/05.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/05.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Sade"><img
-                                                            src="{{ asset('/images/icon/06.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/06.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Lovely"><img
-                                                            src="{{ asset('/images/icon/07.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/07.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                 </div>
                                             </div>
@@ -592,7 +592,7 @@
                                 <li class="mb-2">
                                     <div class="d-flex">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/02.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -610,7 +610,7 @@
                                 <li>
                                     <div class="d-flex">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/03.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/03.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -644,7 +644,7 @@
                         <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
-                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/user/03.jpg') }}"
+                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/template/user/03.jpg') }}"
                                         alt="">
                                 </div>
                                 <div class="w-100">
@@ -710,7 +710,7 @@
                                 rhoncus</p>
                         </div>
                         <div class="user-post">
-                            <a href="javascript:void();"><img src="{{ asset('/images/page-img/p4.jpg') }}"
+                            <a href="javascript:void();"><img src="{{ asset('/images/template/page-img/p4.jpg') }}"
                                     alt="post-image" class="img-fluid rounded w-100"></a>
                         </div>
                         <div class="comment-area mt-3">
@@ -721,37 +721,37 @@
                                             <div class="dropdown">
                                                 <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <img src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                    <img src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                         alt="">
                                                 </span>
                                                 <div class="dropdown-menu py-2">
                                                     <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Like"><img
-                                                            src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Love"><img
-                                                            src="{{ asset('/images/icon/02.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/02.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Happy"><img
-                                                            src="{{ asset('/images/icon/03.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/03.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="HaHa"><img
-                                                            src="{{ asset('/images/icon/04.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/04.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Think"><img
-                                                            src="{{ asset('/images/icon/05.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/05.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Sade"><img
-                                                            src="{{ asset('/images/icon/06.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/06.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Lovely"><img
-                                                            src="{{ asset('/images/icon/07.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/07.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                 </div>
                                             </div>
@@ -803,7 +803,7 @@
                                 <li class="mb-2">
                                     <div class="d-flex ">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/02.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -821,7 +821,7 @@
                                 <li>
                                     <div class="d-flex ">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/03.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/03.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -855,7 +855,7 @@
                         <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
-                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/user/04.jpg') }}"
+                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/template/user/04.jpg') }}"
                                         alt="">
                                 </div>
                                 <div class="w-100">
@@ -928,37 +928,37 @@
                                             <div class="dropdown">
                                                 <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <img src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                    <img src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                         alt="">
                                                 </span>
                                                 <div class="dropdown-menu py-2">
                                                     <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Like"><img
-                                                            src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Love"><img
-                                                            src="{{ asset('/images/icon/02.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/02.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Happy"><img
-                                                            src="{{ asset('/images/icon/03.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/03.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="HaHa"><img
-                                                            src="{{ asset('/images/icon/04.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/04.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Think"><img
-                                                            src="{{ asset('/images/icon/05.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/05.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Sade"><img
-                                                            src="{{ asset('/images/icon/06.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/06.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Lovely"><img
-                                                            src="{{ asset('/images/icon/07.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/07.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                 </div>
                                             </div>
@@ -1010,7 +1010,7 @@
                                 <li class="mb-2">
                                     <div class="d-flex">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/02.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -1028,7 +1028,7 @@
                                 <li>
                                     <div class="d-flex ">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/03.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/03.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -1063,7 +1063,7 @@
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
                                     <img class="rounded-circle img-fluid avatar-60"
-                                        src="{{ asset('/images/user/1.jpg') }}" alt="">
+                                        src="{{ asset('/images/template/user/1.jpg') }}" alt="">
                                 </div>
                                 <div class="w-100">
                                     <div class="d-flex justify-content-between">
@@ -1123,7 +1123,7 @@
                             </div>
                         </div>
                         <div class="user-post text-center">
-                            <a href="javascript:void();"><img src="{{ asset('/images/page-img/p5.jpg') }}"
+                            <a href="javascript:void();"><img src="{{ asset('/images/template/page-img/p5.jpg') }}"
                                     alt="post-image" class="img-fluid rounded w-100 mt-3"></a>
                         </div>
                         <div class="comment-area mt-3">
@@ -1134,37 +1134,37 @@
                                             <div class="dropdown">
                                                 <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <img src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                    <img src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                         alt="">
                                                 </span>
                                                 <div class="dropdown-menu py-2">
                                                     <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Like"><img
-                                                            src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Love"><img
-                                                            src="{{ asset('/images/icon/02.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/02.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Happy"><img
-                                                            src="{{ asset('/images/icon/03.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/03.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="HaHa"><img
-                                                            src="{{ asset('/images/icon/04.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/04.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Think"><img
-                                                            src="{{ asset('/images/icon/05.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/05.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Sade"><img
-                                                            src="{{ asset('/images/icon/06.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/06.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Lovely"><img
-                                                            src="{{ asset('/images/icon/07.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/07.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                 </div>
                                             </div>
@@ -1217,7 +1217,7 @@
                                 <li class="mb-2">
                                     <div class="d-flex">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/02.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -1235,7 +1235,7 @@
                                 <li>
                                     <div class="d-flex">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/03.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/03.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -1269,7 +1269,7 @@
                         <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
-                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/user/02.jpg') }}"
+                                    <img class="rounded-circle img-fluid" src="{{ asset('/images/template/user/02.jpg') }}"
                                         alt="">
                                 </div>
                                 <div class="w-100">
@@ -1347,37 +1347,37 @@
                                             <div class="dropdown">
                                                 <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <img src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                    <img src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                         alt="">
                                                 </span>
                                                 <div class="dropdown-menu py-2">
                                                     <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Like"><img
-                                                            src="{{ asset('/images/icon/01.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/01.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Love"><img
-                                                            src="{{ asset('/images/icon/02.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/02.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Happy"><img
-                                                            src="{{ asset('/images/icon/03.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/03.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="HaHa"><img
-                                                            src="{{ asset('/images/icon/04.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/04.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Think"><img
-                                                            src="{{ asset('/images/icon/05.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/05.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Sade"><img
-                                                            src="{{ asset('/images/icon/06.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/06.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                     <a class="me-2" href="#" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Lovely"><img
-                                                            src="{{ asset('/images/icon/07.png') }}" class="img-fluid"
+                                                            src="{{ asset('/images/template/icon/07.png') }}" class="img-fluid"
                                                             alt=""></a>
                                                 </div>
                                             </div>
@@ -1430,7 +1430,7 @@
                                 <li class="mb-2">
                                     <div class="d-flex flex-wrap">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/02.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -1448,7 +1448,7 @@
                                 <li>
                                     <div class="d-flex flex-wrap">
                                         <div class="user-img">
-                                            <img src="{{ asset('/images/user/03.jpg') }}" alt="userimg"
+                                            <img src="{{ asset('/images/template/user/03.jpg') }}" alt="userimg"
                                                 class="avatar-35 rounded-circle img-fluid">
                                         </div>
                                         <div class="comment-data-block ms-3">
@@ -1494,7 +1494,7 @@
                             </div>
                         </li>
                         <li class="d-flex mb-3 align-items-center active">
-                            <img src="{{ asset('/images/page-img/s2.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/page-img/s2.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Anna Mull</h5>
@@ -1502,7 +1502,7 @@
                             </div>
                         </li>
                         <li class="d-flex mb-3 align-items-center">
-                            <img src="{{ asset('/images/page-img/s3.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/page-img/s3.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Ira Membrit</h5>
@@ -1510,7 +1510,7 @@
                             </div>
                         </li>
                         <li class="d-flex align-items-center">
-                            <img src="{{ asset('/images/page-img/s1.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/page-img/s1.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Bob Frapples</h5>
@@ -1548,7 +1548,7 @@
                 <div class="card-body">
                     <ul class="media-story list-inline m-0 p-0">
                         <li class="d-flex mb-4 align-items-center ">
-                            <img src="{{ asset('/images/page-img/s4.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/page-img/s4.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Web Workshop</h5>
@@ -1556,7 +1556,7 @@
                             </div>
                         </li>
                         <li class="d-flex align-items-center">
-                            <img src="{{ asset('/images/page-img/s5.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/page-img/s5.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Fun Events and Festivals</h5>
@@ -1575,7 +1575,7 @@
                 <div class="card-body">
                     <ul class="media-story list-inline m-0 p-0">
                         <li class="d-flex mb-4 align-items-center">
-                            <img src="{{ asset('/images/user/01.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/user/01.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Anna Sthesia</h5>
@@ -1583,7 +1583,7 @@
                             </div>
                         </li>
                         <li class="d-flex align-items-center">
-                            <img src="{{ asset('/images/user/02.jpg') }}" alt="story-img"
+                            <img src="{{ asset('/images/template/user/02.jpg') }}" alt="story-img"
                                 class="rounded-circle img-fluid">
                             <div class="stories-data ms-3">
                                 <h5>Paul Molive</h5>
@@ -1620,28 +1620,28 @@
                     <ul class="suggested-page-story m-0 p-0 list-inline">
                         <li class="mb-3">
                             <div class="d-flex align-items-center mb-3">
-                                <img src="{{ asset('/images/page-img/42.png') }}" alt="story-img"
+                                <img src="{{ asset('/images/template/page-img/42.png') }}" alt="story-img"
                                     class="rounded-circle img-fluid avatar-50">
                                 <div class="stories-data ms-3">
                                     <h5>Iqonic Studio</h5>
                                     <p class="mb-0">Lorem Ipsum</p>
                                 </div>
                             </div>
-                            <img src="{{ asset('/images/small/img-1.jpg') }}" class="img-fluid rounded"
+                            <img src="{{ asset('/images/template/small/img-1.jpg') }}" class="img-fluid rounded"
                                 alt="Responsive image">
                             <div class="mt-3"><a href="#" class="btn d-block"><i
                                         class="ri-thumb-up-line me-2"></i> Like Page</a></div>
                         </li>
                         <li class="">
                             <div class="d-flex align-items-center mb-3">
-                                <img src="{{ asset('/images/page-img/42.png') }}" alt="story-img"
+                                <img src="{{ asset('/images/template/page-img/42.png') }}" alt="story-img"
                                     class="rounded-circle img-fluid avatar-50">
                                 <div class="stories-data ms-3">
                                     <h5>Cakes & Bakes </h5>
                                     <p class="mb-0">Lorem Ipsum</p>
                                 </div>
                             </div>
-                            <img src="{{ asset('/images/small/img-2.jpg') }}" class="img-fluid rounded"
+                            <img src="{{ asset('/images/template/small/img-2.jpg') }}" class="img-fluid rounded"
                                 alt="Responsive image">
                             <div class="mt-3"><a href="#" class="btn d-block"><i
                                         class="ri-thumb-up-line me-2"></i> Like Page</a></div>
@@ -1651,7 +1651,7 @@
             </div>
         </div>
         <div class="col-sm-12 text-center">
-            <img src="{{ asset('/images/page-img/page-load-loader.gif') }}" alt="loader" style="height: 100px;">
+            <img src="{{ asset('/images/template/page-img/page-load-loader.gif') }}" alt="loader" style="height: 100px;">
         </div>
     </div>
 @endsection
