@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Post;
+use App\Models\ScheduledPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -26,9 +27,16 @@ class PostController extends Controller
                 'user_id' => $userId,
                 'description' => $request->input('description'),
             ];
+
+            $set_time = $request->input('set_time');
+            if(!empty($set_time)){
+                $data['set_time'] = $set_time;
+                ScheduledPost::create($data);
+            }else{
+                Post::create($data);
+            }
     
             // Create or update user engagement data
-            Post::create($data);
             return redirect()->back()->with('message', 'Successfully Posted');
         } catch (ValidationException $e) {
             // If a validation error occurs, catch the ValidationException

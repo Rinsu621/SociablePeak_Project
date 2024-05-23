@@ -92,6 +92,12 @@
                                         </div>
                                         <hr>
                                         <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+
+
+                                            <li class="col-md-6 mb-3">
+                                                <div class="bg-soft-primary rounded p-2 pointer me-3">
+                                                   <input type="date" name="set_time">
+                                            </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/07.png') }}"
