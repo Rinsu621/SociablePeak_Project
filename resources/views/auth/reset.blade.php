@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>SocialV | Responsive Bootstrap 4 Admin Dashboard Template</title>
+      <title>Reset Password </title>
 
-      <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico')}}" />
+      <link rel="shortcut icon" href="{{ asset('/images/favicon.ico')}}" />
       <link rel="stylesheet" href="{{ asset('/css/libs.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/css/socialv.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
@@ -62,8 +62,8 @@
                 </div>
                 <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5">
                     <div class="sign-in-from">
-                        <h1 class="mb-0">Sign Up</h1>
-                        <p>Enter your email address and password to access admin panel.</p>
+                        <h1 class="mb-0">Reset Password</h1>
+                        {{-- <p>Enter your email address and we'll send you an email with instructions to reset your password.</p> --}}
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -73,39 +73,32 @@
                                 </ul>
                             </div>
                         @endif
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger"><li>{{session('error')}}</li></div>
+                        @endif
+                        @if(session()->has('success'))
+                            <div class="alert alert-success"> <li>{{session('success')}}</li></div>
+                        @endif
 
-                        <form action="{{ route('registerStore') }}" method="POST" class="mt-4">
+                        <form action="{{ route('resetPassword') }}" method="POST" class="mt-4">
                             @csrf
+                            <input type="hidden" name="token" value="{{$token}}">
                             <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail1">Your Full Name</label>
-                                <input type="text" name="name" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name" required value="{{ old('name') }}">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail2">Email address</label>
-                                <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email" required value="{{ old('email') }}">
+                                <label class="form-label" for="exampleInputEmail1">Email address</label>
+                                <input name="email" type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email" value="{{$email ??old('email')}}">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="exampleInputPassword1">Password</label>
-                                <input type="password" name="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" required>
+                                <input name="password" type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
                             </div>
                             <div class="form-group">
-                                <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Retype PasswordZ">
+                                <label class="form-label" for="exampleInputPassword2">Confirm Password</label>
+                                <input name="password_confirmation" type="password" class="form-control mb-0" id="exampleInputPassword2" placeholder="Confirm Password">
                             </div>
-                            <div class="d-inline-block w-100">
-                                <div class="form-check d-inline-block mt-2 pt-1">
-                                    <input type="checkbox" required class="form-check-input" id="customCheck1">
-                                    <label class="form-check-label" for="customCheck1">I accept <a href="#">Terms and Conditions</a></label>
-                                </div>
-                                <button type="submit" class="btn btn-primary float-end">Sign Up</button>
-                            </div>
+
+                            <button type="submit" class="btn btn-primary float">Reset Password</button>
                             <div class="sign-info">
                                 <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="{{route('login')}}">Log In</a></span>
-                                <ul class="iq-social-media">
-                                    <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
-                                    <li><a href="#"><i class="ri-twitter-line"></i></a></li>
-                                    <li><a href="#"><i class="ri-instagram-line"></i></a></li>
-                                </ul>
                             </div>
                         </form>
                     </div>

@@ -77,7 +77,7 @@
             <div class="iq-navbar-custom">
                 <nav class="navbar navbar-expand-lg navbar-light p-0">
                     <div class="iq-navbar-logo d-flex justify-content-between">
-                        <a href="../dashboard/index.html">
+                        <a href="{{ route('homePage') }}">
                             <img src="{{ asset('/images/template/logo.png') }}" class="img-fluid" alt="">
                             <span>SocialV</span>
                         </a>
@@ -383,7 +383,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body p-0 ">
-                                            <a href="../app/profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                            <a href="{{route('profile')}}" class="iq-sub-card iq-bg-primary-hover">
                                                 <div class="d-flex align-items-center">
                                                     <div class="rounded card-icon bg-soft-primary">
                                                         <i class="ri-file-user-line"></i>
@@ -496,7 +496,7 @@
     <script>
         let csrfToken = '{{ csrf_token() }}';
     </script>
-    {{-- <script src="{{ asset('/js/user-engagement.js') }}"></script> --}}
+    <script src="{{ asset('/js/user-engagement.js') }}"></script>
 
 
     @if(session('message'))

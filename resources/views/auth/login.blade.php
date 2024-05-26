@@ -6,7 +6,7 @@
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>SocialV | Responsive Bootstrap 4 Admin Dashboard Template</title>
-      
+
       <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico')}}" />
       <link rel="stylesheet" href="{{ asset('/css/libs.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/css/socialv.css')}}">
@@ -15,7 +15,7 @@
       <link rel="stylesheet" href="{{ asset('/vendor/vanillajs-datepicker/dist/css/datepicker.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
-      
+
   </head>
   <body class=" ">
     <!-- loader Start -->
@@ -24,7 +24,7 @@
           </div>
     </div>
     <!-- loader END -->
-    
+
       <div class="wrapper">
     <section class="sign-in-page">
         <div id="container-inside">
@@ -38,7 +38,7 @@
             <div class="row no-gutters">
                 <div class="col-md-6 text-center pt-5">
                     <div class="sign-in-detail text-white">
-                        <a class="sign-in-logo mb-5" href="#"><img src="{{ asset('/images/template/logo-full.png')}}" class="img-fluid" alt="logo"></a>
+                        <a class="sign-in-logo mb-5" href="#"><img src="{{ asset('/images/logo-full.png')}}" class="img-fluid" alt="logo"></a>
                         <div class="sign-slider overflow-hidden ">
                             <ul  class="swiper-wrapper list-inline m-0 p-0 ">
                                 <li class="swiper-slide">
@@ -47,7 +47,7 @@
                                     <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                                 </li>
                                 <li class="swiper-slide">
-                                    <img src="{{ asset('/images/template/login/2.png')}}" class="img-fluid mb-4" alt="logo"> 
+                                    <img src="{{ asset('/images/template/login/2.png')}}" class="img-fluid mb-4" alt="logo">
                                     <h4 class="mb-1 text-white">Connect with the world</h4>
                                     <p>It is a long established fact that a reader will be distracted by the readable content.</p>
                                 </li>
@@ -63,7 +63,7 @@
                 <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5">
                     <div class="sign-in-from">
                         <h1 class="mb-0">Sign in</h1>
-                        <p>Enter your email address and password to access admin panel.</p>
+                        <p>Enter your email address and password to login.</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="exampleInputPassword1">Password</label>
-                                <a href="#" class="float-end">Forgot password?</a>
+                                <a href="{{route('forgetPassword')}}" class="float-end">Forgot password?</a>
                                 <input name="password" type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
                             </div>
                             <div class="d-inline-block w-100">
@@ -104,14 +104,14 @@
                 </div>
             </div>
         </div>
-    </section>   
+    </section>
       </div>
-    
+
     <!-- Backend Bundle JavaScript -->
     <script src="{{ asset('/js/libs.min.js')}}"></script>
     <!-- slider JavaScript -->
     <script src="{{ asset('/js/slider.js')}}"></script>
-    <!-- masonry JavaScript --> 
+    <!-- masonry JavaScript -->
     <script src="{{ asset('/js/masonry.pkgd.min.js')}}"></script>
     <!-- SweetAlert JavaScript -->
     <script src="{{ asset('/js/enchanter.js')}}"></script>
@@ -122,6 +122,6 @@
     <script src="{{ asset('/js/app.js')}}"></script>
     <script src="../vendor/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script>
     <script src="{{ asset('/js/lottie.js')}}"></script>
-    
+
   </body>
 </html>
