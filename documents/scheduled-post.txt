@@ -1,0 +1,40 @@
+Step 1: Generate a New Command
+Run the following Artisan command to generate a new command:
+    php artisan make:command PublishScheduledPosts
+
+
+Step 2: Register the Command
+Open the app/Console/Kernel.php file and register your command in the commands property:
+    protected $commands = [
+        \App\Console\Commands\PublishScheduledPosts::class,
+    ];
+
+Step 3: Schedule the Command
+In the same Kernel.php file, schedule your command to run every minute:
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('posts:publish-scheduled')->everyMinute();
+    }
+
+Step 4: Configure the System Cron
+To ensure that the Laravel scheduler runs every minute, you need to configure your server's cron:
+Open the crontab editor:
+    crontab -e
+
+Add the following line to the crontab file:
+    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+    #Replace /path-to-your-project with the actual path to your Laravel project.
+
+Step 5: Test the Scheduler
+You can manually test if the scheduler is set up correctly by running:
+    php artisan schedule:run
+
+To run the scheduler continuously in a worker process, you can use:
+    php artisan schedule:work
+
+
+
+
+
+
+
