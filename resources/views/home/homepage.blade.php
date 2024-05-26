@@ -30,19 +30,19 @@
                                     Photo/Video
                                 </a>
                             </li>
-                            <li class="me-3 mb-md-0 mb-2">
+                            {{-- <li class="me-3 mb-md-0 mb-2">
                                 <a href="#" class="btn btn-soft-primary">
                                     <img src="{{ asset('/images/template/small/08.png') }}" alt="icon" class="img-fluid me-2">
                                     Tag Friend
                                 </a>
-                            </li>
-                            <li class="me-3">
+                            </li> --}}
+                            {{-- <li class="me-3">
                                 <a href="#" class="btn btn-soft-primary">
                                     <img src="{{ asset('/images/template/small/09.png') }}" alt="icon" class="img-fluid me-2">
                                     Feeling/Activity
                                 </a>
-                            </li>
-                            <li>
+                            </li> --}}
+                            {{-- <li>
                                 <button class="btn btn-soft-primary">
                                     <div class="card-header-toolbar d-flex align-items-center">
                                         <div class="dropdown">
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                 </button>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                     <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
@@ -96,14 +96,14 @@
 
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3">
-                                                   <input type="date" name="set_time">
+                                                   Schedule Post : <input type="date" name="set_time">
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/07.png') }}"
                                                         alt="icon" class="img-fluid"> Photo/Video</div>
                                             </li>
-                                            <li class="col-md-6 mb-3">
+                                            {{-- <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/08.png') }}"
                                                         alt="icon" class="img-fluid"> Tag Friend</div>
@@ -137,7 +137,7 @@
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/14.png') }}"
                                                         alt="icon" class="img-fluid"> Play with Friends</div>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                         <hr>
                                         <div class="other-option">

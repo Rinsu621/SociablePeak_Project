@@ -31,6 +31,7 @@ class PostController extends Controller
             $set_time = $request->input('set_time');
             if(!empty($set_time)){
                 $data['set_time'] = $set_time;
+                $data['status'] = 0;
                 ScheduledPost::create($data);
             }else{
                 Post::create($data);
