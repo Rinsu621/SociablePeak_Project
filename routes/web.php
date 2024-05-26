@@ -39,7 +39,14 @@ Route::post('register', [AuthController::class, 'register'])->name('registerStor
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('forgetpassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
+Route::post('forgetpassword',[AuthController::class,'forgotPasswordPost'])->name('forgetPasswordPost');
+Route::get('/resetpassword/{token}',[AuthController::class, 'resetPasswordform'])->name('resetPasswordform');
+Route::post('/resetpassword',[AuthController::class,'resetPassword'])->name('resetPassword');
 //Auth
+
 
 //Analytics
 Route::get('anaytics', [AnalyticsController::class, 'index'])->name('anaytics');
