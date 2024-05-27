@@ -47,7 +47,7 @@ $(document).ready(function() {
             },
             data: JSON.stringify(updateData),
             success: function(data) {
-                toastr.success(data.message);
+                // toastr.success(data.message);
             },
             error: function(xhr, status, error) {
                 toastr.error(error);

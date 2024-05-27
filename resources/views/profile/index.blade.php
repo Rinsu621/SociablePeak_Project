@@ -188,7 +188,9 @@
                                  @foreach ($friends as $key => $item)
                                     <li class="">
                                        <a href="#">
-                                       <img class="timeline-friends-profile-img" src="{{asset('/images/user/'.$item->friendDetail->image)}}" alt="gallary-image" class="img-fluid" /></a>
+                                        <img class="timeline-friends-profile-img" src="{{ isset($item->friendDetail->image) ? asset('/images/user/'.$item->friendDetail->image) : asset('/images/user/1.jpg') }}" alt="gallery-image" class="img-fluid" />
+
+
                                        <h6 class="mt-2 text-center">{{$item->friend->name}}</h6>
                                     </li>
                                  @endforeach
@@ -560,7 +562,7 @@
                             </div>
                         @endforeach
                     @endempty
-                    
+
                    </div>
                 </div>
              </div>
@@ -862,7 +864,7 @@
                         </a>
                      </div>
                   </div>
-                   
+
                    <div class="friend-list-tab mt-2">
                       <ul class="nav nav-pills d-flex align-items-center justify-content-left friend-list-items p-0 mb-2">
                          <li>
@@ -894,7 +896,8 @@
                                              <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                    <a href="#">
-                                                   <img class="friends-tab-profile-img" src="{{asset('/images/user/'.$item->friendDetail->image)}}" alt="profile-img" class="img-fluid">
+                                                    <img class="timeline-friends-profile-img" src="{{ isset($item->friendDetail->image) ? asset('/images/user/'.$item->friendDetail->image) : asset('/images/user/1.jpg') }}" alt="gallery-image" class="img-fluid" />
+
                                                    </a>
                                                    <div class="friend-info ms-3">
                                                       <h5>{{$item->friend->name}}</h5>

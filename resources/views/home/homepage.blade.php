@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="user-img">
-                                <img src="{{ asset('/images/template/user/1.jpg') }}" alt="userimg"
+                                <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="userimg"
                                     class="avatar-60 rounded-circle">
                             </div>
                             <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal"
@@ -27,7 +27,7 @@
                             <li class="me-3 mb-md-0 mb-2">
                                 <a href="#" class="btn btn-soft-primary">
                                     <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid me-2">
-                                    Photo/Video
+                                    Photo
                                 </a>
                             </li>
                             <li class="me-3 mb-md-0 mb-2">
@@ -36,13 +36,13 @@
                                     Tag Friend
                                 </a>
                             </li>
-                            <li class="me-3">
+                            {{-- <li class="me-3">
                                 <a href="#" class="btn btn-soft-primary">
                                     <img src="{{ asset('/images/template/small/09.png') }}" alt="icon" class="img-fluid me-2">
                                     Feeling/Activity
                                 </a>
-                            </li>
-                            <li>
+                            </li> --}}
+                            {{-- <li>
                                 <button class="btn btn-soft-primary">
                                     <div class="card-header-toolbar d-flex align-items-center">
                                         <div class="dropdown">
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                 </button>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                     <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
@@ -82,7 +82,7 @@
                                         @csrf
                                         <div class="d-flex align-items-center">
                                             <div class="user-img">
-                                                <img src="{{ asset('/images/template/user/1.jpg') }}" alt="userimg"
+                                                <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="userimg"
                                                     class="avatar-60 rounded-circle img-fluid">
                                             </div>
                                             {{-- <form class="post-text ms-3 w-100" action="javascript:void();"> --}}
@@ -101,14 +101,14 @@
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/07.png') }}"
-                                                        alt="icon" class="img-fluid"> Photo/Video</div>
+                                                        alt="icon" class="img-fluid"> Photo</div>
                                             </li>
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/08.png') }}"
                                                         alt="icon" class="img-fluid"> Tag Friend</div>
                                             </li>
-                                            <li class="col-md-6 mb-3">
+                                            {{-- <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/09.png') }}"
                                                         alt="icon" class="img-fluid"> Feeling/Activity</div>
@@ -137,14 +137,14 @@
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a
                                                         href="#"></a><img src="{{ asset('/images/template/small/14.png') }}"
                                                         alt="icon" class="img-fluid"> Play with Friends</div>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                         <hr>
                                         <div class="other-option">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     <div class="user-img me-3">
-                                                        <img src="{{ asset('/images/template/user/1.jpg') }}" alt="userimg"
+                                                        <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="userimg"
                                                             class="avatar-60 rounded-circle img-fluid">
                                                     </div>
                                                     <h6>Your Story</h6>
@@ -1487,7 +1487,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                        <h4 class="card-title">Stories</h4>
+                        <h4 class="card-title">Friend Request</h4>
                     </div>
                 </div>
                 <div class="card-body">
@@ -1527,7 +1527,7 @@
                     <a href="#" class="btn btn-primary d-block mt-3">See All</a>
                 </div>
             </div>
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
                         <h4 class="card-title">Events</h4>
@@ -1571,11 +1571,11 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                        <h4 class="card-title">Upcoming Birthday</h4>
+                        <h4 class="card-title">Friend Suggestion</h4>
                     </div>
                 </div>
                 <div class="card-body">
