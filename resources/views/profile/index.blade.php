@@ -189,7 +189,7 @@
                                     <li class="">
                                        <a href="#">
                                         <img class="timeline-friends-profile-img" src="{{ isset($item->friendDetail->image) ? asset('/images/user/'.$item->friendDetail->image) : asset('/images/user/1.jpg') }}" alt="gallery-image" class="img-fluid" />
-
+                                       </a>
 
                                        <h6 class="mt-2 text-center">{{$item->friend->name}}</h6>
                                     </li>
