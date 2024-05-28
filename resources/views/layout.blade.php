@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SocialV | Responsive Bootstrap 5 Admin Dashboard Template</title>
+    <title>SocialV </title>
 
     <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
@@ -366,7 +366,7 @@
                                 <a href="#" class="   d-flex align-items-center dropdown-toggle"
                                     id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    <img src="{{ asset('/images/template/user/1.jpg') }}"
+                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}"
                                         class="img-fluid rounded-circle me-3" alt="user">
                                     <div class="caption">
                                         {{-- $firstName = strstr($name, ' ', true); // Get the substring before the first occurrence of space --}}

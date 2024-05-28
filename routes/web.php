@@ -10,6 +10,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserEngagementController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,9 +67,13 @@ Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 
 //Chat
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
 //Chat
 
 
 //Friends
 Route::get('create-friends', [FriendController::class, 'createFriends'])->name('createFriends');
 //Friends
+
+//Search
+

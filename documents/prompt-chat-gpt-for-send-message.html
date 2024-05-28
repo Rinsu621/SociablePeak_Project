@@ -1,0 +1,134 @@
+you have a button
+<button data-friendId="{{$item->id}}" type="button" class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">                                                      
+    <i class="ri-mail-line"></i>
+</button>
+
+when user clicks on the button , write jquery to open this modal and paste the friendId attribute value into sendMessage button as data-friendId
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"   aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+       <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Send Message</h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+             
+             </button>
+          </div>
+          <div class="modal-body">
+             <textarea name="message" id="messageBox" cols="30" rows="10"></textarea>
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-primary sendMessage">Send</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+when user clicks on sendMessage, check if message field is empty, if message is empty show error in toastr.error('It is bad to send an empty message to your friend :)')
+write jquery to run ajax in
+catch the friendId from data-friendId attribute in sendMessage button
+catch the message in text area
+run ajax to this route chat.sendMessage 
+in the chat controller write the code for this function
+
+public function sendMessage(){
+        
+}
+
+which saves the current data into table messages in this format
+user_id = current id of logged in user
+friend_id = friendId
+message = message from the text area
+
+and return success message
+return response()->json(['message' => 'Message Sent'], 200);
+
+and close the modal
+
+--------------------------------------------------------------------------------
+
+Response
+----------
+Here is the complete implementation with jQuery to handle the button click, open the modal, pass the friendId to the sendMessage button, and handle the AJAX request to send the message with validation for an empty message field using Toastr for error display.
+
+jQuery Code
+Make sure you include the Toastr library in your project. You can add it via CDN:
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Toastr CSS and JS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // When the button with data-bs-toggle="modal" is clicked
+        $('button[data-bs-toggle="modal"]').on('click', function() {
+            // Get the friendId from the button
+            var friendId = $(this).data('friendid');
+            // Set the friendId in the sendMessage button
+            $('.sendMessage').data('friendid', friendId);
+        });
+
+        // When the sendMessage button is clicked
+        $('.sendMessage').on('click', function() {
+            // Get the friendId from the sendMessage button
+            var friendId = $(this).data('friendid');
+            // Get the message from the textarea
+            var message = $('#messageBox').val();
+
+            // Check if the message is empty
+            if (message.trim() === '') {
+                toastr.error('It is bad to send an empty message to your friend :)');
+                return;
+            }
+
+            // Perform the AJAX request
+            $.ajax({
+                url: '{{ route("chat.sendMessage") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    friend_id: friendId,
+                    message: message
+                },
+                success: function(response) {
+                    toastr.success(response.message);
+                    $('#messageBox').val('');  // Clear the textarea
+                    $('.bd-example-modal-xl').modal('hide');  // Close the modal
+                },
+                error: function(response) {
+                    toastr.error('Error: ' + response.message);
+                }
+            });
+        });
+    });
+</script>
+
+Laravel Controller Code
+----------------------------
+In your ChatController, add the following function:
+public function sendMessage(Request $request) {
+    $validatedData = $request->validate([
+        'friend_id' => 'required|integer',
+        'message' => 'required|string'
+    ]);
+
+    $message = new Message();
+    $message->user_id = auth()->id();
+    $message->friend_id = $validatedData['friend_id'];
+    $message->message = $validatedData['message'];
+    $message->save();
+
+    return response()->json(['message' => 'Message Sent'], 200);
+}
+
+
+Route Definition
+-----------------
+Ensure you have a route defined for the sendMessage function in your web.php or api.php routes file:
+
+Route::post('/chat/sendMessage', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
+
+
+
