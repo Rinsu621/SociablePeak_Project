@@ -31,3 +31,17 @@ if (!function_exists('convertToTimeAgo')) {
         }
     }
 }
+
+if (!function_exists('convertTimezone')) {
+    function convertTimezone($timezone,$date)
+    {
+        // Create a new DateTime object with the given date
+        $dateTime = new DateTime($date);
+
+        // Set the timezone for the DateTime object
+        $dateTime->setTimezone(new DateTimeZone($timezone));
+
+        // Format the date to be more readable
+        return $dateTime->format('Y-m-d H:i:s');
+    }
+}
