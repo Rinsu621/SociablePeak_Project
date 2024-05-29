@@ -215,21 +215,21 @@
                                     </div>
                                     <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                            @if ($friends->isEmpty())
+                                            @if (empty($friends))
                                                 <p>You have no friends.</p>
                                             @else
                                                 @foreach ($friends as $key => $item)
                                                     <li class="">
                                                         <a href="#">
                                                             <img class="timeline-friends-profile-img"
-                                                                src="{{ isset($item->friendDetail->image) ? asset('/images/user/' . $item->friendDetail->image) : asset('/images/user/1.jpg') }}"
+                                                                src="{{ isset($item['user_details']['image']) ? asset('/images/user/' . $item['user_details']['image']) : asset('/images/user/1.jpg') }}"
                                                                 alt="gallery-image" class="img-fluid" />
                                                         </a>
 
-                                                        <h6 class="mt-2 text-center">{{ $item->friend->name }}</h6>
+                                                        <h6 class="mt-2 text-center">{{ $item['user']['name'] }}</h6>
                                                     </li>
                                                 @endforeach
-                                            @endempty
+                                            @endif
                                     </ul>
                                 </div>
                             </div>
@@ -1118,7 +1118,7 @@
                             <div class="tab-pane fade active show" id="all-friends" role="tabpanel">
                                 <div class="card-body p-0">
                                     <div class="row">
-                                        @if ($friends->isEmpty())
+                                        @if (empty($friends))
                                             <p>You have no friends.</p>
                                         @else
                                             @foreach ($friends as $key => $item)
@@ -1129,20 +1129,20 @@
                                                             <div class="d-flex align-items-center">
                                                                 <a href="#">
                                                                     <img class="timeline-friends-profile-img"
-                                                                        src="{{ isset($item->friendDetail->image) ? asset('/images/user/' . $item->friendDetail->image) : asset('/images/user/1.jpg') }}"
+                                                                        src="{{ isset($item['user_details']['image']) ? asset('/images/user/' . $item['user_details']['image']) : asset('/images/user/1.jpg') }}"
                                                                         alt="gallery-image" class="img-fluid" />
 
                                                                 </a>
                                                                 <div class="friend-info ms-3">
-                                                                    <h5>{{ $item->friend->name }}</h5>
+                                                                    <h5>{{ $item['user']['name'] }}</h5>
                                                                     <p class="mb-0">Friends since
-                                                                        {{ \Carbon\Carbon::parse($item->friend->created_at)->format('D, d M, Y') }}
+                                                                        {{ \Carbon\Carbon::parse($item['friend']['created_at'])->format('D, d M, Y') }}
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                             <div
                                                                 class="card-header-toolbar d-flex align-items-center">
-                                                                <button data-friendId="{{ $item->friend->id }}"
+                                                                <button data-friendId="{{ $item['user']['id'] }}"
                                                                     type="button" class="btn btn-primary mt-1"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target=".bd-example-modal-xl">

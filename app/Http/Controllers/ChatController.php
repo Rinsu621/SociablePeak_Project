@@ -19,7 +19,7 @@ class ChatController extends Controller
         // Retrieve messages where friend_id or user_id is the logged-in user's ID
         $messages = Message::where('user_id', $userId)
                             ->orWhere('friend_id', $userId)
-                            ->orderBy('created_at', 'desc')
+                            // ->orderBy('created_at', 'desc')
                             ->get()
                             ->groupBy(function($message) use ($userId) {
                                 return $message->user_id == $userId ? $message->friend_id : $message->user_id;
@@ -29,9 +29,9 @@ class ChatController extends Controller
         // Convert the created_at to Kathmandu timezone and sort each message group by created_at in descending order
         $sortedMessages = $messages->map(function ($group) {
             return $group->map(function ($message) {
-                $message->created_at = convertTimezone('Asia/Kathmandu', $message->created_at);
+                $message->converted_date = convertTimezone('Asia/Kathmandu', $message->created_at);
                 return $message;
-            })->sortByDesc('created_at');
+            });
         });
 
         // Fetch the friend details using the grouped friend IDs
@@ -51,10 +51,16 @@ class ChatController extends Controller
                 'conversations' => $messages->toArray()
             ];
         });
-        // dd($chatData->toArray());
+
+        //get current users image from user_detail table
+        $userDetail = UserDetail::where('user_id', $userId)->first();
+        $userImage = $userDetail->image ? asset('/images/user/'.$userDetail->image) : asset('/images/user/1.jpg');
+        // dd($chatData);
+        
         // Pass the grouped messages to the view
         return view('chat.index',[
             'messages' => $chatData,
+            'userImage' => $userImage
         ]);
     }
 
@@ -71,7 +77,13 @@ class ChatController extends Controller
             $message->message = $validatedData['message'];
             $message->save();
 
-            return response()->json(['message' => 'Message Sent'], 200);
+            // Fetch the message just saved
+            $savedMessage = Message::find($message->id);
+
+            // Convert the created_at timestamp to the 'Asia/Kathmandu' timezone
+            $savedMessage->created_at = $savedMessage->created_at->timezone('Asia/Kathmandu');
+
+            return response()->json(['message' => 'Message Sent','data' => $savedMessage ], 200);
         } catch (ValidationException $e) {
             // If a validation error occurs, catch the ValidationException
             // and redirect back with the validation error messages
