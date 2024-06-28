@@ -9,6 +9,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserEngagementController;
+use App\Http\Controllers\SearchController;
+
 
 
 /*
@@ -63,6 +65,8 @@ Route::post('postStore', [PostController::class, 'postStore'])->name('postStore'
 
 //Profile
 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
+
 //Profile
 
 //Chat
@@ -73,7 +77,14 @@ Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.
 
 //Friends
 Route::get('create-friends', [FriendController::class, 'createFriends'])->name('createFriends');
+Route::post('/friends/add/{id}', [FriendController::class, 'addFriend'])->name('friends.add');
+Route::get('/friend-request', [FriendController::class, 'friendRequest'])->name('friend.friendrequest');
+Route::post('/friend-requests/accept/{id}', [FriendController::class, 'acceptFriendRequest'])->name('friend.accept');
+Route::post('/friend-requests/reject/{id}', [FriendController::class, 'rejectFriendRequest'])->name('friend.reject');
+Route::post('/unfriend/{id}', [FriendController::class, 'unfriend'])->name('friend.unfriend');
 //Friends
 
 //Search
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/user/{id}', [SearchController::class, 'show'])->name('user.show');
 

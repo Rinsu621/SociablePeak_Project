@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/toastr/toastr.min.css') }}">
     @yield('style')
+
     <style>
         span#timerDisplay {
             background: #449ad9;
@@ -88,9 +89,9 @@
                         </div>
                     </div>
                     <div class="iq-search-bar device-search">
-                        <form action="#" class="searchbox">
+                        <form action="{{ route('search') }}" class="searchbox">
                             <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-                            <input type="text" class="text search-input" placeholder="Search here...">
+                            <input type="text" name="query" class="text search-input" placeholder="Search here...">
                         </form>
                     </div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -112,99 +113,9 @@
                                 </a> --}}
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="dropdown-toggle" id="group-drop" data-bs-toggle="dropdown"
+                                <a href="{{ route('friend.friendrequest') }}"
                                     aria-haspopup="true" aria-expanded="false"><i class="ri-group-line"></i></a>
-                                <div class="sub-drop sub-drop-large dropdown-menu" aria-labelledby="group-drop">
-                                    <div class="card shadow-none m-0">
-                                        <div class="card-header d-flex justify-content-between bg-primary">
-                                            <div class="header-title">
-                                                <h5 class="mb-0 text-white">Friend Request</h5>
-                                            </div>
-                                            <small class="badge  bg-light text-dark ">4</small>
-                                        </div>
-                                        <div class="card-body p-0">
-                                            <div class="iq-friend-request">
-                                                <div
-                                                    class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/01.jpg') }}" alt="">
-                                                        <div class="ms-3">
-                                                            <h6 class="mb-0 ">Jaques Amole</h6>
-                                                            <p class="mb-0">40 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="iq-friend-request">
-                                                <div
-                                                    class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/02.jpg') }}" alt="">
-                                                        <div class="ms-3">
-                                                            <h6 class="mb-0 ">Lucy Tania</h6>
-                                                            <p class="mb-0">12 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="iq-friend-request">
-                                                <div
-                                                    class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/03.jpg') }}" alt="">
-                                                        <div class=" ms-3">
-                                                            <h6 class="mb-0 ">Manny Petty</h6>
-                                                            <p class="mb-0">3 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="iq-friend-request">
-                                                <div
-                                                    class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/04.jpg') }}" alt="">
-                                                        <div class="ms-3">
-                                                            <h6 class="mb-0 ">Marsha Mello</h6>
-                                                            <p class="mb-0">15 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();"
-                                                            class="me-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-center">
-                                                <a href="#" class=" btn text-primary">View More Request</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </li>
                             <li class="nav-item dropdown">
                                 <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop"
@@ -285,89 +196,25 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown"
+                                <a href="{{ route('chat.index') }}"  id="mail-drop"
                                     aria-haspopup="true" aria-expanded="false">
                                     <i class="ri-mail-line"></i>
                                 </a>
-                                <div class="sub-drop dropdown-menu" aria-labelledby="mail-drop">
-                                    <div class="card shadow-none m-0">
-                                        <div class="card-header d-flex justify-content-between bg-primary">
-                                            <div class="header-title bg-primary">
-                                                <h5 class="mb-0 text-white">All Message</h5>
-                                            </div>
-                                            <small class="badge bg-light text-dark">4</small>
-                                        </div>
-                                        <div class="card-body p-0 ">
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex  align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/01.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class=" w-100 ms-3">
-                                                        <h6 class="mb-0 ">Bni Emma Watson</h6>
-                                                        <small class="float-left font-size-12">13 Jun</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/02.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
-                                                        <small class="float-left font-size-12">20 Apr</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/03.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Why do we use it?</h6>
-                                                        <small class="float-left font-size-12">30 Jun</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/04.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Variations Passages</h6>
-                                                        <small class="float-left font-size-12">12 Sep</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/05.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Lorem Ipsum generators</h6>
-                                                        <small class="float-left font-size-12">5 Dec</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a href="#" class="   d-flex align-items-center dropdown-toggle"
                                     id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}"
-                                        class="img-fluid rounded-circle me-3" alt="user">
+                                   <!-- Assuming this is part of your layout file -->
+
+                                   <div class="user-img" >
+                                    @if($profilePicture && $profilePicture->file_path)
+                                        <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-40 img-fluid rounded-circle" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"  />
+                                    @else
+                                        <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle"  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
+                                    @endif
+                                </div>
+
                                     <div class="caption">
                                         {{-- $firstName = strstr($name, ' ', true); // Get the substring before the first occurrence of space --}}
                                         <h6 class="mb-0 line-height">{{ strstr(auth()->user()->name, ' ', true) }}
@@ -491,6 +338,11 @@
     <script src="{{ asset('/vendor/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('/vendor/vanillajs-datepicker/dist/js/datepicker.min.js') }}"></script>
     <script src="{{ asset('/js/lottie.js') }}"></script>
+    {{-- Preview js --}}
+    <script src="{{ asset('/js/preview.js') }}"></script>
+
+    <script src="{{ asset('/js/profilepreview.js') }}"></script>
+
 
     {{-- create a csrf token to post form in user-engagement.js file --}}
     <script>
@@ -504,11 +356,11 @@
             toastr.success('{{ session('message') }}');
         </script>
     @endif
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <script>
             toastr.error('{{$errors->first()}}');
         </script>
-    @endif
+    @endif --}}
     @yield('script')
     <!-- offcanvas start -->
 

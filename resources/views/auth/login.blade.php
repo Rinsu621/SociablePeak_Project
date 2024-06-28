@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>SocialV | Responsive Bootstrap 4 Admin Dashboard Template</title>
+      <title>SocialV </title>
 
       <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico')}}" />
       <link rel="stylesheet" href="{{ asset('/css/libs.min.css')}}">
@@ -93,11 +93,7 @@
                             </div>
                             <div class="sign-info">
                                 <span class="dark-color d-inline-block line-height-2">Don't have an account? <a href="{{route('register')}}">Sign up</a></span>
-                                <ul class="iq-social-media">
-                                    <li><a href="#"><i class="ri-facebook-box-line"></i></a></li>
-                                    <li><a href="#"><i class="ri-twitter-line"></i></a></li>
-                                    <li><a href="#"><i class="ri-instagram-line"></i></a></li>
-                                </ul>
+                               
                             </div>
                         </form>
                     </div>

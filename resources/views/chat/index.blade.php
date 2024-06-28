@@ -12,19 +12,28 @@
                       <div class="chat-search pt-3 ps-3">
                          <div class="d-flex align-items-center">
                             <div class="chat-profile me-3">
-                               <img src="{{ $userImage }}" alt="chat-user" class="avatar-60 ">
+                               {{-- <img src="{{ $userImage }}" alt="chat-user" class="avatar-60 "> --}}
+                               @if($profilePicture && $profilePicture->file_path)
+                               <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
+                               @else
+                               <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
+                               @endif
                             </div>
                             <div class="chat-caption">
                                <h5 class="mb-0">{{ auth()->user()->name }}</h5>
                             </div>
                             <button type="submit" class="close-btn-res p-3"><i class="ri-close-fill"></i></button>
                          </div>
-                         <div id="user-detail-popup" class="scroller">
+                         {{-- <div id="user-detail-popup" class="scroller">
                             <div class="user-profile">
                                <button type="submit" class="close-popup p-3"><i class="ri-close-fill"></i></button>
                                <div class="user text-center mb-4">
                                   <a class="avatar m-0">
-                                  <img src="{{asset('/images/template/user/1.jpg')}}" alt="avatar">
+                                   @if($profilePicture && $profilePicture->file_path)
+                               <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
+                               @else
+                               <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
+                               @endif
                                   </a>
                                   <div class="user-name mt-4">
                                      <h4 class="text-center">{{ auth()->user()->name }}</h4>
@@ -43,7 +52,7 @@
                                   </ul>
                                </div>
                             </div>
-                         </div>
+                         </div> --}}
                          <div class="chat-searchbar mt-4">
                             <div class="form-group chat-search-data m-0">
                                <input type="text" class="form-control round" id="chat-search" placeholder="Search">
@@ -170,7 +179,13 @@
                                     <div class="chat {{ ($chatText['user_id'] != auth()->id()) ? 'chat-left' : 'd-flex other-user'}}">
                                        <div class="chat-user">
                                           <a class="avatar m-0">
-                                          <img src="{{ ($chatText['user_id'] != auth()->id()) ? $message['friend_image'] : $userImage }}" alt="avatar" class="avatar-35 ">
+                                          {{-- <img src="{{ ($chatText['user_id'] != auth()->id()) ? $message['friend_image'] : $userImage }}" alt="avatar" class="avatar-35 ">
+                                           --}}
+                                           @if($profilePicture && $profilePicture->file_path)
+                                           <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-35 "/>
+                                           @else
+                                           <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-35" />
+                                           @endif
                                           </a>
                                           <span class="chat-time mt-1">{{date('h:i a',strtotime($chatText['converted_date']))}}</span>
                                        </div>
@@ -195,7 +210,7 @@
                                     </button>
                                  </form>
                               </div>
-                           </div>                             
+                           </div>
                          @endforeach
                       </div>
                    </div>
@@ -219,7 +234,7 @@
 
          $('.sendChat').on('click', function(e) {
             e.preventDefault();
-            
+
             var $this = $(this);
             var messageClass = $this.data('message-class');
             var chatBox = $this.data('chat-box');

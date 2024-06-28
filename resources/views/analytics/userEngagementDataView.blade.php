@@ -27,7 +27,7 @@
                              <div class="modal-header">
                                 <h5 class="modal-title">Engagement Analytics (Hours/Day)</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                
+
                                 </button>
                              </div>
                              <div class="modal-body">
@@ -92,13 +92,13 @@
                                             <?php
                                             // Milliseconds value
                                             $seconds = $item->elapsed_time;
-                                            
+
                                             // Create a DateTime object
                                             $date = new DateTime("@$seconds");
-                                            
+
                                             // Format the date as time (HH:MM:SS)
                                             $time = $date->format('H:i:s');
-                                            
+
                                             echo $time; // Output: 00:41:08
                                             ?>
                                         </td>
@@ -108,7 +108,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr>
                                     <th>SN</th>
                                     <th>Date</th>
@@ -116,7 +116,7 @@
                                     <th>Total Time</th>
                                     <th>Tab Switch</th>
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                     //     return value > 10 ? '#ff0000' : '#51A351';
                     // },
                     data: <?php echo $elapsedTimeData;?>
-                }, 
+                },
                 {
                     label: 'Tab Switches',
                     backgroundColor: "#50b5ff",
