@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>SocialV </title>
 
     <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
@@ -211,7 +213,7 @@
                                     @if($profilePicture && $profilePicture->file_path)
                                         <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-40 img-fluid rounded-circle" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"  />
                                     @else
-                                        <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle"  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
+                                        <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle"  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
                                     @endif
                                 </div>
 
@@ -386,7 +388,7 @@
                     <h6>Instagram</h6>
                 </div>
                 <div class="text-center me-3 mb-3">
-                    <img src="{{ asset('/images/template/icon/11.png') }}" class="img-fluid rounded mb-2" alt="">
+                    <img src="{{ asset('/images/template/icon/Noprofile.jpg') }}" class="img-fluid rounded mb-2" alt="">
                     <h6>Google Plus</h6>
                 </div>
                 <div class="text-center me-3 mb-3">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Post;
+use App\Models\Like;
+use App\Models\Comment;
 use App\Models\Image;
 use App\Models\ScheduledPost;
 use Illuminate\Http\Request;
@@ -78,6 +80,54 @@ class PostController extends Controller
         } catch (Exception $e) {
             // If any other type of exception occurs, catch it and
             // redirect back with the exception message
+            return redirect()->back()->withErrors($e->getMessage())->withInput();
+        }
+    }
+
+    public function likePost($id)
+    {
+        try {
+            $userId = auth()->id();
+            $post = Post::findOrFail($id);
+
+            $like = Like::where('post_id', $id)->where('user_id', $userId)->first();
+
+            $liked = false;
+            if ($like) {
+                $like->delete();
+            } else {
+                Like::create([
+                    'post_id' => $id,
+                    'user_id' => $userId,
+                ]);
+                $liked = true;
+            }
+
+            return response()->json(['success' => true, 'liked' => $liked]);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function commentPost(Request $request, $id)
+    {
+        try {
+            $userId = auth()->id();
+
+            $request->validate([
+                'comment' => 'required|string',
+            ]);
+
+            Comment::create([
+                'post_id' => $id,
+                'user_id' => $userId,
+                'comment' => $request->input('comment'),
+            ]);
+
+            return redirect()->back()->with('message', 'Comment added.');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->getMessage())->withInput();
+        } catch (Exception $e) {
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }

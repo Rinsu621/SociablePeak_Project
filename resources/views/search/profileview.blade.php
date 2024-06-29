@@ -110,7 +110,7 @@
                                 @if($user->profilePicture && $user->profilePicture->file_path)
                                     <img src="{{ Storage::url($user->profilePicture->file_path) }}" alt="profile-img" class="avatar-130 img-fluid rounded-circle"/>
                                 @else
-                                    <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-130 img-fluid rounded-circle"  />
+                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-130 img-fluid rounded-circle"  />
                                 @endif
                             </div>
                             <!--Profile Picture Modal-->
@@ -283,7 +283,7 @@
                                                                 @if($user->profilePicture && $user->profilePicture->file_path)
                                     <img src="{{ Storage::url($user->profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"/>
                                 @else
-                                    <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
+                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
                                 @endif
                                                             </div>
 
@@ -392,187 +392,76 @@
                                                         </div>
                                                     @endif
                                                     <div class="comment-area mt-3">
-                                                        <div
-                                                            class="d-flex justify-content-between align-items-center flex-wrap">
-                                                            <div
-                                                                class="like-block position-relative d-flex align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                            <div class="like-block position-relative d-flex align-items-center">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="like-data">
-                                                                        <div class="dropdown">
-                                                                            <span class="dropdown-toggle"
-                                                                                data-bs-toggle="dropdown"
-                                                                                aria-haspopup="true" aria-expanded="false"
-                                                                                role="button">
-                                                                                <img src="{{ asset('/images/template/icon/01.png') }}"
-                                                                                    class="img-fluid" alt="">
-                                                                            </span>
-                                                                            <div class="dropdown-menu py-2">
-                                                                                <a class="ms-2 me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Like"><img
-                                                                                        src="{{ asset('/images/template/icon/01.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                                <a class="me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Love"><img
-                                                                                        src="{{ asset('/images/template/icon/02.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                                <a class="me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Happy"><img
-                                                                                        src="{{ asset('/images/template/icon/03.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                                <a class="me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="HaHa"><img
-                                                                                        src="{{ asset('/images/template/icon/04.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                                <a class="me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Think"><img
-                                                                                        src="{{ asset('/images/template/icon/05.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                                <a class="me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Sade"><img
-                                                                                        src="{{ asset('/images/template/icon/06.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                                <a class="me-2" href="#"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Lovely"><img
-                                                                                        src="{{ asset('/images/template/icon/07.png') }}"
-                                                                                        class="img-fluid"
-                                                                                        alt=""></a>
-                                                                            </div>
-                                                                        </div>
+                                                                        <button class="btn btn-link p-0 like-button" data-post-id="{{ $post->id }}">
+                                                                            @if($post->likes->where('user_id', auth()->id())->count())
+                                                                                Unlike
+                                                                            @else
+                                                                                Like
+                                                                            @endif
+                                                                        </button>
                                                                     </div>
                                                                     <div class="total-like-block ms-2 me-3">
                                                                         <div class="dropdown">
-                                                                            <span class="dropdown-toggle"
-                                                                                data-bs-toggle="dropdown"
-                                                                                aria-haspopup="true" aria-expanded="false"
-                                                                                role="button">
-                                                                                140 Likes
+                                                                            <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                                                <span class="like-count">{{ $post->likes->count() }}</span> {{ $post->likes->count() == 1 ? 'Like' : 'Likes' }}
                                                                             </span>
                                                                             <div class="dropdown-menu">
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Max Emum</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Bill Yerds</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Hap E. Birthday</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Tara Misu</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Midge Itz</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Sal Vidge</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Other</a>
+                                                                                @foreach($post->likes as $like)
+                                                                                    <a class="dropdown-item" href="#">{{ $like->user->name }}</a>
+                                                                                @endforeach
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="total-comment-block">
                                                                     <div class="dropdown">
-                                                                        <span class="dropdown-toggle"
-                                                                            data-bs-toggle="dropdown" aria-haspopup="true"
-                                                                            aria-expanded="false" role="button">
-                                                                            20 Comment
+                                                                        <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                                            {{ $post->comments->count() }} {{ $post->comments->count() == 1 ? 'Comment' : 'Comments' }}
                                                                         </span>
                                                                         <div class="dropdown-menu">
-                                                                            <a class="dropdown-item" href="#">Max
-                                                                                Emum</a>
-                                                                            <a class="dropdown-item" href="#">Bill
-                                                                                Yerds</a>
-                                                                            <a class="dropdown-item" href="#">Hap E.
-                                                                                Birthday</a>
-                                                                            <a class="dropdown-item" href="#">Tara
-                                                                                Misu</a>
-                                                                            <a class="dropdown-item" href="#">Midge
-                                                                                Itz</a>
-                                                                            <a class="dropdown-item" href="#">Sal
-                                                                                Vidge</a>
-                                                                            <a class="dropdown-item"
-                                                                                href="#">Other</a>
+                                                                            @foreach($post->comments as $comment)
+                                                                                <a class="dropdown-item" href="#">{{ $comment->user->name }}: {{ $comment->comment }}</a>
+                                                                            @endforeach
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div
-                                                                class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-                                                                <a href="#" data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#share-btn"
-                                                                    aria-controls="share-btn"><i
-                                                                        class="ri-share-line"></i>
-                                                                    <span class="ms-1">99 Share</span></a>
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                        <ul class="post-comments p-0 m-0">
-                                                            <li class="mb-2">
-                                                                <div class="d-flex flex-wrap">
-                                                                    <div class="user-img">
-                                                                        <img src="{{ asset('/images/template/user/02.jpg') }}"
-                                                                            alt="userimg"
-                                                                            class="avatar-35 rounded-circle img-fluid">
-                                                                    </div>
-                                                                    <div class="comment-data-block ms-3">
-                                                                        <h6>Monty Carlo</h6>
-                                                                        <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                                        <div
-                                                                            class="d-flex flex-wrap align-items-center comment-activity">
-                                                                            <a href="#">like</a>
-                                                                            <a href="#">reply</a>
-                                                                            <a href="#">translate</a>
-                                                                            <span> 5 min </span>
+                                                        <ul class="post-comments list-inline p-0 m-0">
+                                                            @foreach($post->comments as $comment)
+                                                                <li class="mb-2">
+                                                                    <div class="d-flex">
+                                                                        <div class="user-img">
+                                                                            @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
+                                                                                <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
+                                                                            @else
+                                                                                <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-35 rounded-circle img-fluid">
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="comment-data-block ms-3">
+                                                                            <h6>{{ $comment->user->name }}</h6>
+                                                                            <p class="mb-0">{{ $comment->comment }}</p>
+                                                                            <div class="d-flex flex-wrap align-items-center comment-activity">
+
+                                                                                <span> {{ $comment->created_at->diffForHumans() }} </span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="d-flex flex-wrap">
-                                                                    <div class="user-img">
-                                                                        <img src="{{ asset('/images/template/user/03.jpg') }}"
-                                                                            alt="userimg"
-                                                                            class="avatar-35 rounded-circle img-fluid">
-                                                                    </div>
-                                                                    <div class="comment-data-block ms-3">
-                                                                        <h6>Paul Molive</h6>
-                                                                        <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                                                                        <div
-                                                                            class="d-flex flex-wrap align-items-center comment-activity">
-                                                                            <a href="#">like</a>
-                                                                            <a href="#">reply</a>
-                                                                            <a href="#">translate</a>
-                                                                            <span> 5 min </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
+                                                                </li>
+                                                            @endforeach
                                                         </ul>
-                                                        <form class="comment-text d-flex align-items-center mt-3"
-                                                            action="javascript:void(0);">
-                                                            <input type="text" class="form-control rounded"
-                                                                placeholder="Enter Your Comment">
+                                                        <form class="comment-text d-flex align-items-center mt-3" action="{{ route('post.comment', $post->id) }}" method="POST">
+                                                            @csrf
+                                                            <input type="text" name="comment" class="form-control rounded" placeholder="Enter Your Comment" required>
                                                             <div class="comment-attagement d-flex">
-                                                                <a href="#"><i class="ri-link me-3"></i></a>
-                                                                <a href="#"><i
-                                                                        class="ri-user-smile-line me-3"></i></a>
-                                                                <a href="#"><i class="ri-camera-line me-3"></i></a>
+                                                                <a href="javascript:void(0);"><i class="ri-link me-3"></i></a>
+                                                                <a href="javascript:void(0);"><i class="ri-user-smile-line me-3"></i></a>
+                                                                <a href="javascript:void(0);"><i class="ri-camera-line me-3"></i></a>
                                                             </div>
                                                         </form>
                                                     </div>

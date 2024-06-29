@@ -17,25 +17,34 @@ class ProfileController extends Controller
     {
         // Get posts of user
         $userId = auth()->id();
-        $posts = Post::where('user_id', $userId)->orderBy('id', 'desc')->get();
+        $user = Auth::user();
+        // $posts = Post::where('user_id', $userId)->orderBy('id', 'desc')->get();
+        $posts = Post::with(['images', 'likes.user', 'comments.user.profilePicture'])
+        ->where('user_id', $userId)
+        ->orderBy('id', 'desc')
+        ->get();
         $postCount = $posts->count(); // Get the count of posts
 
-        $friends = Friend::where('user_id', $userId)
-                         ->orWhere('friend_id', $userId)
-                         ->orderBy('id', 'desc')
-                         ->get();
+        $friends = Friend::where(function($query) use ($userId) {
+            $query->where('user_id', $userId)
+                  ->orWhere('friend_id', $userId);
+        })
+        ->where('status', 'accepted')
+        ->orderBy('id', 'desc')
+        ->get();
 
         $friendDetails = [];
         $friendsCount = $friends->count();
 
         foreach ($friends as $friend) {
             $friendUserId = ($friend->friend_id == $userId) ? $friend->user_id : $friend->friend_id;
-            $user = User::find($friendUserId)->toArray();
+            $friendUser = User::find($friendUserId);
             $userDetails = UserDetail::where('user_id', $friendUserId)->first();
             $profilePicture = ProfilePicture::where('user_id', $friendUserId)->latest()->first();
+
             $friendDetails[] = [
-                'user' => $user,
-                'user_details' => $userDetails,
+                'user' => $friendUser ? $friendUser->toArray() : null,
+                'user_details' => $userDetails ? $userDetails->toArray() : null,
                 'profile_picture' => $profilePicture ? $profilePicture->file_path : null,
                 'friend' => $friend->toArray()
             ];

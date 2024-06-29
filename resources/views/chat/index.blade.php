@@ -31,7 +31,7 @@
                                         @if($profilePicture && $profilePicture->file_path)
                                             <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
                                         @else
-                                            <img src="{{ asset('/images/template/user/11.png') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
+                                            <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
                                         @endif
                                     </div>
                                     <div class="chat-caption">
@@ -48,7 +48,7 @@
                                             <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar me-2">
-                                                        <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle" onerror="this.onerror=null; this.src='{{ asset('images/template/user/11.png') }}'">
+                                                        <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle" onerror="this.onerror=null; this.src='{{ asset('images/template/user/Noprofile.jpg') }}'">
                                                         <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-dark"></i></span>
                                                     </div>
                                                     <div class="chat-sidebar-name">

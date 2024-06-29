@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Friend;
 use App\Models\UserDetail;
-use App\Models\ProfilePicture; // Import the ProfilePicture model
+use App\Models\ProfilePicture;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\FriendController;
 
@@ -42,15 +42,23 @@ class SearchController extends Controller
         $loggedInUserId = Auth::id();
         $user = User::findOrFail($id);
 
+        $posts = Post::with(['images', 'likes.user', 'comments.user.profilePicture'])
+        ->where('user_id', $id)
+        ->orderBy('id', 'desc')
+        ->get();
+
         // Get posts of the user
-        $posts = Post::where('user_id', $id)->orderBy('id', 'desc')->get();
+        // $posts = Post::where('user_id', $id)->orderBy('id', 'desc')->get();
         $postCount = $posts->count(); // Get the count of posts
 
         // Get friends of the user
-        $friends = Friend::where('user_id', $id)
-                         ->orWhere('friend_id', $id)
-                         ->orderBy('id', 'desc')
-                         ->get();
+        $friends = Friend::where(function($query) use ($id) {
+            $query->where('user_id', $id)
+                  ->orWhere('friend_id', $id);
+        })
+        ->where('status', 'accepted')
+        ->orderBy('id', 'desc')
+        ->get();
 
         $friendDetails = [];
         $friendsCount = $friends->count();

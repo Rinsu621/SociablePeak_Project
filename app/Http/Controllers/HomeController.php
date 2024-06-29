@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Friend;
+use App\Models\User;
 use App\Models\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -31,7 +33,7 @@ class HomeController extends Controller
             $friendIds[] = $userId;
 
             // Fetch posts from friends ordered by creation date in descending order
-            $posts = Post::with('images', 'user') // Assuming you have relationships defined
+            $posts = Post::with('images', 'user','likes.user', 'comments.user.profilePicture') // Assuming you have relationships defined
                          ->whereIn('user_id', $friendIds)
                          ->orderBy('created_at', 'desc')
                          ->get();
@@ -39,13 +41,60 @@ class HomeController extends Controller
             // Fetch the latest profile picture for the authenticated user
             $profilePicture = $user->profilePicture;
 
+            $friendRequests = Friend::where('friend_id', $userId)
+                                    ->where('status', 'pending')
+                                    ->with('user.profilePicture')
+                                    ->orderBy('created_at', 'desc')
+                                    ->limit(3)
+                                    ->get();
+             $suggestedFriends = $this->getFriendSuggestions($userId, $friendIds);
+
             return view('home.homepage', [
                 'posts' => $posts,
                 'profilePicture' => $profilePicture,
-                'user' => $user
+                'user' => $user,
+                'friendRequests' => $friendRequests,
+                'suggestedFriends' => $suggestedFriends
             ]);
         } else {
             return redirect()->route('login');
         }
     }
+
+
+    // Find mutual friends
+    private function getFriendSuggestions($userId, $friendIds)
+{
+    // Step 1: Get the IDs of friends of the user's friends who are not friends with the user
+    $friendsOfFriends = DB::table('friends as f1')
+        ->join('friends as f2', 'f1.friend_id', '=', 'f2.user_id')
+        ->where('f1.user_id', $userId)
+        ->whereNotIn('f2.friend_id', $friendIds)
+        ->where('f2.friend_id', '!=', $userId)
+        ->select('f2.friend_id')
+        ->distinct()
+        ->pluck('f2.friend_id')
+        ->toArray();
+
+    // Step 2: Count the number of mutual friends between the user and these other users
+    $mutualFriendCounts = DB::table('friends as f1')
+        ->join('friends as f2', function ($join) use ($userId) {
+            $join->on('f1.friend_id', '=', 'f2.friend_id')
+                ->where('f1.user_id', '!=', $userId);
+        })
+        ->where('f1.user_id', $userId)
+        ->whereIn('f2.user_id', $friendsOfFriends)
+        ->select('f2.user_id', DB::raw('count(f2.friend_id) as mutual_count'))
+        ->groupBy('f2.user_id')
+        ->having('mutual_count', '>', 2)
+        ->pluck('f2.user_id')
+        ->toArray();
+
+    // Step 3: Fetch suggested friends with profile pictures
+    return User::whereIn('id', $mutualFriendCounts)
+               ->with('profilePicture')
+               ->take(5) // Limit the suggestions to 5 users
+               ->get();
 }
+}
+

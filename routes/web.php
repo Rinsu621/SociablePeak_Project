@@ -61,6 +61,8 @@ Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEn
 
 //Posts
 Route::post('postStore', [PostController::class, 'postStore'])->name('postStore');
+Route::post('/post/{id}/like', [PostController::class, 'likePost'])->name('post.like');
+Route::post('/post/{id}/comment', [PostController::class, 'commentPost'])->name('post.comment');
 //Posts
 
 //Profile
