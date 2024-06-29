@@ -9,6 +9,7 @@ use App\Models\UserDetail;
 use App\Models\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class ChatController extends Controller
@@ -41,15 +42,17 @@ class ChatController extends Controller
         $friends = User::whereIn('id', $friendIds)->with('profilePicture')->get()->keyBy('id');
         $friendDetails = UserDetail::whereIn('user_id', $friendIds)->get()->keyBy('user_id');
 
-        // Prepare the data for the view
-        $chatData = $sortedMessages->map(function ($messages, $friendId) use ($friends, $friendDetails) {
+        $chatData = $sortedMessages->map(function ($messages, $friendId) use ($friends) {
             $friendName = $friends[$friendId]->name ?? 'Unknown';
-            $friendProfilePicture = $friends[$friendId]->profilePicture ? $friends[$friendId]->profilePicture->file_path : 'images/template/user/11.png';
+            $friendProfilePicture = $friends[$friendId]->profilePicture
+                ? asset(Storage::url($friends[$friendId]->profilePicture->file_path))
+                : asset('images/template/user/11.png');
+
 
             return [
                 'friend_id' => $friendId,
                 'friend_name' => $friendName,
-               'friend_image' => asset('storage/' . $friendProfilePicture),
+                'friend_profile_picture' => $friendProfilePicture,
                 'conversations' => $messages->toArray()
             ];
         });
