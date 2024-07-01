@@ -1,0 +1,2 @@
+ 1998  history | grep scp
+ 1999  history | grep scp > scp_history.txt

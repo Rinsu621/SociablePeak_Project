@@ -713,7 +713,7 @@
                                 @if($suggestedFriend->profilePicture && $suggestedFriend->profilePicture->file_path)
                                     <img src="{{ Storage::url($suggestedFriend->profilePicture->file_path) }}" alt="story-img" class="rounded-circle img-fluid">
                                 @else
-                                    <img src="{{ asset('/images/template/user/default.jpg') }}" alt="story-img" class="rounded-circle img-fluid">
+                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="story-img" class="rounded-circle img-fluid">
                                 @endif
                                 <div class="stories-data ms-3">
                                     <h5>{{ $suggestedFriend->name }}</h5>
