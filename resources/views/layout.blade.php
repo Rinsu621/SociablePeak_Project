@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>SocialV </title>
-
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/socialv.css') }}">
@@ -243,7 +243,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <a href="../app/profile-edit.html"
+                                            {{-- <a href="../app/profile-edit.html"
                                                 class="iq-sub-card iq-bg-warning-hover">
                                                 <div class="d-flex align-items-center">
                                                     <div class="rounded card-icon bg-soft-warning">
@@ -254,8 +254,8 @@
                                                         <p class="mb-0 font-size-12">Modify your personal details.</p>
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <a href="../app/account-setting.html"
+                                            </a> --}}
+                                            {{-- <a href="../app/account-setting.html"
                                                 class="iq-sub-card iq-bg-info-hover">
                                                 <div class="d-flex align-items-center">
                                                     <div class="rounded card-icon bg-soft-info">
@@ -267,8 +267,8 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <a href="../app/privacy-setting.html"
+                                            </a> --}}
+                                            {{-- <a href="../app/privacy-setting.html"
                                                 class="iq-sub-card iq-bg-danger-hover">
                                                 <div class="d-flex align-items-center">
                                                     <div class="rounded card-icon bg-soft-danger">
@@ -280,7 +280,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </a> --}}
                                             <div class="d-inline-block w-100 text-center p-3">
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                     style="display: none;">
@@ -344,6 +344,9 @@
     <script src="{{ asset('/js/preview.js') }}"></script>
 
     <script src="{{ asset('/js/profilepreview.js') }}"></script>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
 
     {{-- create a csrf token to post form in user-engagement.js file --}}

@@ -43,15 +43,12 @@ class SearchController extends Controller
         $user = User::findOrFail($id);
 
         $posts = Post::with(['images', 'likes.user', 'comments.user.profilePicture'])
-        ->where('user_id', $id)
-        ->orderBy('id', 'desc')
-        ->get();
+                     ->where('user_id', $id)
+                     ->orderBy('id', 'desc')
+                     ->get();
 
-        // Get posts of the user
-        // $posts = Post::where('user_id', $id)->orderBy('id', 'desc')->get();
-        $postCount = $posts->count(); // Get the count of posts
+        $postCount = $posts->count();
 
-        // Get friends of the user
         $friends = Friend::where(function($query) use ($id) {
             $query->where('user_id', $id)
                   ->orWhere('friend_id', $id);
@@ -77,18 +74,28 @@ class SearchController extends Controller
             ];
         }
 
-        // Get the latest profile picture of the user
         $profilePicture = $user->profilePicture;
 
         // Check if the logged-in user is friends with the viewed user
-        $friendshipStatus = $this->friendController->checkIfFriends($id);
+        $areFriends = Friend::where(function ($query) use ($loggedInUserId, $id) {
+            $query->where('user_id', $loggedInUserId)
+                  ->where('friend_id', $id)
+                  ->where('status', 'accepted');
+        })->orWhere(function ($query) use ($loggedInUserId, $id) {
+            $query->where('user_id', $id)
+                  ->where('friend_id', $loggedInUserId)
+                  ->where('status', 'accepted');
+        })->exists();
+
         $receivedFriendRequest = Friend::where('user_id', $id)
                                        ->where('friend_id', $loggedInUserId)
                                        ->where('status', 'pending')
                                        ->first();
-         $sentFriendRequest = Friend::where('user_id', $loggedInUserId)
-                                       ->where('friend_id', $id)
-                                       ->first();
+
+        $sentFriendRequest = Friend::where('user_id', $loggedInUserId)
+                                   ->where('friend_id', $id)
+                                   ->whereIn('status', ['pending', 'accepted'])
+                                   ->first();
 
         return view('search.profileview', [
             'user' => $user,
@@ -97,9 +104,9 @@ class SearchController extends Controller
             'friends' => $friendDetails,
             'friendsCount' => $friendsCount,
             'profilePicture' => $profilePicture,
-            'friendshipStatus' => $friendshipStatus,
             'receivedFriendRequest' => $receivedFriendRequest,
-            'sentFriendRequest' => $sentFriendRequest
+            'sentFriendRequest' => $sentFriendRequest,
+            'areFriends' => $areFriends
         ]);
     }
 }

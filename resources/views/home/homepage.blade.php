@@ -10,8 +10,8 @@
 }
 .avatar-40
 {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -382,7 +382,7 @@
                                                 @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
                                                     <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                 @else
-                                                    <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-35 rounded-circle img-fluid">
+                                                    <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                 @endif
                                             </div>
                                             <div class="comment-data-block ms-3">
@@ -717,12 +717,16 @@
                                 @endif
                                 <div class="stories-data ms-3">
                                     <h5>{{ $suggestedFriend->name }}</h5>
-                                    <p class="mb-0">Today</p>
+                                    <form action="{{ route('friends.add', ['id' => $suggestedFriend->id]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary">Add Friend</button>
+                                    </form>
                                 </div>
                             </li>
                         @endforeach
                     </ul>
                 </div>
+            </div>
             </div>
     </div>
 @endsection

@@ -85,6 +85,13 @@
             object-fit: cover;
         }
 
+        .avatar-60 {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .user-img {
             width: 60px;
             height: 55px;
@@ -158,26 +165,55 @@
                                 </form>
                             @endif --}}
                             @if ($receivedFriendRequest)
-                        <form action="{{ route('friend.accept', ['id' => $user->id]) }}" method="post" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-success">Accept</button>
-                        </form>
-                        <form action="{{ route('friend.reject', ['id' => $user->id]) }}" method="post" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Decline</button>
-                        </form>
-                    @elseif ($sentFriendRequest)
-                        @if ($sentFriendRequest->status === 'pending')
-                            <button class="btn btn-warning">Request Sent</button>
-                        @elseif ($sentFriendRequest->status === 'accepted')
-                            <button class="btn btn-primary">Friends</button>
+                            <form action="{{ route('friend.accept', ['id' => $receivedFriendRequest->user_id]) }}" method="post" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            <form action="{{ route('friend.reject', ['id' => $receivedFriendRequest->user_id]) }}" method="post" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Decline</button>
+                            </form>
+                        @elseif ($sentFriendRequest)
+                            @if ($sentFriendRequest->status === 'pending')
+                                <button class="btn btn-warning">Request Sent</button>
+                            @elseif ($sentFriendRequest->status === 'accepted')
+                                {{-- <button class="btn btn-primary">Friends</button> --}}
+                                <span
+                                class="dropdown-toggle btn btn-secondary me-2"
+                                id="dropdownMenuButton01"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="true" role="button">
+                                <i
+                                    class="ri-check-line me-1 text-white"></i>
+                                Friend
+                            </span>
+                            <div class="dropdown-menu dropdown-menu-right"
+                                                                        aria-labelledby="dropdownMenuButton01">
+
+                                                                        <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
+                                                                            @csrf
+                                                                            <button type="submit" class="dropdown-item">Unfriend</button>
+                                                                        </form>
+                                                                    </div>
+                                {{-- <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Unfriend</button>
+                                </form> --}}
+                            @endif
+
+                        @elseif ($areFriends)
+                            {{-- <button class="btn btn-primary">Friends</button>
+                            <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Unfriend</button>
+                            </form> --}}
+                        @else
+                            <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Add Friend</button>
+                            </form>
                         @endif
-                    @else
-                        <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
-                            @csrf
-                            <button type="submit" class="btn btn-success">Add Friend</button>
-                        </form>
-                    @endif
+
                             </div>
                         </div>
                     </div>
@@ -440,7 +476,7 @@
                                                                             @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
                                                                                 <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                                             @else
-                                                                                <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-35 rounded-circle img-fluid">
+                                                                                <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                                             @endif
                                                                         </div>
                                                                         <div class="comment-data-block ms-3">
@@ -609,20 +645,20 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="card-header-toolbar d-flex align-items-center">
-                                                                    <button data-friendId="{{ $item['user']['id'] }}" type="button" class="btn btn-primary mt-1 me-2" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
+                                                                    {{-- <button data-friendId="{{ $item['user']['id'] }}" type="button" class="btn btn-primary mt-1 me-2" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
                                                                         <i class="ri-mail-line"></i>
-                                                                    </button>
-                                                                    <div class="dropdown" style=" margin-top:3px;" >
+                                                                    </button> --}}
+                                                                    <div class="dropdown" style=" margin-top:3px; margin-right:10px " >
                                                                         <span class="dropdown-toggle btn btn-secondary" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
                                                                             <i class="ri-check-line me-1 text-white"></i>
                                                                             Friend
                                                                         </span>
-                                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton01">
+                                                                        {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton01">
                                                                             <form action="{{ route('friend.unfriend', ['id' => $item['user']['id']]) }}" method="post" style="display:inline;">
                                                                                 @csrf
                                                                                 <button type="submit" class="dropdown-item">Unfriend</button>
                                                                             </form>
-                                                                        </div>
+                                                                        </div> --}}
                                                                     </div>
                                                                 </div>
 
@@ -2312,5 +2348,50 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const likeButtons = document.querySelectorAll('.like-button');
+
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const postId = this.dataset.postId;
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                fetch(`/post/${postId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: JSON.stringify({ _token: token })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        const likeCountSpan = this.closest('.like-block').querySelector('.like-count');
+
+                        if (data.liked) {
+                            likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+                            this.textContent = 'Unlike';
+                        } else {
+                            likeCountSpan.textContent = parseInt(likeCountSpan.textContent) - 1;
+                            this.textContent = 'Like';
+                        }
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+
 </script>
 @endsection

@@ -70,17 +70,6 @@ class FriendController extends Controller
         })->first();
     }
 
-    public function friendRequest()
-    {
-        $loggedInUserId = Auth::id();
-        $friendRequests = Friend::where('friend_id', $loggedInUserId)
-                                ->where('status', 'pending')
-                                ->with('user') // Assuming you have a relationship defined in the Friend model
-                                ->get();
-
-        return view('friend.friendrequest', ['friendRequests' => $friendRequests]);
-    }
-
     public function acceptFriendRequest($id)
     {
         $loggedInUserId = Auth::id();
@@ -96,6 +85,7 @@ class FriendController extends Controller
 
         return redirect()->route('friend.friendrequest')->with('message', 'Friend request accepted.');
     }
+
     public function rejectFriendRequest($id)
     {
         $loggedInUserId = Auth::id();
@@ -129,6 +119,17 @@ class FriendController extends Controller
         }
 
         return redirect()->back()->with('message', 'Friend removed successfully.');
+    }
+
+    public function friendRequest()
+    {
+        $loggedInUserId = Auth::id();
+        $friendRequests = Friend::where('friend_id', $loggedInUserId)
+                                ->where('status', 'pending')
+                                ->with('user') // Assuming you have a relationship defined in the Friend model
+                                ->get();
+
+        return view('friend.friendrequest', ['friendRequests' => $friendRequests]);
     }
 
 }

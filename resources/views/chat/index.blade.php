@@ -29,9 +29,9 @@
                                 <div class="d-flex align-items-center">
                                     <div class="chat-profile me-3">
                                         @if($profilePicture && $profilePicture->file_path)
-                                            <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
+                                            <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;"/>
                                         @else
-                                            <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
+                                            <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" />
                                         @endif
                                     </div>
                                     <div class="chat-caption">
