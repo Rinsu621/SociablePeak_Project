@@ -66,31 +66,7 @@ class HomeController extends Controller
     // Find mutual friends
     private function getFriendSuggestions($userId, $friendIds)
 {
-    // Step 1: Get the IDs of friends of the user's friends who are not friends with the user
-    // $friendsOfFriends = DB::table('friends as f1')
-    //     ->join('friends as f2', 'f1.friend_id', '=', 'f2.user_id')
-    //     ->where('f1.user_id', $userId)
-    //     ->whereNotIn('f2.friend_id', $friendIds)
-    //     ->where('f2.friend_id', '!=', $userId)
-    //     ->select('f2.friend_id')
-    //     ->distinct()
-    //     ->pluck('f2.friend_id')
-    //     ->toArray();
-
-    // Step 2: Count the number of mutual friends between the user and these other users
-    // $mutualFriendCounts = DB::table('friends as f1')
-    //     ->join('friends as f2', function ($join) use ($userId) {
-    //         $join->on('f1.friend_id', '=', 'f2.friend_id')
-    //             ->where('f1.user_id', '!=', $userId);
-    //     })
-    //     ->where('f1.user_id', $userId)
-    //     ->whereIn('f2.user_id', $friendsOfFriends)
-    //     ->select('f2.user_id', DB::raw('count(f2.friend_id) as mutual_count'))
-    //     ->groupBy('f2.user_id')
-    //     ->having('mutual_count', '>', 2)
-    //     ->pluck('f2.user_id')
-    //     ->toArray();
-        $userId = 1;
+        $userId = Auth::id();
 
         // Get the user's friends
         $myFriends = Friend::where(function($query) use ($userId) {
