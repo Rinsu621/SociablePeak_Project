@@ -48,6 +48,7 @@ class HomeController extends Controller
                                     ->limit(3)
                                     ->get();
              $suggestedFriends = $this->getFriendSuggestions($userId, $friendIds);
+            //  dd($suggestedFriends->toArray());
 
             return view('home.homepage', [
                 'posts' => $posts,
@@ -89,34 +90,39 @@ class HomeController extends Controller
     //     ->having('mutual_count', '>', 2)
     //     ->pluck('f2.user_id')
     //     ->toArray();
-        $userId = 3;
+        $userId = 1;
 
         // Get the user's friends
-        $myFriends = Friend::where('user_id', $userId)
-                            ->orWhere('friend_id', $userId)
-                            ->get()
-                            ->map(function($friend) use ($userId) {
-                                return $friend->user_id == $userId ? $friend->friend_id : $friend->user_id;
-                            })->toArray();
-        
-        // Get the friends of user's friends
-        $friendsOfMyFriends = Friend::whereIn('user_id', $myFriends)
-                                     ->orWhereIn('friend_id', $myFriends)
-                                     ->where(function($query) use ($userId, $myFriends) {
-                                         $query->whereNotIn('user_id', [$userId])
-                                               ->whereNotIn('friend_id', [$userId])
-                                               ->whereNotIn('user_id', $myFriends)
-                                               ->whereNotIn('friend_id', $myFriends);
-                                     })
-                                     ->get()
-                                     ->map(function($friend) use ($myFriends) {
-                                         return in_array($friend->user_id, $myFriends) ? $friend->friend_id : $friend->user_id;
-                                     })
-                                     ->unique()
-                                     ->values(); // Reset the keys
-        // dd($friendsOfMyFriends);
+        $myFriends = Friend::where(function($query) use ($userId) {
+                            $query->where('user_id', $userId)
+                                ->orWhere('friend_id', $userId);
+                        })
+                        ->where('status', '!=', 'pending')
+                        ->get()
+                        ->map(function($friend) use ($userId) {
+                            return $friend->user_id == $userId ? $friend->friend_id : $friend->user_id;
+                        })
+                        ->toArray();
+        // dd($myFriends);
+      // Step 2: Retrieve the list of friends of your friends
+$friendsOfMyFriends = Friend::where(function($query) use ($myFriends) {
+    $query->whereIn('user_id', $myFriends)
+          ->orWhereIn('friend_id', $myFriends);
+})
+->where('status', '!=', 'pending')
+->get()
+->map(function($friend) use ($myFriends) {
+    return in_array($friend->user_id, $myFriends) ? $friend->friend_id : $friend->user_id;
+})
+->unique()
+->toArray();
+
+// Step 3: Filter out the friends who are already your friends
+$myFriendsOfFriendsWhoAreNotMyFriends = array_diff($friendsOfMyFriends, $myFriends, [$userId]);
+
+// dd($myFriendsOfFriendsWhoAreNotMyFriends);
     // Step 3: Fetch suggested friends with profile pictures
-    return User::whereIn('id', $friendsOfMyFriends)
+    return User::whereIn('id', $myFriendsOfFriendsWhoAreNotMyFriends)
                ->with('profilePicture')
                ->take(5) // Limit the suggestions to 5 users
                ->get();
