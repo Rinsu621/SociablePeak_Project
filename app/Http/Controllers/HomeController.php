@@ -79,29 +79,35 @@ class HomeController extends Controller
                             return $friend->user_id == $userId ? $friend->friend_id : $friend->user_id;
                         })
                         ->toArray();
-        // dd($myFriends);
-      // Step 2: Retrieve the list of friends of your friends
-$friendsOfMyFriends = Friend::where(function($query) use ($myFriends) {
-    $query->whereIn('user_id', $myFriends)
-          ->orWhereIn('friend_id', $myFriends);
-})
-->where('status', '!=', 'pending')
-->get()
-->map(function($friend) use ($myFriends) {
-    return in_array($friend->user_id, $myFriends) ? $friend->friend_id : $friend->user_id;
-})
-->unique()
-->toArray();
+        //above code retrieves your friends whose status is not pending
+        // output will be 4,8,2
 
-// Step 3: Filter out the friends who are already your friends
-$myFriendsOfFriendsWhoAreNotMyFriends = array_diff($friendsOfMyFriends, $myFriends, [$userId]);
+        // Step 2: Retrieve the list of friends of your friends
+        $friendsOfMyFriends = Friend::where(function($query) use ($myFriends) {
+            $query->whereIn('user_id', $myFriends)
+                ->orWhereIn('friend_id', $myFriends);
+        })
+        ->where('status', '!=', 'pending')
+        ->get()
+        ->map(function($friend) use ($myFriends) {
+            return in_array($friend->user_id, $myFriends) ? $friend->friend_id : $friend->user_id;
+        })
+        ->unique()
+        ->toArray();
+        //above code will retrieve at unique friends list of your friends
+        // output will be 3,2,1,9,10
 
-// dd($myFriendsOfFriendsWhoAreNotMyFriends);
-    // Step 3: Fetch suggested friends with profile pictures
-    return User::whereIn('id', $myFriendsOfFriendsWhoAreNotMyFriends)
-               ->with('profilePicture')
-               ->take(5) // Limit the suggestions to 5 users
-               ->get();
+        // Step 3: Filter out the friends who are already your friends
+        $myFriendsOfFriendsWhoAreNotMyFriends = array_diff($friendsOfMyFriends, $myFriends, [$userId]);
+        //above code will pop your friends from the list, including your id from your friends friends list
+        // [3,2,1,9,10] - [4,8,2,1] = [3,9,10]
+        // dd($myFriendsOfFriendsWhoAreNotMyFriends);
+        
+        // Step 3: Fetch suggested friends with profile pictures
+        return User::whereIn('id', $myFriendsOfFriendsWhoAreNotMyFriends)
+                ->with('profilePicture')
+                ->take(5) // Limit the suggestions to 5 users
+                ->get();
 }
 }
 
