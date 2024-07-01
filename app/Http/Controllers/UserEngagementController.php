@@ -74,7 +74,11 @@ class UserEngagementController extends Controller
         foreach($dataSet as $key => $item){
             $convertedDate = date('M d',strtotime($item['date'])); //convert the stored data format to this date format - May 3
             array_push($labels,$convertedDate);
-            array_push($elapsedTimeData,(int)floor($item['elapsed_time'] / 3600));
+            // echo $item['elapsed_time'].'<br>';
+            // echo ($item['elapsed_time'] / 3600).'<br>';
+            // echo floor($item['elapsed_time'] / 3600).'<br>';
+            // echo (int)floor($item['elapsed_time'] / 3600).'<br><br><br>';
+            array_push($elapsedTimeData,(int)floor($item['elapsed_time'] / 60));
             array_push($tabSwitchData,$item['tab_switch']);
             // array_push($chartData[0]['data'],(int)floor($item['elapsed_time'] / 3600));
             // array_push($chartData[1]['data'],$item['tab_switch']);
@@ -84,6 +88,7 @@ class UserEngagementController extends Controller
         $labels = json_encode($labels,true);
         $elapsedTimeData = json_encode($elapsedTimeData,true);
         $tabSwitchData = json_encode($tabSwitchData,true);
+        // dd($dataSet);
         // $chartData = json_encode($chartData,true);
         return view('analytics.userEngagementDataView',[
             'data' => $data,
