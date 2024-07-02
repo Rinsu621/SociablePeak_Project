@@ -57,16 +57,9 @@ class ChatController extends Controller
             ];
         });
 
-        //get current users image from user_detail table
-       // Fetch user details
-// $userDetail = UserDetail::where('user_id', $userId)->first();
-// $userProfilePicture = Auth::user()->profilePicture->file_path ?? 'images/template/user/11.png';
-//         $userImage = asset('storage/' . $userProfilePicture);
 $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePicture->file_path : 'images/template/user/11.png';
         $userImage = asset('storage/' . $userProfilePicture);
 
-// Check if userDetail is not null before accessing the image property
-// $userImage = $userDetail ? ( $userDetail->image ? asset('images/user/' . $userDetail->image) : asset('images/user/1.jpg') ) : asset('images/user/1.jpg');
 
         // Pass the grouped messages to the view
         return view('chat.index',[

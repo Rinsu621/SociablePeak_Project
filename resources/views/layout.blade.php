@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SocialV </title>
+    <title>SociablePeak </title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
@@ -82,7 +82,7 @@
                     <div class="iq-navbar-logo d-flex justify-content-between">
                         <a href="{{ route('homePage') }}">
                             <img src="{{ asset('/images/template/logo.png') }}" class="img-fluid" alt="">
-                            <span>SocialV</span>
+                            <span>SociablePeak</span>
                         </a>
                         <div class="iq-menu-bt align-self-center">
                             <div class="wrapper-menu">

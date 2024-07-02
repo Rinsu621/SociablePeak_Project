@@ -14,7 +14,7 @@ class UserEngagementController extends Controller
         try {
             // Retrieve the authenticated user's ID
             $userId = auth()->id();
-    
+
             // Validate request data
             $request->validate([
                 'date' => 'required|date',
@@ -22,7 +22,7 @@ class UserEngagementController extends Controller
                 'elapsed_time' => 'required|integer',
                 'tab_switch' => 'required|integer',
             ]);
-    
+
             // Retrieve data from the POST request
             $data = [
                 'user_id' => $userId,
@@ -31,7 +31,7 @@ class UserEngagementController extends Controller
                 'elapsed_time' => $request->input('elapsed_time'),
                 'tab_switch' => $request->input('tab_switch')
             ];
-    
+
             // Create or update user engagement data
             UserEngagement::updateOrCreate(
                 ['user_id' => $data['user_id'], 'date' => $data['date']],
@@ -84,7 +84,7 @@ class UserEngagementController extends Controller
             // array_push($chartData[1]['data'],$item['tab_switch']);
         }
         // dd($labels);
-        
+
         $labels = json_encode($labels,true);
         $elapsedTimeData = json_encode($elapsedTimeData,true);
         $tabSwitchData = json_encode($tabSwitchData,true);
