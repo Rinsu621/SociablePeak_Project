@@ -1,16 +1,16 @@
 you have a button
-<button data-friendId="{{$item->id}}" type="button" class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">                                                      
+<button data-friendId="{{$item->id}}" type="button" class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
     <i class="ri-mail-line"></i>
 </button>
 
-when user clicks on the button , write jquery to open this modal and paste the friendId attribute value into sendMessage button as data-friendId
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"   aria-hidden="true">
+when user clicks on the button ,write jquery to open this modal and paste the friendId attribute value into sendMessage button as data-friendId
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
        <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Send Message</h5>
              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-             
+
              </button>
           </div>
           <div class="modal-body">
@@ -28,11 +28,11 @@ when user clicks on sendMessage, check if message field is empty, if message is 
 write jquery to run ajax in
 catch the friendId from data-friendId attribute in sendMessage button
 catch the message in text area
-run ajax to this route chat.sendMessage 
+run ajax to this route chat.sendMessage
 in the chat controller write the code for this function
 
 public function sendMessage(){
-        
+
 }
 
 which saves the current data into table messages in this format

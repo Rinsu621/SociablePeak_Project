@@ -38,7 +38,6 @@ class ChatController extends Controller
 
         // Fetch the friend details using the grouped friend IDs
         $friendIds = $sortedMessages->keys();
-        // $friends = User::whereIn('id', $friendIds)->get()->keyBy('id');
         $friends = User::whereIn('id', $friendIds)->with('profilePicture')->get()->keyBy('id');
         $friendDetails = UserDetail::whereIn('user_id', $friendIds)->get()->keyBy('user_id');
 

@@ -36,9 +36,9 @@ Index Of Script
     -----------------------------------------------------------------------*/
         jQuery('[data-bs-toggle="popover"]').popover();
         jQuery('[data-bs-toggle="tooltip"]').tooltip();
-        
+
         /*---------------------------------------------------------------------
-        range Button 
+        range Button
         -----------------------------------------------------------------------*/
         function wcqib_refresh_quantity_increments() {
             jQuery("div.quantity:not(.buttons_added), td.quantity:not(.buttons_added)").each(function(a, b) {
@@ -67,7 +67,7 @@ Index Of Script
     -----------------------------------------------------------------------*/
         ! function(e) {
             "use strict";
-        
+
             function t(t) {
                 t ? e(".right-sidebar-mini").addClass("right-sidebar") : e(".right-sidebar-mini").removeClass("right-sidebar")
                 t ? e("body").addClass("right-sidebar-close") : e("body").removeClass("right-sidebar-close")
@@ -82,7 +82,7 @@ Index Of Script
     /*---------------------------------------------------------------------
         Sidebar main
     -----------------------------------------------------------------------*/
-        var parents = jQuery('li.active').parents('.iq-submenu.collapse'); 
+        var parents = jQuery('li.active').parents('.iq-submenu.collapse');
         parents.addClass('show');
 
         parents.parents('li').addClass('active');
@@ -98,13 +98,13 @@ Index Of Script
         jQuery(document).on('click', ".wrapper-menu", function() {
             jQuery("body").toggleClass("sidebar-main");
         });
-    
+
     /*---------------------------------------------------------------------
         Scrollbar
     -----------------------------------------------------------------------*/
         let Scrollbar = window.Scrollbar;
         if (jQuery('#sidebar-scrollbar').length) {
-            Scrollbar.init(document.querySelector('#sidebar-scrollbar'), 
+            Scrollbar.init(document.querySelector('#sidebar-scrollbar'),
             {
                 continuousScrolling: false,
               });
@@ -165,7 +165,7 @@ Index Of Script
             jQuery(this).parent().toggleClass('active');
         });
 
-        
+
      /*---------------------------------------------------------------------
            checkout
         -----------------------------------------------------------------------*/
@@ -213,7 +213,7 @@ Index Of Script
 
         $('.confirm-btn').on('click',function() {
             $(this).closest('.confirm-click-btn').find('.request-btn').hide()
-        }) 
+        })
 
         /*---------------------------------------------------------------------
         Select input
@@ -229,7 +229,7 @@ Index Of Script
         $(document).ready(function() {
             var e, t, a, n, o = 1,
                 r = $("fieldset").length;
-        
+
             function i(e) {
                 var t = parseFloat(100 / r) * e;
                 t = t.toFixed(), $(".progress-bar").css("width", t + "%")
@@ -287,7 +287,7 @@ Index Of Script
         }), $(document).ready(function() {
             var e, t, a, n, o = 1,
                 r = $("fieldset").length;
-        
+
             function i(e) {
                 var t = parseFloat(100 / r) * e;
                 t = t.toFixed(), $(".progress-bar").css("width", t + "%")
@@ -390,7 +390,7 @@ Index Of Script
                 // errorClass: 'is-invalid',
                 // errorPlacement: () => false
                 // });
-        
+
                 const wizard = new Enchanter('registration', {}, {
                 onNext: () => {
                     // if (!registrationForm.valid()) {
@@ -480,7 +480,7 @@ Index Of Script
                         start: moment(new Date(), 'YYYY-MM-DD').add(-2, 'days').format('YYYY-MM-DD') + 'T05:30:00.000Z',
                         color: '#ff9b8a '
                     },
-  
+
                     {
                         title: 'Meeting',
                         start: moment(new Date(), 'YYYY-MM-DD').add(0, 'days').format('YYYY-MM-DD') + 'T05:30:00.000Z',
@@ -622,52 +622,52 @@ Index Of Script
         ---------------*/
         if(jQuery('#weather-chart').length){
             am4core.ready(function() {
-        
+
         // Themes begin
         am4core.useTheme(am4themes_animated);
         // Themes end
-        
-        
+
+
         // Create map instance
         var chart = am4core.create("weather-chart", am4maps.MapChart);
-        
+
         // Set map definition
         chart.geodata = am4geodata_worldHigh;
-        
+
         // Set projection
         chart.projection = new am4maps.projections.Mercator();
-        
+
         // Center on the groups by default
         chart.homeZoomLevel = 6;
         chart.homeGeoPoint = { longitude: 10, latitude: 51 };
-        
+
         // Polygon series
         var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
         polygonSeries.exclude = ["AQ"];
         polygonSeries.useGeodata = true;
         polygonSeries.nonScalingStroke = true;
         polygonSeries.strokeOpacity = 0.5;
-        
+
         // Image series
         var imageSeries = chart.series.push(new am4maps.MapImageSeries());
         var imageTemplate = imageSeries.mapImages.template;
         imageTemplate.propertyFields.longitude = "longitude";
         imageTemplate.propertyFields.latitude = "latitude";
         imageTemplate.nonScaling = true;
-        
+
         var image = imageTemplate.createChild(am4core.Image);
         image.propertyFields.href = "imageURL";
         image.width = 50;
         image.height = 50;
         image.horizontalCenter = "middle";
         image.verticalCenter = "middle";
-        
+
         var label = imageTemplate.createChild(am4core.Label);
         label.text = "{label}";
         label.horizontalCenter = "middle";
         label.verticalCenter = "top";
         label.dy = 20;
-        
+
         imageSeries.data = [{
           "latitude": 40.416775,
           "longitude": -3.703790,
@@ -718,11 +718,11 @@ Index Of Script
           "height": 32,
           "label": "Stockholm: +8C"
         } ];
-        
-        }); 
+
+        });
         }
 /*---------------------------------------------------------------------
-Editable Table 
+Editable Table
 -----------------------------------------------------------------------*/
     const $tableID = $("#table"),
         $BTN = $("#export-btn"),

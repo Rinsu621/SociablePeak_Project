@@ -5,9 +5,9 @@
 <title>Forget Password</title>
 <style>
   body {
-    font-family: 'Arial', sans-serif; /* Sets a clean, easy-to-read font */
-    background-color: #f4f4f9; /* A light background to soothe the eye */
-    color: #333; /* A darker text color for better readability */
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333; 
     padding: 20px; /* Adds padding around the content */
   }
 

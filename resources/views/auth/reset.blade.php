@@ -16,6 +16,74 @@
       <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
 
+      <style>
+        body {
+          background: linear-gradient(to right, #3a7bd5, #00d2ff);
+        }
+
+        #container-inside {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        #circle-small, #circle-medium, #circle-large, #circle-xlarge, #circle-xxlarge {
+          position: absolute;
+          border-radius: 50%;
+          animation: animateCircle 5s linear infinite;
+          background: rgba(255, 255, 255, 0.3);
+          border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        #circle-small {
+          width: 150px;
+          height: 150px;
+          top: 20%;
+          left: 25%;
+          animation-delay: 0s;
+        }
+
+        #circle-medium {
+          width: 250px;
+          height: 250px;
+          top: 40%;
+          left: 35%;
+          animation-delay: 2s;
+        }
+
+        #circle-large {
+          width: 350px;
+          height: 350px;
+          top: 10%;
+          left: 15%;
+          animation-delay: 4s;
+        }
+
+        #circle-xlarge {
+          width: 450px;
+          height: 450px;
+          top: 50%;
+          left: 5%;
+          animation-delay: 6s;
+        }
+
+        #circle-xxlarge {
+          width: 550px;
+          height: 550px;
+          top: 30%;
+          left: 40%;
+          animation-delay: 8s;
+        }
+
+        @keyframes animateCircle {
+          0% { transform: scale(1) translateY(0); }
+          50% { transform: scale(1.1) translateY(20px); }
+          100% { transform: scale(1) translateY(0); }
+        }
+      </style>
   </head>
   <body class=" ">
     <!-- loader Start -->

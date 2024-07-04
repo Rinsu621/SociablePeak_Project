@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>SocialV </title>
+      <title>SociablePeak </title>
 
       <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico')}}" />
       <link rel="stylesheet" href="{{ asset('/css/libs.min.css')}}">
@@ -15,6 +15,74 @@
       <link rel="stylesheet" href="{{ asset('/vendor/vanillajs-datepicker/dist/css/datepicker.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
+      <style>
+        body {
+          background: linear-gradient(to right, #3a7bd5, #00d2ff);
+        }
+
+        #container-inside {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        #circle-small, #circle-medium, #circle-large, #circle-xlarge, #circle-xxlarge {
+          position: absolute;
+          border-radius: 50%;
+          animation: animateCircle 5s linear infinite;
+          background: rgba(255, 255, 255, 0.3);
+          border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        #circle-small {
+          width: 150px;
+          height: 150px;
+          top: 20%;
+          left: 25%;
+          animation-delay: 0s;
+        }
+
+        #circle-medium {
+          width: 250px;
+          height: 250px;
+          top: 40%;
+          left: 35%;
+          animation-delay: 2s;
+        }
+
+        #circle-large {
+          width: 350px;
+          height: 350px;
+          top: 10%;
+          left: 15%;
+          animation-delay: 4s;
+        }
+
+        #circle-xlarge {
+          width: 450px;
+          height: 450px;
+          top: 50%;
+          left: 5%;
+          animation-delay: 6s;
+        }
+
+        #circle-xxlarge {
+          width: 550px;
+          height: 550px;
+          top: 30%;
+          left: 40%;
+          animation-delay: 8s;
+        }
+
+        @keyframes animateCircle {
+          0% { transform: scale(1) translateY(0); }
+          50% { transform: scale(1.1) translateY(20px); }
+          100% { transform: scale(1) translateY(0); }
+        }
+      </style>
 
   </head>
   <body class=" ">
@@ -34,7 +102,7 @@
             <div id="circle-xlarge"></div>
             <div id="circle-xxlarge"></div>
         </div>
-        <div class="container p-0">
+        <div class="container p-0" >
             <div class="row no-gutters">
                 <div class="col-md-6 text-center pt-5">
                     <div class="sign-in-detail text-white">
@@ -44,12 +112,12 @@
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/1.png')}}" class="img-fluid mb-4" alt="logo">
                                     <h4 class="mb-1 text-white">Find new friends</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <p></p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/2.png')}}" class="img-fluid mb-4" alt="logo">
                                     <h4 class="mb-1 text-white">Connect with the world</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <p>Engage with a global community and share your thoughts.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/3.png')}}" class="img-fluid mb-4" alt="logo">
@@ -60,8 +128,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5">
-                    <div class="sign-in-from">
+                <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5" >
+                    <div class="sign-in-from" style="margin-top: 100px;">
                         <h1 class="mb-0">Sign in</h1>
                         <p>Enter your email address and password to login.</p>
                         @if ($errors->any())
@@ -93,7 +161,7 @@
                             </div>
                             <div class="sign-info">
                                 <span class="dark-color d-inline-block line-height-2">Don't have an account? <a href="{{route('register')}}">Sign up</a></span>
-                               
+
                             </div>
                         </form>
                     </div>
