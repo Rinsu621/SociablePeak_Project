@@ -109,10 +109,6 @@
                                         Timer: 0 seconds
                                     </span>
                                 </div>
-
-                                {{-- <a href="../dashboard/index.html" class="  d-flex align-items-center">
-                                    <i class="ri-home-line"></i>
-                                </a> --}}
                             </li>
                             <li class="nav-item dropdown">
                                 <a href="{{ route('friend.friendrequest') }}"
@@ -132,68 +128,7 @@
                                             </div>
                                             <small class="badge  bg-light text-dark">4</small>
                                         </div>
-                                        <div class="card-body p-0">
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/01.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3 w-100">
-                                                        <h6 class="mb-0 ">Emma Watson Bni</h6>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">95 MB</p>
-                                                            <small class="float-right font-size-12">Just Now</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/02.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3 w-100">
-                                                        <h6 class="mb-0 ">New customer is join</h6>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">Cyst Bni</p>
-                                                            <small class="float-right font-size-12">5 days ago</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/03.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="ms-3 w-100">
-                                                        <h6 class="mb-0 ">Two customer is left</h6>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">Cyst Bni</p>
-                                                            <small class="float-right font-size-12">2 days ago</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="iq-sub-card">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="">
-                                                        <img class="avatar-40 rounded"
-                                                            src="{{ asset('/images/template/user/04.jpg') }}" alt="">
-                                                    </div>
-                                                    <div class="w-100 ms-3">
-                                                        <h6 class="mb-0 ">New Mail from Fenny</h6>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">Cyst Bni</p>
-                                                            <small class="float-right font-size-12">3 days ago</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
+
                                     </div>
                                 </div>
                             </li>
@@ -207,7 +142,6 @@
                                 <a href="#" class="   d-flex align-items-center dropdown-toggle"
                                     id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                   <!-- Assuming this is part of your layout file -->
 
                                    <div class="user-img" >
                                     @if($profilePicture && $profilePicture->file_path)
@@ -218,7 +152,6 @@
                                 </div>
 
                                     <div class="caption">
-                                        {{-- $firstName = strstr($name, ' ', true); // Get the substring before the first occurrence of space --}}
                                         <h6 class="mb-0 line-height">{{ strstr(auth()->user()->name, ' ', true) }}
                                         </h6>
                                     </div>
@@ -243,44 +176,6 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            {{-- <a href="../app/profile-edit.html"
-                                                class="iq-sub-card iq-bg-warning-hover">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="rounded card-icon bg-soft-warning">
-                                                        <i class="ri-profile-line"></i>
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Edit Profile</h6>
-                                                        <p class="mb-0 font-size-12">Modify your personal details.</p>
-                                                    </div>
-                                                </div>
-                                            </a> --}}
-                                            {{-- <a href="../app/account-setting.html"
-                                                class="iq-sub-card iq-bg-info-hover">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="rounded card-icon bg-soft-info">
-                                                        <i class="ri-account-box-line"></i>
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Account settings</h6>
-                                                        <p class="mb-0 font-size-12">Manage your account parameters.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </a> --}}
-                                            {{-- <a href="../app/privacy-setting.html"
-                                                class="iq-sub-card iq-bg-danger-hover">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="rounded card-icon bg-soft-danger">
-                                                        <i class="ri-lock-line"></i>
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h6 class="mb-0 ">Privacy Settings</h6>
-                                                        <p class="mb-0 font-size-12">Control your privacy parameters.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </a> --}}
                                             <div class="d-inline-block w-100 text-center p-3">
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                     style="display: none;">

@@ -152,18 +152,7 @@
                                 </ul>
                             </div>
                             <div>
-                                {{-- @if ($friendshipStatus)
-                                @if ($friendshipStatus->status === 'pending')
-                                    <button class="btn btn-warning">Request Sent</button>
-                                @elseif ($friendshipStatus->status === 'accepted')
-                                    <button class="btn btn-primary">Friends</button>
-                                @endif
-                            @else
-                                <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">Add Friend</button>
-                                </form>
-                            @endif --}}
+
                             @if ($receivedFriendRequest)
                             <form action="{{ route('friend.accept', ['id' => $receivedFriendRequest->user_id]) }}" method="post" style="display:inline;">
                                 @csrf
@@ -173,49 +162,55 @@
                                 @csrf
                                 <button type="submit" class="btn btn-danger">Decline</button>
                             </form>
-                        @elseif ($sentFriendRequest)
+                            @elseif ($sentFriendRequest)
                             @if ($sentFriendRequest->status === 'pending')
                                 <button class="btn btn-warning">Request Sent</button>
                             @elseif ($sentFriendRequest->status === 'accepted')
-                                {{-- <button class="btn btn-primary">Friends</button> --}}
-                                <span
-                                class="dropdown-toggle btn btn-secondary me-2"
-                                id="dropdownMenuButton01"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="true" role="button">
-                                <i
-                                    class="ri-check-line me-1 text-white"></i>
-                                Friend
+                            <span class="dropdown-toggle btn btn-secondary me-2" id="dropdownMenuButton01" data-bs-toggle="dropdown" aria-expanded="true" role="button">
+                                <i class="ri-check-line me-1 text-white"></i> Friend
                             </span>
-                            <div class="dropdown-menu dropdown-menu-right"
-                                                                        aria-labelledby="dropdownMenuButton01">
-
-                                                                        <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
-                                                                            @csrf
-                                                                            <button type="submit" class="dropdown-item">Unfriend</button>
-                                                                        </form>
-                                                                    </div>
-                                {{-- <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton01">
+                                <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger">Unfriend</button>
-                                </form> --}}
-                            @endif
-
-                        @elseif ($areFriends)
-                            {{-- <button class="btn btn-primary">Friends</button>
-                            <form action="{{ route('friend.unfriend', ['id' => $user->id]) }}" method="post" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Unfriend</button>
-                            </form> --}}
-                        @else
-                            <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-success">Add Friend</button>
-                            </form>
+                                    <button type="submit" class="dropdown-item">Unfriend</button>
+                                </form>
+                            </div>
                         @endif
+
+
+                        @else
+                        <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Add Friend</button>
+                        </form>
+                    @endif
 
                             </div>
                         </div>
+                        <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            Report User
+                        </button>
+                        <!-- Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Report User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('user.report', ['id' => $user->id]) }}" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="reason">Report Reason:</label>
+                        <textarea name="reason" id="reason" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger mt-2">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
                     </div>
                 </div>
             </div>

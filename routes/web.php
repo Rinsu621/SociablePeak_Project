@@ -89,4 +89,5 @@ Route::post('/unfriend/{id}', [FriendController::class, 'unfriend'])->name('frie
 //Search
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/user/{id}', [SearchController::class, 'show'])->name('user.show');
+Route::post('user/{id}/report', [SearchController::class, 'reportUser'])->name('user.report');
 

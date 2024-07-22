@@ -112,17 +112,17 @@
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/1.png')}}" class="img-fluid mb-4" alt="logo">
                                     <h4 class="mb-1 text-white">Find new friends</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <p>Discover and connect with like-minded individuals in your area. Expand your social circle and build meaningful relationships.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/2.png')}}" class="img-fluid mb-4" alt="logo">
                                     <h4 class="mb-1 text-white">Connect with the world</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <p>Engage with a global community and share your thoughts.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/3.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Create new events</h4>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                                    <h4 class="mb-1 text-white">Have conversation</h4>
+                                    <p>Engage in enriching dialogues with new friends. Share your thoughts, ideas, and experiences to create lasting connections..</p>
                                 </li>
                             </ul>
                         </div>
