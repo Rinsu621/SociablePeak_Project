@@ -143,13 +143,12 @@ $(document).ready(function() {
     let storedTime = localStorage.getItem('currentTime');
     let storedDate = localStorage.getItem('storedDate');
     let timerActive = false;
-    let tabSwitchCounter = parseInt(localStorage.getItem('tabSwitchCounter'), 10) || 0;
+    let tabSwitchCounter = 0; // Store record of tab switches by the user
     let interval;
-
-    // Session storage to differentiate between tab switches and page reloads
-    let isPageReload = sessionStorage.getItem('isPageReload') === 'true';
+    let ignoreNextBlur = false; // Flag to ignore the next blur event
 
     function storeCurrentTime() {
+         // Get the current time
         let currentTime = new Date();
         let hours = currentTime.getHours();
         let minutes = currentTime.getMinutes();
@@ -159,7 +158,7 @@ $(document).ready(function() {
         storedTime = formattedTime;
     }
 
-    if (storedTime === null) {
+    if (storedTime === null){
         storeCurrentTime();
     }
 
@@ -172,7 +171,7 @@ $(document).ready(function() {
         };
         console.log(updateData);
         $.ajax({
-            url: '{{ route("storeUserData") }}',
+            url: 'store-user-data',
             type: 'POST',
             contentType: 'application/json',
             headers: {
@@ -180,7 +179,7 @@ $(document).ready(function() {
             },
             data: JSON.stringify(updateData),
             success: function(data) {
-                console.log(data.message);
+                console.log(data.message); // Debugging log
             },
             error: function(xhr, status, error) {
                 console.error(error);
@@ -188,26 +187,21 @@ $(document).ready(function() {
         });
     }
 
-    function resetDailyData() {
-        storedDate = new Date().toISOString().slice(0, 10);
-        localStorage.setItem('storedDate', storedDate);
-        elapsedStored = 0;
-        tabSwitchCounter = 0;
-        localStorage.setItem('elapsedTime', elapsedStored);
-        localStorage.setItem('tabSwitchCounter', tabSwitchCounter);
-        storeCurrentTime();
-    }
-
     function startTimer() {
         if (!timerActive) {
             let currentDate = new Date().toISOString().slice(0, 10);
+            localStorage.setItem('currentDate', currentDate);
+
             if (storedDate === null || storedDate !== currentDate) {
                 if (storedDate !== null) {
                     storeUserData();
                 }
-                resetDailyData();
-            } else {
-                console.log("Same Date - Do nothing");
+                tabSwitchCounter = 0; // Reset tab switch counter
+                localStorage.setItem('tabSwitchCounter', tabSwitchCounter); // Store reset counter
+                storeCurrentTime();
+                storedDate = currentDate;
+                localStorage.setItem('storedDate', currentDate);
+                elapsedStored = 0;
             }
             startTime = Date.now() - elapsedStored * 1000;
             localStorage.setItem('startTime', startTime);
@@ -216,22 +210,21 @@ $(document).ready(function() {
         }
     }
 
-    function stopTimer(isTabSwitch = false) {
+    function stopTimer() {
         if (timerActive) {
-            // Increment tab switch counter only if it's an actual tab switch, not a page reload or button click
-            if (isTabSwitch && !isPageReload) {
-                tabSwitchCounter++;
-                localStorage.setItem('tabSwitchCounter', tabSwitchCounter);
+            if (!ignoreNextBlur) {
+                tabSwitchCounter++; // Record tab switch data
             }
-            storeUserData();
+            ignoreNextBlur = false; // Reset the flag
+            storeUserData(); // Store user data when the timer stops
             clearInterval(interval);
-            updateTime();
+            updateTime(); // Final update before pausing
             timerActive = false;
         }
     }
 
     function updateTime() {
-        let elapsed = Math.floor((Date.now() - startTime) / 1000);
+        let elapsed = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
         let hours = Math.floor(elapsed / 3600);
         let minutes = Math.floor((elapsed % 3600) / 60);
         let seconds = elapsed % 60;
@@ -240,38 +233,41 @@ $(document).ready(function() {
             minutes.toString().padStart(2, '0'),
             seconds.toString().padStart(2, '0')
         ].join(':');
+
         localStorage.setItem('elapsedTime', elapsed);
         elapsedStored = elapsed;
         $('#timerDisplay').text('Timer: ' + formattedTime);
     }
 
+    // Start timer initially
     startTimer();
 
+    // Event listener for tab changes
     $(document).on('visibilitychange', function() {
         if (document.visibilityState === 'visible') {
             startTimer();
         } else {
-            stopTimer(true); // Mark it as a tab switch
+            stopTimer();
         }
     });
 
+    // Additional focus and blur events for handling app switching
     $(window).on('focus', startTimer);
     $(window).on('blur', function() {
-        stopTimer(true); // Mark it as a tab switch
+        if (!ignoreNextBlur) {
+            stopTimer();
+        }
+        ignoreNextBlur = false; // Reset flag after blur event
     });
 
     // Before unload: handle tab close/navigate away, also handles reloads
     $(window).on('beforeunload', function() {
-        // Mark the page as being reloaded in session storage
-        sessionStorage.setItem('isPageReload', 'true');
-        stopTimer(false); // Do not mark it as a tab switch
+        stopTimer();
     });
-
-    // On load, clear the reload flag from session storage
-    sessionStorage.setItem('isPageReload', 'false');
 
     // Handle Generate Data button click
     $('#generateDataButton').on('click', function() {
+        ignoreNextBlur = true; // Ignore the next blur event triggered by this click
         $.ajax({
             url: '{{ route("seedUserEngagement") }}',
             type: 'GET',
@@ -285,3 +281,4 @@ $(document).ready(function() {
         });
     });
 });
+

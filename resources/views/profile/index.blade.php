@@ -80,11 +80,6 @@
     overflow: hidden;
     border-radius: 50%;
 }
-
-
-
-
-
     </style>
 @endsection
 

@@ -143,7 +143,7 @@
                                     id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
 
-                                   <div class="user-img" >
+                                   <div class="user-imgprofile" >
                                     @if($profilePicture && $profilePicture->file_path)
                                         <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-40 img-fluid rounded-circle" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"  />
                                     @else
