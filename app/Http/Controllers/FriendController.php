@@ -119,7 +119,7 @@ class FriendController extends Controller
         }
 
         return redirect()->back()->with('message', 'Friend removed successfully.');
-        
+
     }
 
     public function friendRequest()

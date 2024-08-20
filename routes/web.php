@@ -10,6 +10,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserEngagementController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ReportController;
 
 
 
@@ -90,4 +93,17 @@ Route::post('/unfriend/{id}', [FriendController::class, 'unfriend'])->name('frie
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/user/{id}', [SearchController::class, 'show'])->name('user.show');
 Route::post('user/{id}/report', [SearchController::class, 'reportUser'])->name('user.report');
+
+Route::prefix('admin')->group(function () {
+    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('admin/reports', [ReportController::class, 'index'])->name('admin.reports.index');
+        Route::get('admin/reports/user/{id}/profile', [ReportController::class, 'viewProfile'])->name('admin.reports.user.profile');
+        Route::delete('admin/reports/user/{id}/delete', [ReportController::class, 'deleteAccount'])->name('admin.reports.user.delete');
+    });
+});
 
