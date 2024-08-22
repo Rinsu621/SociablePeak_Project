@@ -68,6 +68,16 @@
                                         <i class="las la-chart-pie"></i><span>User Engagement</span>
                                     </a>
                                 </li>
+                                <li >
+                                    <a href="{{ route('post.engagement') }}" class=" ">
+                                        <i class="las la-chart-pie"></i><span>Post Engagement</span>
+                                    </a>
+                                </li>
+                                <li >
+                                    <a href="{{ route('analytics.mostInteractedUsers') }}" class=" ">
+                                        <i class="las la-chart-pie"></i><span>Most Interaction</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -103,13 +113,13 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav  ms-auto navbar-list">
-                            <li>
+                            {{-- <li>
                                 <div id="timerDisplayDiv">
                                     <span id="timerDisplay">
                                         Timer: 0 seconds
                                     </span>
                                 </div>
-                            </li>
+                            </li> --}}
                             <li class="nav-item dropdown">
                                 <a href="{{ route('friend.friendrequest') }}"
                                     aria-haspopup="true" aria-expanded="false"><i class="ri-group-line"></i></a>
@@ -126,9 +136,24 @@
                                             <div class="header-title bg-primary">
                                                 <h5 class="mb-0 text-white">All Notifications</h5>
                                             </div>
-                                            <small class="badge  bg-light text-dark">4</small>
+                                            <small class="badge bg-light text-dark">{{ $unreadCount }}</small>
                                         </div>
-
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                @forelse($notifications as $notification)
+                                                    <li class="list-group-item">
+                                                        <div class="d-flex justify-content-between">
+                                                            <span>{{ $notification->message }}</span>
+                                                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    </li>
+                                                @empty
+                                                    <li class="list-group-item">
+                                                        <span>No notifications available.</span>
+                                                    </li>
+                                                @endforelse
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -242,6 +267,7 @@
 
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
     {{-- create a csrf token to post form in user-engagement.js file --}}

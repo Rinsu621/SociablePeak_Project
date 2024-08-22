@@ -6,6 +6,8 @@ use Exception;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Models\Message;
+use App\Models\User;
 use App\Models\Image;
 use App\Models\ScheduledPost;
 use Illuminate\Http\Request;
@@ -101,6 +103,8 @@ class PostController extends Controller
                     'user_id' => $userId,
                 ]);
                 $liked = true;
+
+
             }
 
             return response()->json(['success' => true, 'liked' => $liked]);
@@ -131,4 +135,67 @@ class PostController extends Controller
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }
+
+    public function getPostEngagement()
+    {
+        try {
+            // Group posts by month or any other criteria you need
+            $postCounts = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get()
+                ->pluck('count', 'month');
+
+            $labels = $postCounts->keys()->map(function($month) {
+                return date('F', mktime(0, 0, 0, $month, 1));
+            })->toArray();
+
+            $postsData = $postCounts->values()->toArray();
+            $posts = Post::with(['likes', 'comments', 'images'])
+        ->withCount(['likes', 'comments'])
+        ->orderByDesc('likes_count')
+        ->orderByDesc('comments_count')
+        ->get();
+
+            return view('analytics.postEngagement', compact('labels', 'postsData', 'posts'));
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+    public function getMostInteractedUsers()
+    {
+        try {
+            // Get the logged-in user's ID
+            $userId = Auth::id();
+
+            // Calculate likes and comments count for each user
+            $userInteractions = User::withCount(['posts as likes_count' => function ($query) {
+                $query->select(\DB::raw('count(distinct likes.user_id)'))
+                      ->join('likes', 'posts.id', '=', 'likes.post_id');
+            }, 'posts as comments_count' => function ($query) {
+                $query->select(\DB::raw('count(distinct comments.user_id)'))
+                      ->join('comments', 'posts.id', '=', 'comments.post_id');
+            }])->get();
+
+            // Calculate chat messages count for each user
+            $messageInteractions = Message::select('user_id', \DB::raw('count(*) as message_count'))
+                ->where('friend_id', $userId)
+                ->groupBy('user_id')
+                ->pluck('message_count', 'user_id');
+
+            // Combine likes, comments, and chat messages count to get total interactions
+            foreach ($userInteractions as $user) {
+                $user->total_interactions = $user->likes_count + $user->comments_count + ($messageInteractions[$user->id] ?? 0);
+            }
+
+            // Sort users by total interactions in descending order
+            $mostInteractedUsers = $userInteractions->sortByDesc('total_interactions')->take(10);
+
+            // Pass the data to the view
+            return view('analytics.mostInteraction', compact('mostInteractedUsers'));
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
 }

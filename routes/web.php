@@ -13,6 +13,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -66,6 +67,8 @@ Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEn
 Route::post('postStore', [PostController::class, 'postStore'])->name('postStore');
 Route::post('/post/{id}/like', [PostController::class, 'likePost'])->name('post.like');
 Route::post('/post/{id}/comment', [PostController::class, 'commentPost'])->name('post.comment');
+Route::get('/post-engagement', [PostController::class, 'getPostEngagement'])->name('post.engagement');
+Route::get('/analytics/most-interacted-users', [PostController::class, 'getMostInteractedUsers'])->name('analytics.mostInteractedUsers');
 //Posts
 
 //Profile
@@ -104,6 +107,11 @@ Route::prefix('admin')->group(function () {
         Route::get('admin/reports', [ReportController::class, 'index'])->name('admin.reports.index');
         Route::get('admin/reports/user/{id}/profile', [ReportController::class, 'viewProfile'])->name('admin.reports.user.profile');
         Route::delete('admin/reports/user/{id}/delete', [ReportController::class, 'deleteAccount'])->name('admin.reports.user.delete');
+
     });
+
+    //Notification
+    Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('show.notifications');
+
 });
 

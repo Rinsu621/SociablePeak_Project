@@ -564,8 +564,6 @@
                                                             <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
                                                             @endif
                                                         </div>
-
-
                                                         <div class="w-100">
                                                             <div class="d-flex justify-content-between">
                                                                 <div class="">
@@ -579,77 +577,6 @@
                                                                     </p>
                                                                     <p class="mb-0">
                                                                         {{ convertToTimeAgo($item->created_at) }}</p>
-                                                                </div>
-                                                                <div class="card-post-toolbar">
-                                                                    <div class="dropdown">
-                                                                        <span class="dropdown-toggle"
-                                                                            data-bs-toggle="dropdown"
-                                                                            aria-haspopup="true" aria-expanded="false"
-                                                                            role="button">
-                                                                            <i class="ri-more-fill"></i>
-                                                                        </span>
-                                                                        <div class="dropdown-menu m-0 p-0">
-                                                                            <a class="dropdown-item p-3"
-                                                                                href="#">
-                                                                                <div class="d-flex align-items-top">
-                                                                                    <i class="ri-save-line h4"></i>
-                                                                                    <div class="data ms-2">
-                                                                                        <h6>Save Post</h6>
-                                                                                        <p class="mb-0">Add this to
-                                                                                            your saved items</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                            <a class="dropdown-item p-3"
-                                                                                href="#">
-                                                                                <div class="d-flex align-items-top">
-                                                                                    <i class="ri-pencil-line h4"></i>
-                                                                                    <div class="data ms-2">
-                                                                                        <h6>Edit Post</h6>
-                                                                                        <p class="mb-0">Update your
-                                                                                            post and saved items</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                            <a class="dropdown-item p-3"
-                                                                                href="#">
-                                                                                <div class="d-flex align-items-top">
-                                                                                    <i
-                                                                                        class="ri-close-circle-line h4"></i>
-                                                                                    <div class="data ms-2">
-                                                                                        <h6>Hide From Timeline</h6>
-                                                                                        <p class="mb-0">See fewer
-                                                                                            posts like this.</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                            <a class="dropdown-item p-3"
-                                                                                href="#">
-                                                                                <div class="d-flex align-items-top">
-                                                                                    <i
-                                                                                        class="ri-delete-bin-7-line h4"></i>
-                                                                                    <div class="data ms-2">
-                                                                                        <h6>Delete</h6>
-                                                                                        <p class="mb-0">Remove thids
-                                                                                            Post on Timeline</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                            <a class="dropdown-item p-3"
-                                                                                href="#">
-                                                                                <div class="d-flex align-items-top">
-                                                                                    <i
-                                                                                        class="ri-notification-line h4"></i>
-                                                                                    <div class="data ms-2">
-                                                                                        <h6>Notifications</h6>
-                                                                                        <p class="mb-0">Turn on
-                                                                                            notifications for this post
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
