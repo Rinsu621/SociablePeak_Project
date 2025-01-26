@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MailController;
 
 
 
@@ -36,9 +37,6 @@ Route::get('clear', function () {
 
 Route::get('/', [HomeController::class, 'home'])->name('homePage');
 
-// Route::get('/', function () {
-//     return view('auth/signup');
-// });
 
 //Auth
 Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
@@ -53,6 +51,7 @@ Route::post('forgetpassword',[AuthController::class,'forgotPasswordPost'])->name
 Route::get('/resetpassword/{token}',[AuthController::class, 'resetPasswordform'])->name('resetPasswordform');
 Route::post('/resetpassword',[AuthController::class,'resetPassword'])->name('resetPassword');
 //Auth
+
 
 
 //Analytics

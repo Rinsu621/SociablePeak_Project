@@ -66,7 +66,13 @@
     border-radius: 50%;
    object-fit: cover;
 }
-
+.friendsProfile
+{
+    width: 60px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .avatar-60 {
     width: 60px;
     height: 55px;
@@ -313,8 +319,8 @@
                                                 @foreach ($friends as $key => $item)
                                                     <li class="">
                                                         <a href="#">
-                                                            <img class="timeline-friends-profile-img"
-                                                            src="{{ $item['profile_picture'] ? Storage::url($item['profile_picture']) : asset('/images/template/user/1.jpg') }}"
+                                                            <img class="timeline-friends-profile-img friendsProfile"
+                                                            src="{{ $item['profile_picture'] ? Storage::url($item['profile_picture']) : asset('/images/template/user/Noprofile.jpg') }}"
                                      alt="gallery-image" class="img-fluid rounded-circle" />
                                                         </a>
 

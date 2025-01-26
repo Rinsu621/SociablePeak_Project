@@ -48,7 +48,6 @@ class PostController extends Controller
             if ($request->hasFile('image')) {
                 foreach ($request->file('image') as $image) {
                     $path = $image->store('public/images/postimg');
-                    // Create image model instance for each image
                     $post->images()->create([
                         'file_path' => $path,
                     ]);

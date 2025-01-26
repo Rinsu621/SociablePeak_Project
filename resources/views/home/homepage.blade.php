@@ -138,7 +138,8 @@
                                         <div class="">
                                             <h5 class="mb-0 d-inline-block">{{ $post->user->name }}</h5>
                                             <span class="mb-0 d-inline-block">Add New Post</span>
-                                            <p class="mb-0 text-primary">{{ $post->created_at->format('d M Y, H:i') }}</p>
+                                            <p class="mb-0 text-primary">{{ convertToTimeAgo($post->created_at) }}</p>
+
                                         </div>
                                         <div class="card-post-toolbar">
                                             {{-- <div class="dropdown">
