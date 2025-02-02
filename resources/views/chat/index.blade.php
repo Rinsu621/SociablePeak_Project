@@ -95,11 +95,7 @@
                                                         <a class="avatar m-0">
                                                             <img src="{{ ($chatText['user_id'] != auth()->id()) ? $message['friend_profile_picture'] : Storage::url($profilePicture->file_path) }}" alt="avatar" class="avatar-35 rounded-circle">
                                                         </a>
-                                                        {{-- <span class="chat-time mt-1">{{ date('h:i a', strtotime($chatText['converted_date'])) }}</span> --}}
-                                                        <span class="chat-time mt-1">
-                                                            {{ \Carbon\Carbon::parse($chatText['converted_date'])->format('Y-m-d H:i:s') }}
-                                                        </span>
-
+                                                        <span class="chat-time mt-1">{{ date('h:i a', strtotime($chatText['converted_date'])) }}</span>
                                                     </div>
                                                     <div class="chat-detail">
                                                         <div class="chat-message">

@@ -86,6 +86,12 @@ Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture
 //Chat
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
 Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
+
+Route::post('/chat/send-group-message', [ChatController::class, 'sendGroupMessage'])->name('chat.sendGroupMessage');
+Route::get('/chat/group/{groupId}', [ChatController::class, 'getGroupMessages'])->name('chat.getGroupMessages');
+Route::post('/groups/create', [ChatController::class, 'createGroup'])->name('groups.create');
+
+
 //Chat
 
 

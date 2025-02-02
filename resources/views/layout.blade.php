@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/toastr/toastr.min.css') }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet" />
     @yield('style')
 
     <style>
@@ -268,6 +270,8 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
 
 
     {{-- create a csrf token to post form in user-engagement.js file --}}

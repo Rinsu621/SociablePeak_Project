@@ -77,17 +77,18 @@ $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePictur
             $message = new Message();
             $message->user_id = auth()->id();
             $message->friend_id = $validatedData['friend_id'];
-            $message->message = $validatedData['message'];
+            // $message->message = $validatedData['message'];
+            $message->message = $this->encryptMessage($validatedData['message']);
             $message->save();
 
             // Fetch the message just saved
             $savedMessage = Message::find($message->id);
+            $savedMessage->message = $this->decryptMessage($savedMessage->message);
 
             // Convert the created_at timestamp to the 'Asia/Kathmandu' timezone
             $savedMessage->created_at = $savedMessage->created_at->timezone('Asia/Kathmandu');
-            $savedMessage->converted_date = $savedMessage->created_at->format('Y-m-d H:i:s'); // Format as per your preference
 
-            return response()->json(['message' => 'Message Sent','data' => $savedMessage, 'converted_date' => $savedMessage->converted_date, ], 200);
+            return response()->json(['message' => 'Message Sent','data' => $savedMessage ], 200);
         } catch (ValidationException $e) {
             // If a validation error occurs, catch the ValidationException
             // and redirect back with the validation error messages
@@ -98,5 +99,20 @@ $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePictur
             return response()->json(['message' => $e->getMessage()], 500);
         }
 
+    }
+
+    protected function encryptMessage($message) {
+        $encryptMethod = "AES-256-CBC";
+        $secretKey = config('app.encryption_key');
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($encryptMethod));
+        $encryptedMessage = openssl_encrypt($message, $encryptMethod, $secretKey, 0, $iv) . "::" . bin2hex($iv);
+        return $encryptedMessage;
+    }
+
+    protected function decryptMessage($encryptedMessage) {
+        $encryptMethod = "AES-256-CBC";
+        $secretKey = config('app.encryption_key');
+        list($encryptedData, $iv) = explode("::", $encryptedMessage, 2);
+        return openssl_decrypt($encryptedData, $encryptMethod, $secretKey, 0, hex2bin($iv));
     }
 }
