@@ -85,8 +85,9 @@ $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePictur
 
             // Convert the created_at timestamp to the 'Asia/Kathmandu' timezone
             $savedMessage->created_at = $savedMessage->created_at->timezone('Asia/Kathmandu');
+            $savedMessage->converted_date = $savedMessage->created_at->format('Y-m-d H:i:s'); // Format as per your preference
 
-            return response()->json(['message' => 'Message Sent','data' => $savedMessage ], 200);
+            return response()->json(['message' => 'Message Sent','data' => $savedMessage, 'converted_date' => $savedMessage->converted_date, ], 200);
         } catch (ValidationException $e) {
             // If a validation error occurs, catch the ValidationException
             // and redirect back with the validation error messages

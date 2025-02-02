@@ -45,11 +45,18 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('send-two-factor', [AuthController::class, 'sendTwoFactorCode'])->name('sendTwoFactorCode');
+
+
+Route::get('two-factor', [AuthController::class, 'showTwoFactorForm'])->name('twoFactorForm');
+Route::post('two-factor', [AuthController::class, 'verifyTwoFactor'])->name('verifyTwoFactor');
+
 
 Route::get('forgetpassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
 Route::post('forgetpassword',[AuthController::class,'forgotPasswordPost'])->name('forgetPasswordPost');
 Route::get('/resetpassword/{token}',[AuthController::class, 'resetPasswordform'])->name('resetPasswordform');
 Route::post('/resetpassword',[AuthController::class,'resetPassword'])->name('resetPassword');
+
 //Auth
 
 

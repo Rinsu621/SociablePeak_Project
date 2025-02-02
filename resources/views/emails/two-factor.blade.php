@@ -1,3 +1,5 @@
+<!-- resources/views/emails/two-factor.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,8 +40,7 @@
 </head>
 <body>
   <h1>Forget Password Email</h1>
-  <p>{!! $body !!}</p> <!-- Ensure that HTML is safe to use with unescaped data -->
-  <br>
-  <a href="{{$action_link}}" >Reset Password</a>
+  <p>Two Factor Authentication</p>
+<p>Your two-factor authentication code is: <strong>{{ $two_factor_code }}</strong></p>
 </body>
 </html>

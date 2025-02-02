@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\SendMail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -30,8 +32,12 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
+        // if (Auth::attempt($credentials)) {
+        //     return redirect()->route('homePage');
+        // }
         if (Auth::attempt($credentials)) {
-            return redirect()->route('homePage');
+            // Redirect to the 2FA verification page
+           return $this->sendTwoFactorCode();
         }
 
         return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email or password.']);
@@ -142,7 +148,40 @@ public function resetPassword(Request $request)
         return redirect()->route('login')->with('success', 'Your password has been changed! You can login with your new password');
     }
 }
+public function showTwoFactorForm()
+    {
+        return view('auth.two-factor');
+    }
+    public function verifyTwoFactor(Request $request)
+    {
+        $request->validate([
+            'two_factor_code' => 'required|numeric|digits:6', // Validate the 6-digit code
+        ]);
 
+        $user = Auth::user();
+
+        // Check if the entered code matches the one stored in the session
+        if ($request->input('two_factor_code') == Session::get('two_factor_code')) {
+            // Clear the stored code and redirect to home page
+            Session::forget('two_factor_code');
+            return redirect()->route('homePage');
+        }
+
+        return back()->withErrors(['two_factor_code' => 'The code is invalid.']);
+    }
+    public function sendTwoFactorCode()
+    {
+        $user = Auth::user();
+        $code = rand(100000, 999999); // Generate a 6-digit code
+
+        // Store the code in the session
+        Session::put('two_factor_code', $code);
+
+        // Send the code via email
+        Mail::to($user->email)->send(new SendMail(null, null, $code)); // Pass the code for 2FA email
+
+        return redirect()->route('twoFactorForm');
+    }
 
     public function logout()
     {

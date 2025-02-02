@@ -188,7 +188,10 @@ class PostController extends Controller
             }
 
             // Sort users by total interactions in descending order
-            $mostInteractedUsers = $userInteractions->sortByDesc('total_interactions')->take(10);
+            // $mostInteractedUsers = $userInteractions->sortByDesc('total_interactions')->take(10);
+            $mostInteractedUsers = $userInteractions->filter(function ($user) use ($userId) {
+                return $user->total_interactions > 0 && $user->id != $userId;
+            })->sortByDesc('total_interactions');
 
             // Pass the data to the view
             return view('analytics.mostInteraction', compact('mostInteractedUsers'));
