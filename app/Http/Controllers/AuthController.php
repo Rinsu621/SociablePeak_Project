@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\SendMail;
+use App\Mail\SendCode;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -32,13 +34,13 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        // if (Auth::attempt($credentials)) {
-        //     return redirect()->route('homePage');
-        // }
         if (Auth::attempt($credentials)) {
-            // Redirect to the 2FA verification page
-           return $this->sendTwoFactorCode();
+            return redirect()->route('homePage');
         }
+        // if (Auth::attempt($credentials)) {
+        //     // Redirect to the 2FA verification page
+        //    return $this->sendTwoFactorCode();
+        // }
 
         return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email or password.']);
     }
@@ -148,40 +150,114 @@ public function resetPassword(Request $request)
         return redirect()->route('login')->with('success', 'Your password has been changed! You can login with your new password');
     }
 }
-public function showTwoFactorForm()
+
+//     public function verifyTwoFactor(Request $request)
+//     {
+//         $request->validate([
+//             'two_factor_code' => 'required|numeric|digits:6', // Validate the 6-digit code
+//         ]);
+
+//         $user = Auth::user();
+
+//         // Check if the entered code matches the one stored in the session
+//         if ($request->input('two_factor_code') == Session::get('two_factor_code')) {
+//             // Clear the stored code and redirect to home page
+//             Session::forget('two_factor_code');
+//             return redirect()->route('homePage');
+//         }
+
+//         return back()->withErrors(['two_factor_code' => 'The code is invalid.']);
+//     }
+
+
+
+public function showChangePasswordForm()
+{
+    return view('auth.change-password');
+}
+
+
+public function changePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => ['required'],
+        'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+    ]);
+
+    $user = Auth::user();
+
+    if (!Hash::check($request->current_password, $user->password)) {
+        return back()->withErrors(['current_password' => 'Current password does not match.']);
+    }
+
+
+    Session::put('pending_password', $request->new_password); // Use new_password, not newpassword
+    Session::put('pending_password_user_id', $user->id);
+
+    $this->sendTwoFactorCode($user);
+
+    return redirect()->route('twoFactorForm')->with('success', 'A verification code has been sent to your email.');
+}
+
+private function sendTwoFactorCode($user)
+{
+    $code = rand(100000, 999999);
+
+    Session::put('two_factor_code', $code);
+
+    Mail::to($user->email)->send(new \App\Mail\SendCode($code));
+}
+
+
+    public function showTwoFactorForm()
     {
         return view('auth.two-factor');
     }
+
     public function verifyTwoFactor(Request $request)
-    {
-        $request->validate([
-            'two_factor_code' => 'required|numeric|digits:6', // Validate the 6-digit code
-        ]);
+{
+    // Validate the code entered by the user
+    $request->validate([
+        'code' => 'required|numeric|digits:6',
+    ]);
 
-        $user = Auth::user();
+    // Get the expected code from the session
+    $expectedCode = session('two_factor_code');
 
-        // Check if the entered code matches the one stored in the session
-        if ($request->input('two_factor_code') == Session::get('two_factor_code')) {
-            // Clear the stored code and redirect to home page
-            Session::forget('two_factor_code');
-            return redirect()->route('homePage');
+    // Check if the entered code matches the expected code
+    if ($request->code == $expectedCode) {
+        // Retrieve the new password and user ID from the session
+        $newPassword = session('pending_password');
+        $userId = session('pending_password_user_id');
+
+        // Clear the session variables
+        session()->forget('two_factor_code');
+        session()->forget('pending_password');
+        session()->forget('pending_password_user_id');
+
+        // Find the user and update their password
+        $user = \App\Models\User::find($userId);
+
+        if ($user) {
+            $user->update([
+                'password' => Hash::make($newPassword)
+            ]);
+
+            // Log the user in after updating the password
+            Auth::login($user);
+
+            // Redirect to the home page with a success message
+            return redirect()->route('homePage')->with('success', 'Password changed successfully.');
         }
 
-        return back()->withErrors(['two_factor_code' => 'The code is invalid.']);
+        // If the user is not found, return an error
+        return back()->withErrors(['code' => 'User not found.']);
     }
-    public function sendTwoFactorCode()
-    {
-        $user = Auth::user();
-        $code = rand(100000, 999999); // Generate a 6-digit code
 
-        // Store the code in the session
-        Session::put('two_factor_code', $code);
+    // If the code is incorrect, return back with an error message
+    return back()->withErrors(['code' => 'Invalid two-factor code.']);
+}
 
-        // Send the code via email
-        Mail::to($user->email)->send(new SendMail(null, null, $code)); // Pass the code for 2FA email
-
-        return redirect()->route('twoFactorForm');
-    }
 
     public function logout()
     {

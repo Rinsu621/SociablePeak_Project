@@ -42,6 +42,36 @@
                             </div>
                             <div class="chat-sidebar-channel scroller mt-4 ps-3">
                                 <h5 class="mt-3">Direct Message</h5>
+
+                                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#createGroupModal"> Create Group</button>
+                                <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="createGroupModalLabel">Create Group</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="createGroupForm">
+                                                    <div class="mb-3">
+                                                        <label for="groupName" class="form-label">Group Name</label>
+                                                        <input type="text" class="form-control" id="groupName" name="group_name" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="groupMembers" class="form-label">Select Users</label>
+                                                        <select class="form-control" id="groupMembers" name="group_members[]" multiple required>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Create Group</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
                                     @forelse($messages as $key => $message)
                                         <li class="chat-item">
@@ -193,5 +223,24 @@
             });
         });
     });
+
+    document.getElementById('createGroupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+
+    fetch("{{ route('group.create') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        location.reload();
+    })
+    .catch(error => console.error('Error:', error));
+});
 </script>
 @endsection

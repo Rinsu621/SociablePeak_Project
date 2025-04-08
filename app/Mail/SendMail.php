@@ -41,15 +41,7 @@ class SendMail extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
-    // public function content(): Content
-    // {
-    //     return new Content(
-    //         view: 'view.name',
-    //     );
-    // }
+
 
     /**
      * Get the attachments for the message.
@@ -63,13 +55,7 @@ class SendMail extends Mailable
 
     public function build()
     {
-        // return $this->from('sociablepeak@gmail.com', 'SociablePeak')
-        //             ->subject('Reset Password')
-        //             ->view('auth.email-forget')
-        //             ->with([
-        //                 'action_link' => $this->action_link,
-        //                 'body' => $this->body
-        //             ]);
+
 
         $view = 'auth.email-forget'; // Default view, adjust if you want a different one for 2FA
 

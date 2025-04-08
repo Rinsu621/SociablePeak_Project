@@ -1,103 +1,100 @@
-{{-- <!-- resources/views/auth/two-factor.blade.php -->
-<form action="{{ route('verifyTwoFactor') }}" method="POST">
-    @csrf
-    <div>
-        <label for="two_factor_code">Enter the 6-digit code sent to your email:</label>
-        <input type="text" id="two_factor_code" name="two_factor_code" required>
-    </div>
+<!-- resources/views/auth/two-factor.blade.php -->
+@extends('layout')
 
-    <button type="submit">Verify Code</button>
-
-    @error('two_factor_code')
-        <div class="error">{{ $message }}</div>
-    @enderror
-</form> --}}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Two-Factor Authentication</title>
+@section('content')
 <style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
+    body{
+        background:linear-gradient(to right, #3a7bd5, #00d2ff);
+    }
+    #container-inside {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          overflow: hidden;
+        }
 
-  .container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-  }
+        #circle-small, #circle-medium, #circle-large, #circle-xlarge, #circle-xxlarge {
+          position: absolute;
+          border-radius: 50%;
+          animation: animateCircle 5s linear infinite;
+          background: rgba(255, 255, 255, 0.3);
+          border: 2px solid rgba(255, 255, 255, 0.5);
+        }
 
-  h1 {
-    color: #004a7c;
-    font-size: 22px;
-  }
+        #circle-small {
+          width: 150px;
+          height: 150px;
+          top: 20%;
+          left: 25%;
+          animation-delay: 0s;
+        }
 
-  p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
+        #circle-medium {
+          width: 250px;
+          height: 250px;
+          top: 40%;
+          left: 35%;
+          animation-delay: 2s;
+        }
 
-  input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
+        #circle-large {
+          width: 350px;
+          height: 350px;
+          top: 10%;
+          left: 15%;
+          animation-delay: 4s;
+        }
 
-  button {
-    background-color: #004a7c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-  }
+        #circle-xlarge {
+          width: 450px;
+          height: 450px;
+          top: 50%;
+          left: 5%;
+          animation-delay: 6s;
+        }
 
-  button:hover {
-    background-color: #007acc;
-  }
+        #circle-xxlarge {
+          width: 550px;
+          height: 550px;
+          top: 30%;
+          left: 40%;
+          animation-delay: 8s;
+        }
 
-  .error {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-  }
+        @keyframes animateCircle {
+          0% { transform: scale(1) translateY(0); }
+          50% { transform: scale(1.1) translateY(20px); }
+          100% { transform: scale(1) translateY(0); }
+        }
 </style>
-</head>
-<body>
-
-<div class="container">
-  <h1>Two-Factor Authentication</h1>
-  <p>Enter the 6-digit code sent to your email.</p>
-
-  <form action="{{ route('verifyTwoFactor') }}" method="POST">
-      @csrf
-      <input type="text" id="two_factor_code" name="two_factor_code" placeholder="Enter code" required>
-      <button type="submit">Verify Code</button>
-
-      @error('two_factor_code')
-          <div class="error">{{ $message }}</div>
-      @enderror
-  </form>
+<div id="container-inside">
+    <div id="circle-small"></div>
+    <div id="circle-medium"></div>
+    <div id="circle-large"></div>
+    <div id="circle-xlarge"></div>
+    <div id="circle-xxlarge"></div>
 </div>
+    <div class="d-flex justify-content-center align-items-center" style="margin-top:60px">
+        <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">Two-Factor Authentication</h4>
 
-</body>
-</html>
+                <form method="POST" action="{{ route('verifyTwoFactor') }}">
+                    @csrf
 
+                    <div class="form-group mb-3">
+                        <label for="code">Enter Verification Code:</label>
+                        <input type="text" name="code" class="form-control" id="code" required>
+                        @if ($errors->has('code'))
+                            <div class="text-danger mt-1">{{ $errors->first('code') }}</div>
+                        @endif
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Verify Code</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection

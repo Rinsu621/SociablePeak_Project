@@ -16,6 +16,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\MailController;
 
+use App\Http\Controllers\GroupController;
+
 
 
 /*
@@ -45,17 +47,25 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('send-two-factor', [AuthController::class, 'sendTwoFactorCode'])->name('sendTwoFactorCode');
+// Route::get('send-two-factor', [AuthController::class, 'sendTwoFactorCode'])->name('sendTwoFactorCode');
 
 
-Route::get('two-factor', [AuthController::class, 'showTwoFactorForm'])->name('twoFactorForm');
-Route::post('two-factor', [AuthController::class, 'verifyTwoFactor'])->name('verifyTwoFactor');
+// Route::get('two-factor', [AuthController::class, 'showTwoFactorForm'])->name('twoFactorForm');
+// Route::post('two-factor', [AuthController::class, 'verifyTwoFactor'])->name('verifyTwoFactor');
 
 
 Route::get('forgetpassword',[AuthController::class,'forgetPassword'])->name('forgetPassword');
 Route::post('forgetpassword',[AuthController::class,'forgotPasswordPost'])->name('forgetPasswordPost');
 Route::get('/resetpassword/{token}',[AuthController::class, 'resetPasswordform'])->name('resetPasswordform');
 Route::post('/resetpassword',[AuthController::class,'resetPassword'])->name('resetPassword');
+
+Route::get('/change-password', [AuthController::class, 'showChangePasswordForm'])->name('requestChangePassword')->middleware('auth');
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword')->middleware('auth');
+
+Route::get('/two-factor', [AuthController::class, 'showTwoFactorForm'])->name('twoFactorForm');
+Route::post('/verify-two-factor', [AuthController::class, 'verifyTwoFactor'])->name('verifyTwoFactor');
+
+
 
 //Auth
 
@@ -87,9 +97,7 @@ Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
 Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
 
-Route::post('/chat/send-group-message', [ChatController::class, 'sendGroupMessage'])->name('chat.sendGroupMessage');
-Route::get('/chat/group/{groupId}', [ChatController::class, 'getGroupMessages'])->name('chat.getGroupMessages');
-Route::post('/groups/create', [ChatController::class, 'createGroup'])->name('groups.create');
+Route::post('/group/create', [GroupController::class, 'store'])->name('group.create');
 
 
 //Chat

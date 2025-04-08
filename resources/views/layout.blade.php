@@ -203,6 +203,17 @@
                                                     </div>
                                                 </div>
                                             </a>
+                                            <a href="{{route('requestChangePassword')}}" class="iq-sub-card iq-bg-primary-hover">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="rounded card-icon bg-soft-primary">
+                                                        <i class="ri-lock-password-line"></i>
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        <h6 class="mb-0 ">Change Password</h6>
+                                                        <p class="mb-0 font-size-12">Update your account password securely.</p>
+                                                    </div>
+                                                </div>
+                                            </a>
                                             <div class="d-inline-block w-100 text-center p-3">
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                     style="display: none;">

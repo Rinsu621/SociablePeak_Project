@@ -17,6 +17,7 @@ class ChatController extends Controller
     public function index(){
         // Get the logged-in user's ID
         $userId = Auth::id();
+        $users = User::where('id', '!=', $userId)->get();
 
         // Retrieve messages where friend_id or user_id is the logged-in user's ID
         $messages = Message::where('user_id', $userId)
@@ -26,12 +27,11 @@ class ChatController extends Controller
                             ->groupBy(function($message) use ($userId) {
                                 return $message->user_id == $userId ? $message->friend_id : $message->user_id;
                             });
-
-        // dd($messages->toArray());
         // Convert the created_at to Kathmandu timezone and sort each message group by created_at in descending order
         $sortedMessages = $messages->map(function ($group) {
             return $group->map(function ($message) {
                 $message->converted_date = convertTimezone('Asia/Kathmandu', $message->created_at);
+                $message->message = $this->decryptMessage($message->message); // Decrypt message before displaying
                 return $message;
             });
         });
@@ -56,14 +56,15 @@ class ChatController extends Controller
             ];
         });
 
-$userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePicture->file_path : 'images/template/user/11.png';
+        $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePicture->file_path : 'images/template/user/11.png';
         $userImage = asset('storage/' . $userProfilePicture);
 
 
         // Pass the grouped messages to the view
         return view('chat.index',[
             'messages' => $chatData,
-            'userImage' => $userImage
+            'userImage' => $userImage,
+            'users' => $users
         ]);
     }
 
@@ -112,6 +113,11 @@ $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePictur
     protected function decryptMessage($encryptedMessage) {
         $encryptMethod = "AES-256-CBC";
         $secretKey = config('app.encryption_key');
+
+        if (strpos($encryptedMessage, "::") === false) {
+            return $encryptedMessage; // Return as is if not properly encrypted
+        }
+
         list($encryptedData, $iv) = explode("::", $encryptedMessage, 2);
         return openssl_decrypt($encryptedData, $encryptMethod, $secretKey, 0, hex2bin($iv));
     }
