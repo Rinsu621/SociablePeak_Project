@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Admin Login - SociablePeak</title>
 
-    <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico')}}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/socialv.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
@@ -121,7 +121,7 @@
             <div class="col-md-6 bg-white pt-5 pb-lg-0 pb-5">
               <div class="sign-in-from" style="margin-top: 100px;">
                 <h1 class="mb-0">Admin Sign in</h1>
-                <p>Enter your email address and password to login.</p>
+                <p>Enter your email address and password to access admin panel.</p>
                 @if ($errors->any())
                   <div class="alert alert-danger">
                     <ul>

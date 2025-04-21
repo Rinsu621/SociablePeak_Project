@@ -15,6 +15,8 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\BusinessAuthController;
+
 
 use App\Http\Controllers\GroupController;
 
@@ -69,6 +71,12 @@ Route::post('/verify-two-factor', [AuthController::class, 'verifyTwoFactor'])->n
 
 //Auth
 
+Route::prefix('business')->group(function(){
+    Route::get('login',[BusinessAuthController::class,'showLoginForm'])->name('businesslogin');
+    Route::get('register', [BusinessAuthController::class, 'showRegistrationForm'])->name('businessregister');
+Route::post('register', [BusinessAuthController::class, 'businessregister'])->name('businessregisterStore');
+
+});
 
 
 //Analytics
@@ -96,7 +104,7 @@ Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture
 //Chat
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
 Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
-
+Route::post('/group/send-message', [ChatController::class, 'sendGroupMessage'])->name('group.sendMessage');
 Route::post('/group/create', [GroupController::class, 'store'])->name('group.create');
 
 
@@ -129,6 +137,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('admin/reports/user/{id}/delete', [ReportController::class, 'deleteAccount'])->name('admin.reports.user.delete');
 
     });
+
 
     //Notification
     Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('show.notifications');

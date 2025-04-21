@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
+                                {{-- <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
                                     @forelse($messages as $key => $message)
                                         <li class="chat-item">
                                             <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
@@ -91,7 +91,41 @@
                                     @empty
                                         <p>No messages found.</p>
                                     @endforelse
+
+
+                                </ul> --}}
+                                <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
+                                    @forelse($messages as $key => $message)
+                                        <li class="chat-item">
+                                            <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar me-2">
+                                                        <img src="{{ $message['friend_profile_picture'] ?: asset('/images/template/user/Noprofile.jpg') }}"
+                                                             alt="Friend Image" class="avatar-50 rounded-circle">
+                                                        <span class="avatar-status">
+                                                            <i class="ri-checkbox-blank-circle-fill text-dark"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="chat-sidebar-name">
+                                                        <h6 class="mb-0">
+                                                            {{ $message['group_name'] ?? $message['friend_name'] }}
+                                                        </h6>
+                                                        <span>
+                                                            @if (count($message['conversations']) > 0)
+                                                                {{ ((end($message['conversations'])['user_id'] != auth()->id()) ? '' : 'You:') . end($message['conversations'])['message'] }}
+                                                            @else
+                                                                No messages yet.
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @empty
+                                        <p>No messages found.</p>
+                                    @endforelse
                                 </ul>
+
                             </div>
                         </div>
                         <div class="col-lg-9 chat-data p-0 chat-data-right">
@@ -161,7 +195,7 @@
 
 @endsection
 
-@section('script')
+{{-- @section('script')
 <script>
     $(document).ready(function(){
         $('#chat-search').on('keyup', function(){
@@ -182,6 +216,7 @@
             var friendId = $this.data('friend-id');
             var userImage = '{{ Storage::url($profilePicture->file_path) }}'; // Replace with the actual user image path
             var friendProfileImage = '{{ $message['friend_profile_picture'] }}';
+            var groupId = $this.data('group-id'); // Get the group ID
 
             if (textarea.val().trim() === '') {
                 return; // Do nothing if the textarea is empty
@@ -221,6 +256,9 @@
                     toastr.error('An error occurred while sending the message.');
                 }
             });
+
+
+
         });
     });
 
@@ -243,4 +281,4 @@
     .catch(error => console.error('Error:', error));
 });
 </script>
-@endsection
+@endsection --}}

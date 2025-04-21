@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>SociablePeak</title>
+      <title>SociablePeak </title>
 
       <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico')}}" />
       <link rel="stylesheet" href="{{ asset('/css/libs.min.css')}}">
@@ -15,7 +15,6 @@
       <link rel="stylesheet" href="{{ asset('/vendor/vanillajs-datepicker/dist/css/datepicker.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css')}}">
       <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
-
       <style>
         body {
           background: linear-gradient(to right, #3a7bd5, #00d2ff);
@@ -84,6 +83,7 @@
           100% { transform: scale(1) translateY(0); }
         }
       </style>
+
   </head>
   <body class=" ">
     <!-- loader Start -->
@@ -102,7 +102,7 @@
             <div id="circle-xlarge"></div>
             <div id="circle-xxlarge"></div>
         </div>
-        <div class="container p-0">
+        <div class="container p-0" >
             <div class="row no-gutters">
                 <div class="col-md-6 text-center pt-5">
                     <div class="sign-in-detail text-white">
@@ -111,27 +111,27 @@
                             <ul  class="swiper-wrapper list-inline m-0 p-0 ">
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/1.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Find new friends</h4>
-                                    <p>Discover and connect with like-minded individuals in your area. Expand your social circle and build meaningful relationships.</p>
+                                    <h4 class="mb-1 text-white">Promote Your Business</h4>
+                                    <p>Reach your target audience with tailored advertisements. Boost your visibility and grow your brand effectively.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/2.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Connect with the world</h4>
-                                    <p>Engage with a global community and share your thoughts.</p>
+                                    <h4 class="mb-1 text-white">Connect with Customers</h4>
+                                    <p>Engage with potential clients and build lasting relationships through interactive business features.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/3.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Have conversation</h4>
-                                    <p>Engage in enriching dialogues with new friends. Share your thoughts, ideas, and experiences to create lasting connections..</p>
+                                    <h4 class="mb-1 text-white">Advertise with Ease</h4>
+                                    <p>Create and manage your ads seamlessly. Showcase your products or services to the right people at the right time.</p>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5">
-                    <div class="sign-in-from"  style="margin-top: 50px;">
-                        <h1 class="mb-0">Sign Up</h1>
-                        <p>Join our community</p>
+                <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5" >
+                    <div class="sign-in-from" style="margin-top: 100px;">
+                        <h1 class="mb-0">Sign in</h1>
+                        <p>Enter your email address and password to login.</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -141,34 +141,27 @@
                                 </ul>
                             </div>
                         @endif
-
-                        <form action="{{ route('registerStore') }}" method="POST" class="mt-4">
+                        <form action="{{ route('businesslogin') }}" method="POST" class="mt-4">
                             @csrf
                             <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail1">Your Full Name</label>
-                                <input type="text" name="name" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name" required value="{{ old('name') }}">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail2">Email address</label>
-                                <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email" required value="{{ old('email') }}">
+                                <label class="form-label" for="exampleInputEmail1">Email address</label>
+                                <input name="email" type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter email">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="exampleInputPassword1">Password</label>
-                                <input type="password" name="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Retype Password">
+                                <a href="{{route('forgetPassword')}}" class="float-end">Forgot password?</a>
+                                <input name="password" type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
                             </div>
                             <div class="d-inline-block w-100">
                                 <div class="form-check d-inline-block mt-2 pt-1">
-                                    <input type="checkbox" required class="form-check-input" id="customCheck1">
-                                    <label class="form-check-label" for="customCheck1">I accept <a href="#">Terms and Conditions</a></label>
+                                    <input type="checkbox" class="form-check-input" id="customCheck11">
+                                    <label class="form-check-label" for="customCheck11">Remember Me</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary float-end">Sign Up</button>
+                                <button type="submit" class="btn btn-primary float-end">Sign in</button>
                             </div>
                             <div class="sign-info">
-                                <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="{{route('login')}}">Log In</a></span>
+                                <span class="dark-color d-inline-block line-height-2">Don't have an account? <a href="{{route('businessregister')}}">Sign up</a></span>
+
                             </div>
                         </form>
                     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Group;
 use App\Models\UserDetail;
 use App\Models\ProfilePicture;
 use Illuminate\Http\Request;
@@ -18,6 +19,8 @@ class ChatController extends Controller
         // Get the logged-in user's ID
         $userId = Auth::id();
         $users = User::where('id', '!=', $userId)->get();
+
+
 
         // Retrieve messages where friend_id or user_id is the logged-in user's ID
         $messages = Message::where('user_id', $userId)
@@ -34,6 +37,28 @@ class ChatController extends Controller
                 $message->message = $this->decryptMessage($message->message); // Decrypt message before displaying
                 return $message;
             });
+        });
+
+        $groups = Group::whereHas('members', function($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
+        $groupMessages = $groups->map(function($group) {
+            $messages = GroupMessage::where('group_id', $group->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $sortedGroupMessages = $messages->map(function($message) {
+                $message->converted_date = convertTimezone('Asia/Kathmandu', $message->created_at);
+                $message->message = $this->decryptMessage($message->message); // Decrypt message
+                return $message;
+            });
+
+            return [
+                'group_id' => $group->id,
+                'group_name' => $group->name,
+                'messages' => $sortedGroupMessages
+            ];
         });
 
         // Fetch the friend details using the grouped friend IDs
@@ -63,6 +88,7 @@ class ChatController extends Controller
         // Pass the grouped messages to the view
         return view('chat.index',[
             'messages' => $chatData,
+            'groups'=>$groupMessages,
             'userImage' => $userImage,
             'users' => $users
         ]);
@@ -101,6 +127,37 @@ class ChatController extends Controller
         }
 
     }
+
+    public function sendGroupMessage(Request $request)
+{
+    try {
+        $validatedData = $request->validate([
+            'group_id' => 'required|integer',
+            'message' => 'required|string'
+        ]);
+
+        // Save the group message
+        $message = new GroupMessage();
+        $message->user_id = auth()->id();
+        $message->group_id = $validatedData['group_id'];
+        $message->message = $this->encryptMessage($validatedData['message']);
+        $message->save();
+
+        // Fetch the saved message
+        $savedMessage = GroupMessage::find($message->id);
+        $savedMessage->message = $this->decryptMessage($savedMessage->message);
+
+        // Convert the created_at timestamp to 'Asia/Kathmandu'
+        $savedMessage->created_at = $savedMessage->created_at->timezone('Asia/Kathmandu');
+
+        return response()->json(['message' => 'Message Sent', 'data' => $savedMessage], 200);
+    } catch (ValidationException $e) {
+        return response()->json(['message' => $e->validator->getMessageBag()], 500);
+    } catch (Exception $e) {
+        return response()->json(['message' => $e->getMessage()], 500);
+    }
+}
+
 
     protected function encryptMessage($message) {
         $encryptMethod = "AES-256-CBC";

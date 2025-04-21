@@ -131,7 +131,7 @@
                 <div class="col-md-6 bg-white pt-5 pt-5 pb-lg-0 pb-5">
                     <div class="sign-in-from"  style="margin-top: 50px;">
                         <h1 class="mb-0">Sign Up</h1>
-                        <p>Join our community</p>
+                        <p>Register Here!!!</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -142,14 +142,14 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('registerStore') }}" method="POST" class="mt-4">
+                        <form action="{{ route('businessregisterStore') }}" method="POST" class="mt-4">
                             @csrf
                             <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail1">Your Full Name</label>
-                                <input type="text" name="name" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name" required value="{{ old('name') }}">
+                                <label class="form-label" for="exampleInputEmail1">Your Company Name</label>
+                                <input type="text" name="name" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Company Name" required value="{{ old('name') }}">
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="exampleInputEmail2">Email address</label>
+                                <label class="form-label" for="exampleInputEmail2">Company Email address</label>
                                 <input type="email" name="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email" required value="{{ old('email') }}">
                             </div>
                             <div class="form-group">
@@ -168,7 +168,7 @@
                                 <button type="submit" class="btn btn-primary float-end">Sign Up</button>
                             </div>
                             <div class="sign-info">
-                                <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="{{route('login')}}">Log In</a></span>
+                                <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="{{route('businesslogin')}}">Log In</a></span>
                             </div>
                         </form>
                     </div>
