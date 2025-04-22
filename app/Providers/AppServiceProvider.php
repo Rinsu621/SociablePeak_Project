@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProfilePicture;
 use App\Models\Notification;
+use App\Models\Business;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -43,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
             // Pass both variables to the view
             $view->with('unreadCount', $unreadCount)
                  ->with('notifications', $notifications);
+        });
+
+        View::composer('layouts.layoutBusiness', function ($view) {
+            $business = Auth::user(); // Or use Auth::guard('business')->user(); if using custom guard
+            $view->with('businessName', $business?->name);
         });
 
 

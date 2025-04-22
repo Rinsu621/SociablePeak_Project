@@ -74,7 +74,10 @@ Route::post('/verify-two-factor', [AuthController::class, 'verifyTwoFactor'])->n
 Route::prefix('business')->group(function(){
     Route::get('login',[BusinessAuthController::class,'showLoginForm'])->name('businesslogin');
     Route::get('register', [BusinessAuthController::class, 'showRegistrationForm'])->name('businessregister');
-Route::post('register', [BusinessAuthController::class, 'businessregister'])->name('businessregisterStore');
+    Route::post('register', [BusinessAuthController::class, 'businessregister'])->name('businessregisterStore');
+    Route::post('login',[BusinessAuthController::class,'businesslogin']);
+    Route::get('/',[BusinessAuthController::class,'home'])->name('businessDashboard');
+    Route::post('logout', [BusinessAuthController::class, 'logout'])->name('businesslogout');
 
 });
 

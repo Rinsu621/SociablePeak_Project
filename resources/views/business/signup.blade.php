@@ -111,18 +111,18 @@
                             <ul  class="swiper-wrapper list-inline m-0 p-0 ">
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/1.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Find new friends</h4>
-                                    <p>Discover and connect with like-minded individuals in your area. Expand your social circle and build meaningful relationships.</p>
+                                    <h4 class="mb-1 text-white">Promote Your Business</h4>
+                                    <p>Reach your target audience with tailored advertisements. Boost your visibility and grow your brand effectively.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/2.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Connect with the world</h4>
-                                    <p>Engage with a global community and share your thoughts.</p>
+                                    <h4 class="mb-1 text-white">Connect with Customers</h4>
+                                    <p>Engage with potential clients and build lasting relationships through interactive business features.</p>
                                 </li>
                                 <li class="swiper-slide">
                                     <img src="{{ asset('/images/template/login/3.png')}}" class="img-fluid mb-4" alt="logo">
-                                    <h4 class="mb-1 text-white">Have conversation</h4>
-                                    <p>Engage in enriching dialogues with new friends. Share your thoughts, ideas, and experiences to create lasting connections..</p>
+                                    <h4 class="mb-1 text-white">Advertise with Ease</h4>
+                                    <p>Create and manage your ads seamlessly. Showcase your products or services to the right people at the right time.</p>
                                 </li>
                             </ul>
                         </div>
