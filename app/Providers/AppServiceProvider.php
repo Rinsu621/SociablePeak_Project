@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ProfilePicture;
 use App\Models\Notification;
 use App\Models\Business;
+use App\Models\User;
+
 
 
 class AppServiceProvider extends ServiceProvider
@@ -49,6 +51,11 @@ class AppServiceProvider extends ServiceProvider
         View::composer('layouts.layoutBusiness', function ($view) {
             $business = Auth::user(); // Or use Auth::guard('business')->user(); if using custom guard
             $view->with('businessName', $business?->name);
+        });
+        View::composer('*', function ($view) {
+            if (auth()->check()) {
+                $view->with('viewedUser', User::find(auth()->id())); // Adjust this as per your needs
+            }
         });
 
 

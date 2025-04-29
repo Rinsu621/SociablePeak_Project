@@ -56,4 +56,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfilePicture::class)->latestOfMany();
     }
+
+    public function profileViews()
+    {
+        return $this->hasMany(ProfileView::class, 'viewed_id');
+    }
+
+    public function viewers()
+{
+    return $this->belongsToMany(User::class, 'profile_views', 'viewed_id', 'viewer_id')->withTimestamps();
 }
+
+}
+

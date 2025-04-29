@@ -80,6 +80,12 @@
                                         <i class="las la-chart-pie"></i><span>Most Interaction</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('profileView', ['id' => $viewedUser->id]) }}">
+                                        <i class="las la-chart-pie"></i><span>Profile View</span>
+                                    </a>
+                                </li>
+
                             </ul>
                         </li>
                     </ul>

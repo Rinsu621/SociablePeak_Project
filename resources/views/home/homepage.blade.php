@@ -27,7 +27,7 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-lg-8 row m-0 p-0">
+        <div class="col-lg-8 row m-0 p-0" >
             <div class="col-sm-12">
                 <div id="post-modal-data" class="card card-block card-stretch card-height">
                     <div class="card-header d-flex justify-content-between">
@@ -257,7 +257,7 @@
                                                 @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
                                                     <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                 @else
-                                                    <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
+                                                    <img src="{{ asset('/images/template/user/noprofile.jpg') }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                 @endif
                                             </div>
                                             <div class="comment-data-block ms-3">

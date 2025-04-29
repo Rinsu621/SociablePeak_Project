@@ -16,8 +16,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\BusinessAuthController;
-
-
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\GroupController;
 
 
@@ -79,6 +78,10 @@ Route::prefix('business')->group(function(){
     Route::get('/',[BusinessAuthController::class,'home'])->name('businessDashboard');
     Route::post('logout', [BusinessAuthController::class, 'logout'])->name('businesslogout');
 
+    Route::get('profile', [BusinessController::class, 'index'])->name('profileBusiness');
+    Route::post('/business/profile/update-picture', [BusinessController::class, 'ProfilePicture'])->name('businessPicture');
+    Route::post('/business/ads/post', [BusinessController::class, 'postAd'])->name('business.ads.post');
+
 });
 
 
@@ -101,6 +104,8 @@ Route::get('/analytics/most-interacted-users', [PostController::class, 'getMostI
 //Profile
 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
+Route::get('/profile/view/{id}', [ProfileController::class, 'view'])->name('profileView');
+
 
 //Profile
 

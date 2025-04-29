@@ -7,14 +7,17 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\ProfilePicture;
+use App\Models\ProfileView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+
 
 class ProfileController extends Controller
 {
     public function index()
     {
+
         // Get posts of user
         $userId = auth()->id();
         $user = Auth::user();
@@ -64,16 +67,18 @@ class ProfileController extends Controller
     }
 
     public function updatePicture(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
+    ]);
 
-        $userId = auth()->id();
+    $userId = auth()->id();
 
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $path = $request->file('image')->store('public/images/profile');
+    if ($request->hasFile('image') && $request->file('image')->isValid()) {
+        $path = $request->file('image')->store('public/images/profile');
 
+        // Check if the file was uploaded correctly
+        if ($path) {
             // Save the new profile picture without deleting the old one
             ProfilePicture::create([
                 'user_id' => $userId,
@@ -81,8 +86,43 @@ class ProfileController extends Controller
             ]);
 
             return redirect()->back()->with('message', 'Profile picture updated successfully.');
+        } else {
+            return redirect()->back()->withErrors('Failed to upload image.');
         }
-
-        return redirect()->back()->withErrors('Invalid image file.');
     }
+
+    return redirect()->back()->withErrors('Invalid image file.');
+}
+
+public function view($userId)
+{
+    $currentUser = Auth::user();
+    $viewedUser = User::find($userId);
+
+    if (!$viewedUser || $currentUser->id == $viewedUser->id) {
+        return redirect()->back();
+    }
+
+    // Record the profile view
+    ProfileView::create([
+        'viewer_id' => $currentUser->id,
+        'viewed_id' => $viewedUser->id,
+        'viewed_at' => now(),
+    ]);
+
+    // Get the list of users who have viewed this profile
+    $profileViews = ProfileView::where('viewed_id', $viewedUser->id)
+                               ->with('viewer')
+                               ->get();
+
+    // Pass 'viewedUser' to the layout and the profile view
+    return view('analytics.profileview', [
+        'user' => $viewedUser,
+        'profileViews' => $profileViews,
+        'viewedUser' => $viewedUser,  // Pass 'viewedUser' to the layout
+    ]);
+}
+
+
+
 }

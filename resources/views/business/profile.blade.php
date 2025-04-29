@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layoutBusiness')
 
 @section('style')
     <style>
@@ -125,7 +125,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('profile.updatePicture') }}" method="post" enctype="multipart/form-data">
+                                            <form action="{{ route('businessPicture') }}" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="d-flex align-items-center">
                                                     <div class="user-img">
@@ -156,20 +156,18 @@
                                 </div>
                             </div>
                             <div class="profile-detail">
-                                <h3 class="">{{ auth()->user()->name }}</h3>
+                                <h3 class="">{{ Auth::guard('business')->user()->name }}</h3>
                             </div>
                         </div>
                         <div class="profile-info p-3 d-flex align-items-center justify-content-between position-relative">
                             <div class="social-info">
                                 <ul
                                     class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
+
                                     <li class="text-center ps-3">
-                                        <h6>Posts</h6>
-                                        <p class="mb-0">{{$postCount}}</p>
-                                    </li>
-                                    <li class="text-center ps-3">
-                                        <h6>Friends</h6>
-                                        <p class="mb-0">{{$friendsCount}}</p>
+                                        <h6>Followers</h6>
+                                        {{-- <p class="mb-0">{{$friendsCount}}</p> --}}
+                                        <p class="mb-0">100</p>
                                     </li>
 
                                 </ul>
@@ -193,11 +191,11 @@
                             </li>
                             <li class="nav-item col-12 col-sm-3 p-0">
                                 <a class="nav-link" href="#pills-friends-tab" data-bs-toggle="pill"
-                                    data-bs-target="#friends" role="button">Friends</a>
+                                    data-bs-target="#friends" role="button">Followers</a>
                             </li>
                             <li class="nav-item col-12 col-sm-3 p-0">
                                 <a class="nav-link" href="#pills-photos-tab" data-bs-toggle="pill" data-bs-target="#photos"
-                                    role="button">Photos</a>
+                                    role="button">Ads</a>
                             </li>
                         </ul>
                     </div>
@@ -213,12 +211,12 @@
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between">
                                         <div class="header-title">
-                                            <h4 class="card-title">Photos</h4>
+                                            <h4 class="card-title">Ads</h4>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                            @foreach ($posts as $post)
+                                            @foreach ($ads as $post)
                                                  @if($post->images->isNotEmpty())
                                                     @foreach($post->images as $image)
                                                     <li class=""><a href="#"><img
@@ -227,20 +225,21 @@
                                                         @endforeach
                                                         @endif
                                                     @endforeach
+                                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="img-fluid"  />
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between">
                                         <div class="header-title">
-                                            <h4 class="card-title">Friends</h4>
+                                            <h4 class="card-title">Followers</h4>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                            @if (empty($friends))
-                                                <p>You have no friends.</p>
-                                            @else
+                                            {{-- {{-- @if (empty($friends)) --}}
+                                                <p>You have no followers.</p>
+                                            {{-- @else
                                                 @foreach ($friends as $key => $item)
                                                     <li class="">
                                                         <a href="#">
@@ -251,8 +250,8 @@
 
                                                         <h6 class="mt-2 text-center">{{ $item['user']['name'] }}</h6>
                                                     </li>
-                                                @endforeach
-                                            @endif
+                                                @endforeach --}}
+                                            {{-- @endif --}}
                                     </ul>
                                 </div>
                             </div>
@@ -263,7 +262,7 @@
                                 <div id="post-modal-data" class="card card-block card-stretch card-height">
                                     <div class="card-header d-flex justify-content-between">
                                         <div class="header-title">
-                                            <h4 class="card-title">Create Post</h4>
+                                            <h4 class="card-title">Create Ads</h4>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -291,42 +290,6 @@
                                                     Photo
                                                 </a>
                                             </li>
-                                            {{-- <li class="me-3 mb-md-0 mb-2">
-                                                <a href="#" class="btn btn-soft-primary">
-                                                    <img src="{{ asset('/images/template/small/08.png') }}" alt="icon" class="img-fluid me-2">
-                                                    Tag Friend
-                                                </a>
-                                            </li> --}}
-                                            {{-- <li class="me-3">
-                                                <a href="#" class="btn btn-soft-primary">
-                                                    <img src="{{ asset('/images/template/small/09.png') }}" alt="icon" class="img-fluid me-2">
-                                                    Feeling/Activity
-                                                </a>
-                                            </li> --}}
-                                            {{-- <li>
-                                                <button class="btn btn-soft-primary">
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <div class="dropdown-toggle" id="post-option" data-bs-toggle="dropdown">
-                                                                <i class="ri-more-fill"></i>
-                                                            </div>
-                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="post-option"
-                                                                style="">
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#post-modal">Check in</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#post-modal">Live Video</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#post-modal">Gif</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#post-modal">Watch Party</a>
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#post-modal">Play with Friend</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                            </li> --}}
                                         </ul>
                                     </form>
                                     </div>
@@ -334,12 +297,12 @@
                                         <div class="modal-dialog   modal-fullscreen-sm-down">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
+                                                    <h5 class="modal-title" id="post-modalLabel">Create Ads</h5>
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
                                                             class="ri-close-fill"></i></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{route('postStore')}}" method="post" enctype="multipart/form-data">
+                                                    <form action="{{route('business.ads.post')}}" method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="d-flex align-items-center">
                                                             <div class="user-img">
@@ -349,10 +312,10 @@
                                                                 <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
                                                             @endif
                                                             </div>
-                                                            {{-- <form class="post-text ms-3 w-100" action="javascript:void();"> --}}
+                                                            <form class="post-text ms-3 w-100" action="javascript:void();">
                                                                 <input type="text" class="form-control rounded" name="description"
                                                                     placeholder="Write something here..." style="border:none;">
-                                                            {{-- </form> --}}
+                                                            </form>
                                                         </div>
                                                         <div id="image-preview" style="margin-top: 10px;"></div>
                                                         <hr>
@@ -373,9 +336,7 @@
                                                             </li>
 
                                                         </ul>
-
-
-                                                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post Ads</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -384,15 +345,15 @@
                                 </div>
                             </div>
 
-                            @if ($posts->isEmpty())
+                            @if ($ads->isEmpty())
                                 <div class="card">
                                     <div class="card-body">
-                                        <p>You have no posts. Please create a post.</p>
+                                        <p>You have no ads. Please create a ads.</p>
                                     </div>
                                 </div>
                             @else
-                                @foreach ($posts as $key => $item)
-                                    <div class="card">
+                                 @foreach ($ads as $key => $item)
+                                    {<div class="card">
                                         <div class="card-body">
                                             <div class="post-item">
                                                 <div class="user-post-data py-3">
@@ -408,7 +369,7 @@
                                                             <div class="d-flex justify-content-between">
                                                                 <div class="">
                                                                     <h5 class="mb-0 d-inline-block"><a href="#"
-                                                                            class="">{{ auth()->user()->name }}</a>
+                                                                            class="">{{ Auth::guard('business')->user()->name }}</a>
                                                                     </h5>
                                                                     <p class="ms-1 mb-0 d-inline-block">
 
@@ -648,10 +609,10 @@
                             <div class="tab-pane fade active show" id="all-friends" role="tabpanel">
                                 <div class="card-body p-0">
                                     <div class="row">
-                                        @if (empty($friends))
+                                        {{-- @if (empty($friends))
                                             <p>You have no friends.</p>
-                                        @else
-                                            @foreach ($friends as $key => $item)
+                                        @else --}}
+                                            {{-- @foreach ($friends as $key => $item)
                                                 <div class="col-md-6 col-lg-6 mb-3">
                                                     <div class="iq-friendlist-block">
                                                         <div
@@ -701,7 +662,7 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        @endempty
+                                        @endempty --}}
 
                                         <div class="modal fade bd-example-modal-xl" tabindex="-1"
                                             role="dialog" aria-hidden="true">
@@ -2301,9 +2262,9 @@
                                                 <img src="{{ asset('/images/template/page-img/51.jpg') }}"
                                                     class="img-fluid rounded" alt="Responsive image">
                                              </a> --}}
-                                             <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                                @foreach ($posts as $post)
-                                                     @if($post->images->isNotEmpty())
+                                             {{-- <ul class="profile-img-gallary p-0 m-0 list-unstyled"> --}}
+                                                {{-- @foreach ($posts as $post) --}}
+                                                     {{-- @if($post->images->isNotEmpty())
                                                         @foreach($post->images as $image)
                                                         <li class=""><a href="#"><img
                                                             src="{{ Storage::url($image->file_path) }} "
@@ -2321,11 +2282,11 @@
                                                                     </ul>
                                                                 </div>
                                                             </div> --}}
-                                                            @endforeach
-                                                            @endif
+                                                            {{-- @endforeach --}}
+                                                            {{-- @endif --}}
 
-                                                        @endforeach
-                                            </ul>
+                                                        {{-- @endforeach --}}
+                                            {{-- </ul> --}}
 
                                             {{-- <a href="#" class="image-edit-btn"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"

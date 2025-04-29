@@ -42,16 +42,16 @@
             <div id="sidebar-scrollbar">
                 <nav class="iq-sidebar-menu">
                     <ul id="iq-sidebar-toggle" class="iq-menu">
-                        {{-- <li class="{{ Request::segment(1) == '' ? 'active' : '' }}">
-                            <a href="{{ route('homePage') }}" class=" ">
-                                <i class="las la-newspaper"></i><span>Newsfeed</span>
+                        <li class="{{ Request::segment(1) == '' ? 'active' : '' }}">
+                            <a href="{{ route('businessDashboard') }}" class=" ">
+                                <i class="las la-newspaper"></i><span>Dashboard</span>
                             </a>
-                        </li> --}}
-                        {{-- <li class="{{ Request::segment(1) == 'profile' ? 'active' : '' }}">
-                            <a href="{{ route('profile') }}" class=" ">
+                        </li>
+                         <li class="{{ Request::segment(1) == 'profile' ? 'active' : '' }}">
+                            <a href="{{ route('profileBusiness') }}" class=" ">
                                 <i class="las la-user"></i><span>Profile</span>
                             </a>
-                        </li> --}}
+                        </li>
                         {{-- <li class="{{ Request::segment(1) == 'chat' ? 'active' : '' }}">
                             <a href="{{route('admin.reports.index')}}" class=" ">
                                 <i class="fas fa-exclamation-circle"></i><span>Report</span>
@@ -144,19 +144,16 @@
                                     id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
 
-                                   <div class="user-imgprofile" >
-                                    {{-- @if($profilePicture && $profilePicture->file_path)
-                                        <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-40 img-fluid rounded-circle" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"  />
-                                    @else --}}
-                                        <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle"  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
-                                    {{-- @endif --}}
-                                </div>
-
-                                    <div class="caption">
-
-                                        @auth('business')
-                                            <h6 class="mb-0 line-height">{{ Auth::guard('business')->user()->name }}</h6>
-                                         @endauth
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-imgprofile me-2">
+                                            <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
+                                        </div>
+                                        <div class="caption">
+                                            @auth('business')
+                                                <h6 class="mb-0 line-height" style="font-size: 16px;">{{ Auth::guard('business')->user()->name }}</h6>
+                                            @endauth
+                                        </div>
+                                    </div>
                                 </a>
                                 <div class="sub-drop dropdown-menu caption-menu" aria-labelledby="drop-down-arrow">
                                     <div class="card shadow-none m-0">
