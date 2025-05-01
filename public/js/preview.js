@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function previewImage(event) {
+    console.log('Image selected'); // Test if this is firing
     var files = event.target.files;
     var preview = document.getElementById('image-preview');
     preview.innerHTML = ''; // Clear the existing preview

@@ -93,8 +93,6 @@
                                         <div id="image-preview" style="margin-top: 10px;"></div>
                                         <hr>
                                         <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-
-
                                             <li class="col-md-6 mb-3">
                                                 <div class="bg-soft-primary rounded p-2 pointer me-3">
                                                    Schedule Post : <input type="date" name="set_time">
@@ -105,7 +103,7 @@
                                                         alt="icon" class="img-fluid"><label for="image"> Photo
                                                         <input type="file" id="image" name="image[]" multiple style="display: none;"  >
                                                     </label>
-                                                    </div>
+                                                </div>
                                             </li>
 
                                         </ul>

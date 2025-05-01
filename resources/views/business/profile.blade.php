@@ -96,8 +96,7 @@
                 <div class="card-body profile-page p-0">
                     <div class="profile-header">
                         <div class="position-relative">
-                            <img src="{{ asset('/images/template/page-img/profile-bg1.jpg') }}" alt="profile-bg"
-                                class="rounded img-fluid">
+                            <img src="{{ asset('/images/template/page-img/profile-bg1.jpg') }}" alt="profile-bg"  class="rounded img-fluid">
                             <ul class="header-nav list-inline d-flex flex-wrap justify-end p-0 m-0">
                                 <li><a href="#"><i class="ri-pencil-line"></i></a></li>
                             </ul>
@@ -135,6 +134,7 @@
                                                         <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
                                                     @endif
                                                     </div>
+
                                                     <input type="text" class="form-control rounded ms-3 w-100" name="description" placeholder="Write something here..." style="border:none;">
                                                 </div>
                                                 <div id="image-preview" style="margin-top: 10px;"></div>
@@ -146,6 +146,7 @@
                                                                 <input type="file" id="image" name="image" style="display: none;">
                                                                 <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
                                                             </label>
+
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -168,6 +169,11 @@
                                         <h6>Followers</h6>
                                         {{-- <p class="mb-0">{{$friendsCount}}</p> --}}
                                         <p class="mb-0">100</p>
+                                    </li>
+                                    <li class="text-center ps-3">
+                                        <h6>Ads</h6>
+                                        {{-- <p class="mb-0">{{$friendsCount}}</p> --}}
+                                        <p class="mb-0">{{$userAdsCount}}</p>
                                     </li>
 
                                 </ul>
@@ -217,15 +223,15 @@
                                     <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                                             @foreach ($ads as $post)
-                                                 @if($post->images->isNotEmpty())
-                                                    @foreach($post->images as $image)
+                                                 @if(optional($post->adimages)->isNotEmpty())
+                                                    @foreach($post->adimages as $image)
                                                     <li class=""><a href="#"><img
-                                                        src="{{ Storage::url($image->file_path) }} "
+                                                        src="{{ asset($image->file_path) }} "
                                                         alt="gallary-image" class="img-fluid" /></a></li>
-                                                        @endforeach
-                                                        @endif
                                                     @endforeach
-                                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="img-fluid"  />
+                                                @endif
+                                             @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
@@ -267,12 +273,12 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
-                                            <div class="user-img">
+                                            <div class="user-img" style="width: 60px; height: 55px; overflow: hidden; border-radius:50%;">
                                                 @if($profilePicture && $profilePicture->file_path)
-                                                <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
+                                                <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
                                                 @else
-                                                <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
-                                            @endif
+                                                <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
+                                                @endif
                                             </div>
                                             <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal"
                                                 action="javascript:void();">
@@ -291,7 +297,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </form>
+                                        </form>
                                     </div>
                                     <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel" aria-hidden="true">
                                         <div class="modal-dialog   modal-fullscreen-sm-down">
@@ -302,41 +308,59 @@
                                                             class="ri-close-fill"></i></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{route('business.ads.post')}}" method="post" enctype="multipart/form-data">
+                                                    <form action="{{ route('business.ads.post') }}" method="POST" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="d-flex align-items-center">
-                                                            <div class="user-img">
+                                                            <div class="user-img" style="width: 60px; height: 55px; overflow: hidden; border-radius:50%;">
                                                                 @if($profilePicture && $profilePicture->file_path)
-                                                                <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
+                                                                    <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
                                                                 @else
-                                                                <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
-                                                            @endif
+                                                                    <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;"/>
+                                                                @endif
                                                             </div>
-                                                            <form class="post-text ms-3 w-100" action="javascript:void();">
-                                                                <input type="text" class="form-control rounded" name="description"
-                                                                    placeholder="Write something here..." style="border:none;">
-                                                            </form>
+                                                            <input type="text" class="form-control rounded" name="description" placeholder="Write something here..." style="border:none;">
                                                         </div>
+
                                                         <div id="image-preview" style="margin-top: 10px;"></div>
+
                                                         <hr>
+
                                                         <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-
-
                                                             <li class="col-md-6 mb-3">
                                                                 <div class="bg-soft-primary rounded p-2 pointer me-3">
-                                                                   Schedule Post : <input type="date" name="set_time">
+                                                                    Schedule Post: <input type="date" name="set_time">
+                                                                </div>
                                                             </li>
                                                             <li class="col-md-6 mb-3">
-                                                                <div class="bg-soft-primary rounded p-2 pointer me-3"><a
-                                                                        href="#"></a><img src="{{ asset('/images/template/small/07.png') }}"
-                                                                        alt="icon" class="img-fluid"><label for="image"> Photo
-                                                                        <input type="file" id="image" name="image[]" multiple style="display: none;"  >
+                                                                <div class="bg-soft-primary rounded p-2 pointer me-3">
+                                                                    <label for="image">
+                                                                        <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
+                                                                        <span> Photo</span>
                                                                     </label>
-                                                                    </div>
+                                                                    <input type="file" id="image" name="image[]" multiple>
+                                                                </div>
                                                             </li>
-
+                                                            <li class="col-md-6 mb-3">
+                                                                <div class="bg-soft-primary rounded p-2 pointer me-3">
+                                                                    <label for="title">
+                                                                        <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
+                                                                        <span> Title</span>
+                                                                    </label>
+                                                                    <input type="text" class="form-control rounded" name="title" placeholder="Enter Title" style="border:none;">
+                                                                </div>
+                                                            </li>
+                                                            <li class="col-md-6 mb-3">
+                                                                <div class="bg-soft-primary rounded p-2 pointer me-3">
+                                                                    <label for="category">
+                                                                        <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
+                                                                        <span> Category</span>
+                                                                    </label>
+                                                                    <input type="text" class="form-control rounded" name="category" placeholder="Category" style="border:none;">
+                                                                </div>
+                                                            </li>
                                                         </ul>
-                                                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post Ads</button>
+
+                                                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -353,7 +377,7 @@
                                 </div>
                             @else
                                  @foreach ($ads as $key => $item)
-                                    {<div class="card">
+                                    <div class="card">
                                         <div class="card-body">
                                             <div class="post-item">
                                                 <div class="user-post-data py-3">
@@ -372,9 +396,7 @@
                                                                             class="">{{ Auth::guard('business')->user()->name }}</a>
                                                                     </h5>
                                                                     <p class="ms-1 mb-0 d-inline-block">
-
                                                                         Update Status
-
                                                                     </p>
                                                                     <p class="mb-0">
                                                                         {{ convertToTimeAgo($item->created_at) }}</p>
@@ -389,57 +411,59 @@
                                                     </p>
                                                 </div>
                                                 {{-- Check if the post has images and display them --}}
-                                                  @if($item->images->isNotEmpty())
-                                                     <div class="post-images">
-                                                         @foreach($item->images as $image)
-
-                                                            <img src="{{ Storage::url($image->file_path) }}" alt="Post Image" class="img-fluid rounded">
-                                                         @endforeach
-                                                     </div>
-                                                    @endif
+                                                @if($item->adimages && $item->adimages->isNotEmpty())
+                                                <div class="post-images">
+                                                    @foreach($item->adimages as $image)
+                                                    @php
+                                                    \Log::info('Image Path:', [Storage::url($image->file_path)]);
+                                                    @endphp
+                                                        <img src="{{ asset($image->file_path) }}" alt="Post Image" class="img-fluid rounded">
+                                                    @endforeach
+                                                </div>
+                                                @endif
                                                     <div class="comment-area mt-3">
                                                         <div class="d-flex justify-content-between align-items-center flex-wrap">
                                                             <div class="like-block position-relative d-flex align-items-center">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="like-data">
-                                                                        <button class="btn btn-link p-0 like-button" data-post-id="{{ $post->id }}">
+                                                                        {{-- <button class="btn btn-link p-0 like-button" data-post-id="{{ $post->id }}">
                                                                             @if($post->likes->where('user_id', auth()->id())->count())
                                                                                 Unlike
                                                                             @else
                                                                                 Like
                                                                             @endif
-                                                                        </button>
+                                                                        </button> --}}
                                                                     </div>
                                                                     <div class="total-like-block ms-2 me-3">
                                                                         <div class="dropdown">
-                                                                            <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                                            {{-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
                                                                                 <span class="like-count">{{ $post->likes->count() }}</span> {{ $post->likes->count() == 1 ? 'Like' : 'Likes' }}
                                                                             </span>
                                                                             <div class="dropdown-menu">
                                                                                 @foreach($post->likes as $like)
                                                                                     <a class="dropdown-item" href="#">{{ $like->user->name }}</a>
                                                                                 @endforeach
-                                                                            </div>
+                                                                            </div> --}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="total-comment-block">
                                                                     <div class="dropdown">
-                                                                        <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                                        {{-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
                                                                             {{ $post->comments->count() }} {{ $post->comments->count() == 1 ? 'Comment' : 'Comments' }}
                                                                         </span>
                                                                         <div class="dropdown-menu">
                                                                             @foreach($post->comments as $comment)
                                                                                 <a class="dropdown-item" href="#">{{ $comment->user->name }}: {{ $comment->comment }}</a>
                                                                             @endforeach
-                                                                        </div>
+                                                                        </div> --}}
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <ul class="post-comments list-inline p-0 m-0">
-                                                            @foreach($post->comments as $comment)
+                                                            {{-- @foreach($post->comments as $comment)
                                                                 <li class="mb-2">
                                                                     <div class="d-flex">
                                                                         <div class="user-img">
@@ -459,7 +483,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </li>
-                                                            @endforeach
+                                                            @endforeach --}}
                                                         </ul>
                                                         <form class="comment-text d-flex align-items-center mt-3" action="{{ route('post.comment', $post->id) }}" method="POST">
                                                             @csrf
@@ -471,12 +495,12 @@
                                                             </div>
                                                         </form>
                                                     </div>
-                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
                             @endempty
-
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2304,13 +2328,13 @@
             </div>
         </div>
     </div>
-</div>
-</div>
+{{-- </div>
+</div> --}}
 <div class="col-sm-12 text-center">
 <img src="{{ asset('/images/template/page-img/page-load-loader.gif') }}" alt="loader"
     style="height: 100px;">
 </div>
-</div>
+{{-- </div> --}}
 @endsection
 
 @section('script')
@@ -2357,5 +2381,8 @@
             });
         });
     });
+
+
 </script>
+
 @endsection

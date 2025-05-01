@@ -145,8 +145,13 @@
                                     aria-expanded="false">
 
                                     <div class="d-flex align-items-center">
+
                                         <div class="user-imgprofile me-2">
-                                            <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
+                                            @if($profilePicture && $profilePicture->file_path)
+                                            <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
+                                            @else
+                                            <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
+                                        @endif
                                         </div>
                                         <div class="caption">
                                             @auth('business')

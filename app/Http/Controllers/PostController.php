@@ -29,22 +29,12 @@ class PostController extends Controller
 
             ]);
 
-            // Retrieve data from the POST request
-            // $data = [
-            //     'user_id' => $userId,
-            //     'description' => $request->input('description'),
-            // ];
-
             //new
             $post = Post::create([
                 'user_id' => $userId,
                 'description' => $request->input('description'),
             ]);
 
-            // if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            //     $imagePath = $request->file('image')->store('public/images/template/postimg', 'public');
-            //     $data['image'] = $imagePath; // Storing the path in the database
-            // }
             if ($request->hasFile('image')) {
                 foreach ($request->file('image') as $image) {
                     $path = $image->store('public/images/postimg');
@@ -54,15 +44,6 @@ class PostController extends Controller
                 }
             }
 
-
-            // $set_time = $request->input('set_time');
-            // if(!empty($set_time)){
-            //     $data['set_time'] = $set_time;
-            //     $data['status'] = 0;
-            //     ScheduledPost::create($data);
-            // }else{
-            //     Post::create($data);
-            // }
             $set_time = $request->input('set_time');
         if (!empty($set_time)) {
             $post->set_time = $set_time;

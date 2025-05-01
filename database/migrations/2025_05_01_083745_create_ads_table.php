@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('business_id');
+            $table->foreignId('business_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('image_path');
+            $table->string('category');
+            $table->integer('status')->default(0);
+            $table->string('privacy')->default('public');
             $table->timestamps();
-            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

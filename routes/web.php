@@ -80,7 +80,8 @@ Route::prefix('business')->group(function(){
 
     Route::get('profile', [BusinessController::class, 'index'])->name('profileBusiness');
     Route::post('/business/profile/update-picture', [BusinessController::class, 'ProfilePicture'])->name('businessPicture');
-    Route::post('/business/ads/post', [BusinessController::class, 'postAd'])->name('business.ads.post');
+    Route::post('/ads/post', [BusinessController::class, 'postAdStore'])->name('business.ads.post');
+
 
 });
 

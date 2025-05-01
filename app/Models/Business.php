@@ -18,4 +18,6 @@ class Business extends Authenticatable // Extend Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+   
 }

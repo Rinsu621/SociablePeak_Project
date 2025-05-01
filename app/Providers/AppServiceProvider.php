@@ -8,29 +8,28 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ProfilePicture;
 use App\Models\Notification;
 use App\Models\Business;
+use App\Models\BusinessProfilePicture;
 use App\Models\User;
-
-
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // View::composer('*', function ($view) {
-        //     $user = Auth::user();
-        //     $profilePicture = null;
-
-        //     if ($user) {
-        //         // Fetch the latest profile picture for the authenticated user
-        //         $profilePicture = ProfilePicture::where('user_id', $user->id)->latest()->first();
-        //     }
-
-        //     $view->with('profilePicture', $profilePicture);
-        // });
         View::composer('*', function ($view) {
             $userId = auth()->id();
             $unreadCount = 0;
-            $notifications = collect(); // Initialize as an empty collection to avoid undefined variable errors
+            $notifications = collect();
+            $profilePicture = null;
+            $viewedUser = null;
+            $businessName = null;
+
+            if (auth()->guard('business')->check()) {
+                $business = auth()->guard('business')->user();
+                $profilePicture = BusinessProfilePicture::where('business_id', $business->id)
+                    ->latest('id')
+                    ->first();
+                $businessName = $business->name ?? null;
+            }
 
             if ($userId) {
                 $unreadCount = Notification::where('user_id', $userId)
@@ -41,29 +40,18 @@ class AppServiceProvider extends ServiceProvider
                                              ->orderBy('created_at', 'desc')
                                              ->limit(10)
                                              ->get();
+
+                $viewedUser = User::find($userId);
             }
 
-            // Pass both variables to the view
             $view->with('unreadCount', $unreadCount)
-                 ->with('notifications', $notifications);
+                 ->with('notifications', $notifications)
+                 ->with('profilePicture', $profilePicture)
+                 ->with('viewedUser', $viewedUser)
+                 ->with('businessName', $businessName);
         });
-
-        View::composer('layouts.layoutBusiness', function ($view) {
-            $business = Auth::user(); // Or use Auth::guard('business')->user(); if using custom guard
-            $view->with('businessName', $business?->name);
-        });
-        View::composer('*', function ($view) {
-            if (auth()->check()) {
-                $view->with('viewedUser', User::find(auth()->id())); // Adjust this as per your needs
-            }
-        });
-
-
     }
 
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //

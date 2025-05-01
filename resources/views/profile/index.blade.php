@@ -273,7 +273,7 @@
                                                 <img src="{{ Storage::url($profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
                                                 @else
                                                 <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" />
-                                            @endif
+                                                @endif
                                             </div>
                                             <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal"
                                                 action="javascript:void();">
