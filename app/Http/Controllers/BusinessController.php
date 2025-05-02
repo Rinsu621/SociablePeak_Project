@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\BusinessProfilePicture;
 use App\Models\Business;
 use App\Models\Ad;
+use App\Models\AdLike;
 use App\Models\AdImage;
 
 class BusinessController extends Controller
@@ -21,7 +22,7 @@ class BusinessController extends Controller
         ->latest('id') // or ->latest('created_at') if you prefer
         ->first();
         // $ads = Ads::where('business_id', $business->id)->latest()->get();
-        $ads = Ad::with('adimages')->where('business_id', $business->id)->latest()->get();
+        $ads = Ad::with('adimages','adLikes.user','adLikes.business')->where('business_id', $business->id)->latest()->get();
 
 
 
@@ -124,7 +125,52 @@ class BusinessController extends Controller
     }
 }
 
+public function likeAd($id)
+{
+    try {
+        // Determine if a user or business is authenticated
+        $userId = auth()->check() ? auth()->id() : null;
+        $businessId = auth()->guard('business')->check() ? auth()->guard('business')->id() : null;
 
+        if (!$userId && !$businessId) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized.'], 401);
+        }
+
+        // Confirm the ad exists
+        $ad = Ad::findOrFail($id);
+
+        // Check if already liked
+        $like = AdLike::where('ad_id', $id)
+            ->when($userId, fn($q) => $q->where('user_id', $userId))
+            ->when($businessId, fn($q) => $q->orWhere('business_id', $businessId))
+            ->first();
+
+        $liked = false;
+
+        if ($like) {
+            $like->delete(); // Unlike
+        } else {
+            AdLike::create([
+                'ad_id' => $id,
+                'user_id' => $userId,
+                'business_id' => $businessId,
+            ]);
+            $liked = true;
+        } // before $likes_count is defined
+        // Return updated like count
+        $likes_count = $ad->adLikes()->count();
+        \Log::info('Ad liked? ' . json_encode(['liked' => $liked, 'likes_count' => $likes_count]));
+
+        return response()->json([
+            'success' => true,
+            'liked' => $liked,
+            'likes_count' => $likes_count
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Error in likeAd: ' . $e->getMessage());
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
 
 
 

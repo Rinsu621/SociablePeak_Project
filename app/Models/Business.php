@@ -19,5 +19,16 @@ class Business extends Authenticatable // Extend Authenticatable
         'password', 'remember_token',
     ];
 
-   
+    public function adLikes()
+    {
+        return $this->hasMany(AdLike::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(AdComment::class);
+    }
+
+
+
 }

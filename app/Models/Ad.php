@@ -19,15 +19,15 @@ class Ad extends Model
         return $this->hasMany(AdImage::class, 'ad_id');
     }
 
-  
 
-    public function likes()
+
+    public function adLikes()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(AdLike::class);
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(AdComment::class);
     }
 }

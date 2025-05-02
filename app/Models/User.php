@@ -63,9 +63,20 @@ class User extends Authenticatable
     }
 
     public function viewers()
-{
-    return $this->belongsToMany(User::class, 'profile_views', 'viewed_id', 'viewer_id')->withTimestamps();
-}
+    {
+        return $this->belongsToMany(User::class, 'profile_views', 'viewed_id', 'viewer_id')->withTimestamps();
+    }
+
+    public function adLikes()
+    {
+        return $this->hasMany(AdLike::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(AdComment::class);
+    }
+
 
 }
 
