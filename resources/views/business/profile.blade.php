@@ -96,7 +96,7 @@
                 <div class="card-body profile-page p-0">
                     <div class="profile-header">
                         <div class="position-relative">
-                            <img src="{{ asset('/images/template/page-img/profile-bg1.jpg') }}" alt="profile-bg"  class="rounded img-fluid">
+                            <img src="{{ asset('/images/template/page-img/kbanner.png') }}" alt="profile-bg"  class="rounded img-fluid">
                             <ul class="header-nav list-inline d-flex flex-wrap justify-end p-0 m-0">
                                 <li><a href="#"><i class="ri-pencil-line"></i></a></li>
                             </ul>
@@ -343,8 +343,9 @@
                                                             <li class="col-md-6 mb-3">
                                                                 <div class="bg-soft-primary rounded p-2 pointer me-3">
                                                                     <label for="title">
-                                                                        <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
-                                                                        <span> Title</span>
+                                                                        {{-- <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid"> --}}
+                                                                        {{-- <span> Title</span> --}}
+                                                                        <span><i class="ri-file-text-line"></i> Title</span>
                                                                     </label>
                                                                     <input type="text" class="form-control rounded" name="title" placeholder="Enter Title" style="border:none;">
                                                                 </div>
@@ -352,8 +353,9 @@
                                                             <li class="col-md-6 mb-3">
                                                                 <div class="bg-soft-primary rounded p-2 pointer me-3">
                                                                     <label for="category">
-                                                                        <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
-                                                                        <span> Category</span>
+                                                                        {{-- <img src="{{ asset('/images/template/small/07.png') }}" alt="icon" class="img-fluid">
+                                                                        <span> Category</span> --}}
+                                                                        <span><i class="ri-apps-line"></i> Category</span>
                                                                     </label>
                                                                     <input type="text" class="form-control rounded" name="category" placeholder="Category" style="border:none;">
                                                                 </div>
@@ -454,32 +456,40 @@
                                                                 </div>
                                                                 <div class="total-comment-block">
                                                                     <div class="dropdown">
-                                                                        {{-- <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                                            {{ $post->comments->count() }} {{ $post->comments->count() == 1 ? 'Comment' : 'Comments' }}
+                                                                        <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                                            {{ $item->comments->count() }} {{ $item->comments->count() == 1 ? 'Comment' : 'Comments' }}
                                                                         </span>
                                                                         <div class="dropdown-menu">
-                                                                            @foreach($post->comments as $comment)
-                                                                                <a class="dropdown-item" href="#">{{ $comment->user->name }}: {{ $comment->comment }}</a>
+                                                                            @foreach($item->comments as $comment)
+                                                                                <a class="dropdown-item" href="#"> {{ $comment->user?->name ?? $comment->business?->name ?? 'Unknown' }}: {{ $comment->comment }}</a>
                                                                             @endforeach
-                                                                        </div> --}}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <ul class="post-comments list-inline p-0 m-0">
-                                                            {{-- @foreach($post->comments as $comment)
+                                                            @foreach($item->comments as $comment)
                                                                 <li class="mb-2">
                                                                     <div class="d-flex">
                                                                         <div class="user-img">
-                                                                            @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
-                                                                                <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
-                                                                            @else
-                                                                                <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-35 rounded-circle img-fluid">
-                                                                            @endif
+                                                                            @php
+                                                                            $profilePath = null;
+
+                                                                            if ($comment->user && $comment->user->profilePicture && $comment->user->profilePicture->file_path) {
+                                                                                $profilePath = Storage::url($comment->user->profilePicture->file_path);
+                                                                            } elseif ($comment->business && $comment->business->profilePicture && $comment->business->profilePicture->file_path) {
+                                                                                $profilePath = Storage::url($comment->business->profilePicture->file_path);
+                                                                            }
+                                                                        @endphp
+
+                                                                        <img src="{{ $profilePath ?? asset('/images/template/user/default.jpg') }}"
+                                                                             alt="userimg"
+                                                                             class="avatar-40 rounded-circle img-fluid">
                                                                         </div>
                                                                         <div class="comment-data-block ms-3">
-                                                                            <h6>{{ $comment->user->name }}</h6>
+                                                                            <h6>{{ $comment->user?->name ?? $comment->business?->name ?? 'Unknown' }}</h6>
                                                                             <p class="mb-0">{{ $comment->comment }}</p>
                                                                             <div class="d-flex flex-wrap align-items-center comment-activity">
 
@@ -488,9 +498,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </li>
-                                                            @endforeach --}}
+                                                            @endforeach
                                                         </ul>
-                                                        <form class="comment-text d-flex align-items-center mt-3" action="{{ route('post.comment', $post->id) }}" method="POST">
+                                                        <form class="comment-text d-flex align-items-center mt-3" action="{{ route('businesscomment', $item->id) }}" method="POST">
                                                             @csrf
                                                             <input type="text" name="comment" class="form-control rounded" placeholder="Enter Your Comment" required>
                                                             <div class="comment-attagement d-flex">
@@ -615,7 +625,7 @@
                             class="nav nav-pills d-flex align-items-center justify-content-left friend-list-items p-0 mb-2">
                             <li>
                                 <a class="nav-link active" data-bs-toggle="pill" href="#pill-all-friends"
-                                    data-bs-target="#all-feinds">All Friends</a>
+                                    data-bs-target="#all-feinds">All Followers</a>
                             </li>
                             {{-- <li>
                                 <a class="nav-link" data-bs-toggle="pill" href="#pill-recently-add"
@@ -774,18 +784,18 @@
                                 <div class="d-grid gap-2 d-grid-template-1fr-13">
                                     <div class="">
                                         <div class="user-images position-relative overflow-hidden">
-                                            {{-- <a href="#">
+                                            <a href="#">
                                                 <img src="{{ asset('/images/template/page-img/51.jpg') }}"
                                                     class="img-fluid rounded" alt="Responsive image">
-                                             </a> --}}
-                                             {{-- <ul class="profile-img-gallary p-0 m-0 list-unstyled"> --}}
-                                                {{-- @foreach ($posts as $post) --}}
-                                                     {{-- @if($post->images->isNotEmpty())
-                                                        @foreach($post->images as $image)
+                                             </a>
+                                             <ul class="profile-img-gallary p-0 m-0 list-unstyled">
+                                                @foreach ($ads as $post) --}}
+                                                      @if($post->adimages->isNotEmpty())
+                                                        @foreach($post->adimages as $image)
                                                         <li class=""><a href="#"><img
-                                                            src="{{ Storage::url($image->file_path) }} "
+                                                            src="{{ asset($image->file_path) }} "
                                                             alt="gallary-image" class="img-fluid" /></a></li>
-                                                            {{-- <div class="image-hover-data">
+                                                            <div class="image-hover-data">
                                                                 <div class="product-elements-icon">
                                                                     <ul class="d-flex align-items-center m-0 p-0 list-inline">
                                                                         <li><a href="#" class="pe-3 text-white"> 60 <i
@@ -797,17 +807,17 @@
                                                                         </li>
                                                                     </ul>
                                                                 </div>
-                                                            </div> --}}
-                                                            {{-- @endforeach --}}
-                                                            {{-- @endif --}}
+                                                            </div>
+                                                             @endforeach
+                                                             @endif
 
-                                                        {{-- @endforeach --}}
-                                            {{-- </ul> --}}
+                                                        @endforeach
+                                            </ul>
 
                                             {{-- <a href="#" class="image-edit-btn"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="" data-bs-original-title="Edit or Remove"><i
-                                                    class="ri-edit-2-fill"></i></a> --}}
+                                                    class="ri-edit-2-fill"></i></a>
                                         </div>
                                     </div>
 

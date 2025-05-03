@@ -9,6 +9,7 @@ use App\Models\BusinessProfilePicture;
 use App\Models\Business;
 use App\Models\Ad;
 use App\Models\AdLike;
+use App\Models\AdComment;
 use App\Models\AdImage;
 
 class BusinessController extends Controller
@@ -172,7 +173,35 @@ public function likeAd($id)
     }
 }
 
+    public function storeComment(Request $request, $id)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
 
+        $userId = auth()->check() ? auth()->id() : null;
+        $businessId = auth()->guard('business')->check() ? auth()->guard('business')->id() : null;
 
+        if (!$userId && !$businessId) {
+            return redirect()->back()->with('error', 'You must be logged in to comment.');
+        }
 
+        AdComment::create([
+            'ad_id' => $id,
+            'user_id' => $userId,
+            'business_id' => $businessId,
+            'comment' => $request->input('comment'),
+        ]);
+
+        return redirect()->back()->with('message', 'Comment added.');
+    }
+
+    public function show($id)
+    {
+        // Retrieve the business profile by ID
+        $business = Business::findOrFail($id);
+
+        // Pass the business data to the view
+        return view('business.businessprofile', compact('business'));
+    }
 }

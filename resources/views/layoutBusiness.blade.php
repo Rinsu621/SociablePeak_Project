@@ -81,7 +81,7 @@
             <div class="iq-navbar-custom">
                 <nav class="navbar navbar-expand-lg navbar-light p-0">
                     <div class="iq-navbar-logo d-flex justify-content-between">
-                        <a href="{{ route('admin.dashboard') }}">
+                        <a href="{{ route('businesslogin') }}">
                             <img src="{{ asset('/images/template/logo.png') }}" class="img-fluid" alt="">
                             <span>SociablePeak</span>
                         </a>

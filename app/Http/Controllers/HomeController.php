@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Friend;
 use App\Models\User;
+use App\Models\Ad;
 use App\Models\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,10 @@ class HomeController extends Controller
             $userId = Auth::id();
             $user = Auth::user();
 
+
+            $ads = Ad::with('adimages', 'adLikes.user', 'adLikes.business', 'comments.user','business')  // Include related models for likes and comments
+                 ->inRandomOrder()  
+                 ->get();
             // Fetch friends' IDs
             $friendIds = Friend::where(function ($query) use ($userId) {
                 $query->where('user_id', $userId)
@@ -59,13 +64,16 @@ class HomeController extends Controller
                                     ->limit(3)
                                     ->get();
 
-                                    $suggestedFriends = $this->getFriendSuggestions($userId, $friendIds);
+             $suggestedFriends = $this->getFriendSuggestions($userId, $friendIds);
+             $query = Ad::query();
+
             return view('home.homepage', [
                 'posts' => $posts,
                 'profilePicture' => $profilePicture,
                 'user' => $user,
                 'friendRequests' => $friendRequests,
-                'suggestedFriends' => $suggestedFriends
+                'suggestedFriends' => $suggestedFriends,
+                'ads'=>$ads
             ]);
         } else {
             return redirect()->route('login');

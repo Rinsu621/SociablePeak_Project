@@ -23,6 +23,15 @@
     border-radius: 50%;
 }
 
+
+
+.profile-btn:hover {
+    color: white;  /* Text color when hovering */
+    background-color: #268fff; /* Button background color when hovering */
+}
+
+
+
 </style>
 @endsection
 @section('content')
@@ -140,52 +149,7 @@
 
                                         </div>
                                         <div class="card-post-toolbar">
-                                            {{-- <div class="dropdown">
-                                                <span class="dropdown-toggle" data-bs-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false" role="button">
-                                                    <i class="ri-more-fill"></i>
-                                                </span> --}}
-                                                {{-- <div class="dropdown-menu m-0 p-0">
-                                                    <a class="dropdown-item p-3" href="#">
-                                                        <div class="d-flex align-items-top">
-                                                            <div class="h4">
-                                                                <i class="ri-save-line"></i>
-                                                            </div>
-                                                            <div class="data ms-2">
-                                                                <h6>Save Post</h6>
-                                                                <p class="mb-0">Add this to your saved items</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a class="dropdown-item p-3" href="#">
-                                                        <div class="d-flex align-items-top">
-                                                            <i class="ri-close-circle-line h4"></i>
-                                                            <div class="data ms-2">
-                                                                <h6>Hide Post</h6>
-                                                                <p class="mb-0">See fewer posts like this.</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a class="dropdown-item p-3" href="#">
-                                                        <div class="d-flex align-items-top">
-                                                            <i class="ri-user-unfollow-line h4"></i>
-                                                            <div class="data ms-2">
-                                                                <h6>Unfollow User</h6>
-                                                                <p class="mb-0">Stop seeing posts but stay friends.</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a class="dropdown-item p-3" href="#">
-                                                        <div class="d-flex align-items-top">
-                                                            <i class="ri-notification-line h4"></i>
-                                                            <div class="data ms-2">
-                                                                <h6>Notifications</h6>
-                                                                <p class="mb-0">Turn on notifications for this post</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div> --}}
-                                            {{-- </div> --}}
+
                                         </div>
                                     </div>
                                 </div>
@@ -279,6 +243,161 @@
                     </div>
                 </div>
             </div>
+
+            @if ($loop->iteration % 5 == 0)
+            {{-- @foreach ($ads as $key => $item) --}}
+                         @php
+            // Get only one ad for every 5 posts (ensure you use only the first ad if there are multiple ads)
+                                 $item = $ads->random();
+                                    @endphp
+                                    @if($item)
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="post-item">
+                                                <div class="user-post-data py-3">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="me-3 user-img">
+                                                            @if($item->business && $item->business->profilePicture && $item->business->profilePicture->file_path)
+                                                                 <img src="{{ Storage::url($item->business->profilePicture->file_path) }}" alt="business-img" class="avatar-60 img-fluid rounded-circle" />
+                                                             @else
+                                                                 <img src="{{ asset('/images/template/business/default.jpg') }}" alt="business-img" class="avatar-60 img-fluid rounded-circle" />
+                                                             @endif
+                                                        </div>
+                                                        <div class="w-100">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="">
+                                                                    <h5 class="mb-0 d-inline-block"><a href="#"
+                                                                            class="">{{ $item->business->name }}</a>
+                                                                    </h5>
+                                                                    <p class="ms-1 mb-0 d-inline-block">
+                                                                        Update Status
+                                                                    </p>
+                                                                    <p class="mb-0">
+                                                                        {{ convertToTimeAgo($item->created_at) }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="user-post">
+                                                    <p>
+                                                        {{ $item->description }}
+                                                    </p>
+                                                </div>
+                                                {{-- Check if the post has images and display them --}}
+                                                @if($item->adimages && $item->adimages->isNotEmpty())
+                                                <div class="post-images">
+                                                    @foreach($item->adimages as $image)
+                                                    @php
+                                                    \Log::info('Image Path:', [Storage::url($image->file_path)]);
+                                                    @endphp
+                                                        <img src="{{ asset($image->file_path) }}" alt="Post Image" class="img-fluid rounded">
+                                                    @endforeach
+
+                                                </div>
+
+                                                @endif
+                                                    <div class="comment-area mt-3">
+                                                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                                            <div class="like-block position-relative d-flex align-items-center">
+                                                                <div class="d-flex align-items-center">
+                                                                  <div class="like-block d-flex align-items-center gap-2">
+                                                                        <button type="button" class="btn btn-link p-0 like-button" data-ad-id="{{ $item->id }}">
+                                                                            @if(($item->adLikes->where('user_id', auth()->id())->count())|| ($item->adLikes->where('business_id', Auth::guard('business')->id())->count()))
+                                                                                Unlike
+                                                                            @else
+                                                                                Like
+                                                                            @endif
+                                                                        </button>
+
+                                                                    <div class="total-like-block ms-2 me-3">
+                                                                        <div class="dropdown">
+                                                                            <span class="dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                                                                                <span class="like-count">{{ $item->adLikes->count() }}</span>
+                                                                                <span class="like-text">{{ $item->adLikes->count() === 1 ? 'Like' : 'Likes' }}</span>
+                                                                            </span>
+
+                                                                            <div class="dropdown-menu ad-like-list">
+                                                                                @foreach($item->adLikes as $like)
+                                                                                    <a class="dropdown-item" href="#">
+                                                                                        {{ $like->user ? $like->user->name : ($like->business ? $like->business->name : 'Unknown') }}
+                                                                                    </a>
+                                                                                @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="total-comment-block">
+                                                                    <div class="dropdown">
+                                                                        <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                                            {{ $item->comments->count() }} {{ $item->comments->count() == 1 ? 'Comment' : 'Comments' }}
+                                                                        </span>
+                                                                        <div class="dropdown-menu">
+                                                                            @foreach($item->comments as $comment)
+                                                                                <a class="dropdown-item" href="#"> {{ $comment->user?->name ?? $comment->business?->name ?? 'Unknown' }}: {{ $comment->comment }}</a>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="total-comment-block">
+                                                                    <a href="{{ route('businessprofile', ['id' => $item->business->id]) }}" class="btn btn-outline-primary profile-btn" style="margin-left:270px">
+                                                                        <i class="ri-user-line"></i> Show Profile
+                                                                    </a>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <ul class="post-comments list-inline p-0 m-0">
+                                                            @foreach($item->comments as $comment)
+                                                                <li class="mb-2">
+                                                                    <div class="d-flex">
+                                                                        <div class="user-img">
+                                                                            @php
+                                                                            $profilePath = null;
+
+                                                                            if ($comment->user && $comment->user->profilePicture && $comment->user->profilePicture->file_path) {
+                                                                                $profilePath = Storage::url($comment->user->profilePicture->file_path);
+                                                                            } elseif ($comment->business && $comment->business->profilePicture && $comment->business->profilePicture->file_path) {
+                                                                                $profilePath = Storage::url($comment->business->profilePicture->file_path);
+                                                                            }
+                                                                        @endphp
+
+                                                                        <img src="{{ $profilePath ?? asset('/images/template/user/default.jpg') }}"
+                                                                             alt="userimg"
+                                                                             class="avatar-40 rounded-circle img-fluid">
+                                                                        </div>
+                                                                        <div class="comment-data-block ms-3">
+                                                                            <h6>{{ $comment->user?->name ?? $comment->business?->name ?? 'Unknown' }}</h6>
+                                                                            <p class="mb-0">{{ $comment->comment }}</p>
+                                                                            <div class="d-flex flex-wrap align-items-center comment-activity">
+
+                                                                                <span> {{ $comment->created_at->diffForHumans() }} </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        <form class="comment-text d-flex align-items-center mt-3" action="{{ route('businesscomment', $item->id) }}" method="POST">
+                                                            @csrf
+                                                            <input type="text" name="comment" class="form-control rounded" placeholder="Enter Your Comment" required>
+                                                            <div class="comment-attagement d-flex">
+                                                                <a href="javascript:void(0);"><i class="ri-link me-3"></i></a>
+                                                                <a href="javascript:void(0);"><i class="ri-user-smile-line me-3"></i></a>
+                                                                <a href="javascript:void(0);"><i class="ri-camera-line me-3"></i></a>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{-- @endforeach --}}
+                                @endif
+                                    @endif
+
             @endforeach
              <div class="col-sm-12 text-center">
             <img src="{{ asset('/images/template/page-img/page-load-loader.gif') }}" alt="loader" style="height: 100px;">
@@ -311,51 +430,7 @@
                     <a href="{{ route('friend.friendrequest') }}" class="btn btn-primary d-block mt-3">See All</a>
                 </div>
             </div>
-            {{-- <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <div class="header-title">
-                        <h4 class="card-title">Events</h4>
-                    </div>
-                    <div class="card-header-toolbar d-flex align-items-center">
-                        <div class="dropdown">
-                            <div class="dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                aria-expanded="false" role="button">
-                                <i class="ri-more-fill h4"></i>
-                            </div>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
-                                style="">
-                                <a class="dropdown-item" href="#"><i class="ri-eye-fill me-2"></i>View</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="ri-delete-bin-6-fill me-2"></i>Delete</a>
-                                <a class="dropdown-item" href="#"><i class="ri-pencil-fill me-2"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i class="ri-printer-fill me-2"></i>Print</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="ri-file-download-fill me-2"></i>Download</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <ul class="media-story list-inline m-0 p-0">
-                        <li class="d-flex mb-4 align-items-center ">
-                            <img src="{{ asset('/images/template/page-img/s4.jpg') }}" alt="story-img"
-                                class="rounded-circle img-fluid">
-                            <div class="stories-data ms-3">
-                                <h5>Web Workshop</h5>
-                                <p class="mb-0">1 hour ago</p>
-                            </div>
-                        </li>
-                        <li class="d-flex align-items-center">
-                            <img src="{{ asset('/images/template/page-img/s5.jpg') }}" alt="story-img"
-                                class="rounded-circle img-fluid">
-                            <div class="stories-data ms-3">
-                                <h5>Fun Events and Festivals</h5>
-                                <p class="mb-0">1 hour ago</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div> --}}
+
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
@@ -433,7 +508,58 @@
         });
     });
 
+    document.addEventListener('DOMContentLoaded', function () {
+    document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('like-button')) {
+            event.preventDefault();
 
+            const button = event.target;
+            const adId = button.dataset.adId;
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            console.log('Clicked Like button for ad:', adId);
+
+            fetch(`/business/ads/${adId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ _token: token })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Request failed');
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response from server:', data);
+
+                const likeBlock = button.closest('.like-block');
+                const likeCountSpan = likeBlock.querySelector('.like-count');
+                const likeTextSpan = likeBlock.querySelector('.like-text');
+                const dropdownMenu = likeBlock.querySelector('.ad-like-list');
+
+                // Update count and label
+                const newCount = data.likes_count;
+                likeCountSpan.textContent = newCount;
+                likeTextSpan.textContent = newCount === 1 ? 'Like' : 'Likes';
+
+                // Update button text
+                button.textContent = data.liked ? 'Unlike' : 'Like';
+
+                // Update dropdown list — for now, just show "You" if liked
+                dropdownMenu.innerHTML = ''; // Clear previous items
+                if (data.liked) {
+                    const newItem = document.createElement('a');
+                    newItem.className = 'dropdown-item';
+                    newItem.textContent = 'You';
+                    dropdownMenu.appendChild(newItem);
+                }
+            })
+            .catch(error => console.error('Like error:', error));
+        }
+    });
+});
 
 
 </script>
