@@ -72,6 +72,6 @@ class BusinessAuthController extends Controller
 
     public function home()
     {
-        return view('business.dashboard');
+        return redirect()->route('businessDashboard');
     }
 }

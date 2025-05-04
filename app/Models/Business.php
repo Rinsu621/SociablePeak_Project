@@ -33,6 +33,10 @@ class Business extends Authenticatable // Extend Authenticatable
 {
     return $this->hasOne(BusinessProfilePicture::class, 'business_id', 'id')->latestOfMany();
 }
+public function followers()
+{
+    return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+}
 
 
 }

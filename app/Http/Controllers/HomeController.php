@@ -19,10 +19,24 @@ class HomeController extends Controller
             $userId = Auth::id();
             $user = Auth::user();
 
+            $likedCategories = Ad::whereHas('adLikes', function($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->pluck('category')
+            ->unique();
 
-            $ads = Ad::with('adimages', 'adLikes.user', 'adLikes.business', 'comments.user','business')  // Include related models for likes and comments
-                 ->inRandomOrder()  
-                 ->get();
+            $similarAds = Ad::whereIn('category', $likedCategories)
+            ->whereNotIn('id', $user->adLikes()->pluck('ad_id')) // Exclude already liked ads
+            ->inRandomOrder()
+            ->get();
+
+            $randomAds = Ad::inRandomOrder() ->get();
+
+            // $ads = Ad::with('adimages', 'adLikes.user', 'adLikes.business', 'comments.user','business')  // Include related models for likes and comments
+            //      ->inRandomOrder()
+            //      ->get();
+
+            $ads = $similarAds->merge($randomAds)->unique('id');
             // Fetch friends' IDs
             $friendIds = Friend::where(function ($query) use ($userId) {
                 $query->where('user_id', $userId)
@@ -34,15 +48,7 @@ class HomeController extends Controller
               })
               ->toArray();
 
-            // $friendIds = Friend::where(function ($query) use ($userId) {
-            //     $query->where('user_id', $userId)
-            //           ->orWhere('friend_id', $userId);
-            // })->where('status', 'accepted')
-            //   ->get()
-            //   ->pluck('user_id', 'friend_id')
-            //   ->flatten()
-            //   ->unique()
-            //   ->toArray();
+
 
             // Add the user's own ID to see their posts too
             $friendIds[] = $userId;

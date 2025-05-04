@@ -11,6 +11,8 @@ use App\Models\Ad;
 use App\Models\AdLike;
 use App\Models\AdComment;
 use App\Models\AdImage;
+use App\Models\User;
+use App\Models\Follow;
 
 class BusinessController extends Controller
 {
@@ -196,12 +198,27 @@ public function likeAd($id)
         return redirect()->back()->with('message', 'Comment added.');
     }
 
-    public function show($id)
+    public function dashboard()
     {
-        // Retrieve the business profile by ID
-        $business = Business::findOrFail($id);
+        $business = Auth::guard('business')->user(); // define $business
+        $totalAds = Ad::where('business_id', $business->id)->count();
 
-        // Pass the business data to the view
-        return view('business.businessprofile', compact('business'));
+        $ads = Ad::where('business_id', $business->id)
+        ->with('adLikes')  // Eager load adLikes
+        ->get();
+
+        $totalLikes = $ads->sum(function ($ad) {
+            return $ad->adLikes->count();  // Count the likes for each ad
+        });
+        $totalComments = Ad::where('business_id', $business->id)
+                    ->withCount('comments')
+                    ->get()
+                    ->sum('comments_count');
+        return view('business.dashboard', compact(
+            'totalAds',
+            'totalLikes',
+            'totalComments',
+
+        ));
     }
 }

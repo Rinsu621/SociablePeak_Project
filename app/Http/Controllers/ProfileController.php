@@ -11,6 +11,13 @@ use App\Models\ProfileView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Business;
+use App\Models\Ad;
+use App\Models\AdLike;
+use App\Models\AdComment;
+use App\Models\AdImage;
+use App\Models\Follow;
+
 
 
 class ProfileController extends Controller
@@ -122,6 +129,57 @@ public function view($userId)
         'viewedUser' => $viewedUser,  // Pass 'viewedUser' to the layout
     ]);
 }
+
+public function show($id)
+    {
+        // Retrieve the business profile by ID
+        $business = Business::findOrFail($id);
+        $userAdsCount = Ad::where('business_id', $business->id)->count();
+        $user = auth()->user();
+
+        \Log::info("Business ID: " . $id);
+        \Log::info("User ID: " . $id);
+
+        $isFollowing = Follow::where('follower_id', $user->id)
+        ->where('following_id', $business->id)
+        ->exists();
+
+        $ads = Ad::with('adimages','adLikes.user','adLikes.business')->where('business_id', $business->id)->latest()->get();
+
+        $totalFollowers = Follow::where('following_id', $business->id)->count();
+
+        $followers = Follow::where('following_id', $business->id)
+        ->with('follower') // Assuming 'follower' relationship exists on the Follow model
+        ->get()
+        ->pluck('follower'); // Extract only the followers (User model)
+        // Pass the business data to the view
+        return view('business.businessprofile', compact('business','userAdsCount','user','ads','isFollowing','totalFollowers','followers'));
+    }
+
+    public function follow(Request $request, $businessId)
+    {
+        $user = auth()->user(); // Get the currently authenticated user
+        \Log::info("User is trying to follow/unfollow business with ID: $businessId");
+        // Check if the user is already following the business
+        $existingFollow = Follow::where('follower_id', $user->id)
+                                ->where('following_id', $businessId)
+                                ->first();
+
+        if ($existingFollow) {
+            // Unfollow the business
+            \Log::info("Unfollowing business with ID: $businessId");
+            $existingFollow->delete();
+            return redirect()->back()->with('status', 'Unfollowed successfully!');
+        } else {
+            \Log::info("Following business with ID: $businessId");
+            // Follow the business
+            Follow::create([
+                'follower_id' => $user->id,
+                'following_id' => $businessId
+            ]);
+            return redirect()->back()->with('status', 'Followed successfully!');
+        }
+    }
 
 
 

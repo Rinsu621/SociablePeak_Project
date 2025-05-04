@@ -108,14 +108,14 @@
                 <div class="card-body profile-page p-0">
                     <div class="profile-header">
                         <div class="position-relative">
-                            <img src="{{ asset('/images/template/page-img/profile-bg1.jpg') }}" alt="profile-bg"
+                            <img src="{{ asset('/images/template/page-img/kbanner.png') }}" alt="profile-bg"
                                 class="rounded img-fluid">
 
                         </div>
                         <div class="user-detail text-center mb-3">
                             <div class="profile-img position-relative">
-                                @if($user->profilePicture && $user->profilePicture->file_path)
-                                    <img src="{{ Storage::url($user->profilePicture->file_path) }}" alt="profile-img" class="avatar-130 img-fluid rounded-circle"/>
+                                @if($business->profilePicture && $business->profilePicture->file_path)
+                                    <img src="{{ Storage::url($business->profilePicture->file_path) }}" alt="profile-img" class="avatar-130 img-fluid rounded-circle"/>
                                 @else
                                     <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-130 img-fluid rounded-circle"  />
                                 @endif
@@ -123,7 +123,7 @@
                             <!--Profile Picture Modal-->
 
                             <div class="profile-detail">
-                                <h3 class="">{{ $user->name }}</h3>
+                                <h3 class="">{{ $business->name }}</h3>
                             </div>
                         </div>
                         <div class="profile-info p-3 d-flex align-items-center justify-content-between position-relative">
@@ -131,29 +131,42 @@
                                 <ul
                                     class="social-data-block d-flex align-items-center justify-content-between list-inline p-0 m-0">
                                     <li class="text-center ps-3">
-                                        <h6>Posts</h6>
-                                        <p class="mb-0">{{ $postCount }}</p>
+                                        <h6>Followers</h6>
+                                        <p class="mb-0">{{$totalFollowers}}</p>
                                     </li>
                                     <li class="text-center ps-3">
-                                        <h6>Friends</h6>
-                                        <p class="mb-0">{{ $friendsCount }}</p>
+                                        <h6>Ads</h6>
+                                        <p class="mb-0">{{ $userAdsCount}}</p>
                                     </li>
-                                    {{-- <li class="text-center ps-3">
-                                        @if ($isFriend)
-                                            <button class="btn btn-primary">Friends</button>
-                                        @else
-                                            <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
+                                    <li class="text-center ps-3">
+                                        <div class="follow-button">
+                                            @if ($isFollowing)
+                                            <!-- If already following, show 'Following' and a dropdown to unfollow -->
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="followButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Following
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="followButton">
+                                                <li>
+                                                    <form action="{{ route('business.follow', $business->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">Unfollow</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                            @else
+                                            <!-- If not following, show 'Follow' button -->
+                                            <form action="{{ route('business.follow', $business->id) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success">Add Friend</button>
+                                                <button type="submit" class="btn btn-success">Follow</button>
                                             </form>
-                                        @endif
-                                    </li> --}}
-
+                                            @endif
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <div>
 
-                            @if ($receivedFriendRequest)
+                            {{-- @if ($receivedFriendRequest)
                             <form action="{{ route('friend.accept', ['id' => $receivedFriendRequest->user_id]) }}" method="post" style="display:inline;">
                                 @csrf
                                 <button type="submit" class="btn btn-success">Accept</button>
@@ -175,27 +188,27 @@
                                     <button type="submit" class="dropdown-item">Unfriend</button>
                                 </form>
                             </div>
-                        @endif
+                        @endif --}}
 
 
-                        @else
-                        <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
+                        {{-- @else --}}
+                        {{-- <form action="{{ route('friends.add', ['id' => $user->id]) }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-success">Add Friend</button>
                         </form>
-                    @endif
+                    @endif --}}
 
                             </div>
                         </div>
                         <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#reportModal">
-                            Report User
+                            Report Business
                         </button>
                         <!-- Modal -->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reportModalLabel">Report User</h5>
+                <h5 class="modal-title" id="reportModalLabel">Report Business</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -233,7 +246,7 @@
                             </li>
                             <li class="nav-item col-12 col-sm-3 p-0">
                                 <a class="nav-link" href="#pills-photos-tab" data-bs-toggle="pill" data-bs-target="#photos"
-                                    role="button">Photos</a>
+                                    role="button">Ads</a>
                             </li>
                         </ul>
                     </div>
@@ -249,16 +262,16 @@
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between">
                                         <div class="header-title">
-                                            <h4 class="card-title">Photos</h4>
+                                            <h4 class="card-title">Ads</h4>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                            @foreach ($posts as $post)
-                                                @if ($post->images->isNotEmpty())
-                                                    @foreach ($post->images as $image)
+                                            @foreach ($ads as $post)
+                                                @if ($post->adimages->isNotEmpty())
+                                                    @foreach ($post->adimages as $image)
                                                         <li class=""><a href="#"><img
-                                                                    src="{{ Storage::url($image->file_path) }} "
+                                                                    src="{{ asset($image->file_path) }} "
                                                                     alt="gallary-image" class="img-fluid" /></a></li>
                                                     @endforeach
                                                 @endif
@@ -269,25 +282,29 @@
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between">
                                         <div class="header-title">
-                                            <h4 class="card-title">Friends</h4>
+                                            <h4 class="card-title">Followers</h4>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                            @if (empty($friends))
-                                                <p>No friends.</p>
+                                            @if ($followers->isEmpty())
+                                                <p>No followers.</p>
                                             @else
-                                                @foreach ($friends as $key => $item)
-                                                    <li class="">
-                                                        <a href="#">
-                                                            <img class="timeline-friends-profile-img"
-                                                            src="{{ $item['profile_picture'] ? Storage::url($item['profile_picture']) : asset('/images/template/user/1.jpg') }}"
-                                                            alt="gallery-image" class="img-fluid rounded-circle" />
-                                                        </a>
+                                                <ul style="list-style-type: none;">
+                                                    {{-- Loop through the followers --}}
+                                                    @foreach ($followers as $follower)
+                                                        <li>
+                                                            <a href="#">
+                                                                <input type="radio" name="follower" id="follower-{{ $follower->id }}" style="display: none;">
+                                                                <img class="timeline-friends-profile-img"
+                                                                src="{{ $follower->user && $follower->user->profilePicture ? Storage::url($follower->user->profilePicture->file_path) : asset('/images/template/user/noprofile.jpg') }}"
+                                                                alt="gallery-image" class="img-fluid rounded-circle" />
 
-                                                        <h6 class="mt-2 text-center">{{ $item['user']['name'] }}</h6>
-                                                    </li>
-                                                @endforeach
+                                                            </a>
+                                                            <h6 class="mt-2 text-center">{{ $follower->name }}</h6>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
                                             @endif
                                         </ul>
                                     </div>
@@ -297,22 +314,22 @@
                             <div class="col-lg-8 row m-0 p-0">
 
 
-                                @if ($posts->isEmpty())
+                                @if ($ads->isEmpty())
                                     <div class="card">
                                         <div class="card-body">
-                                            <p>No Posts.</p>
+                                            <p>No Ads.</p>
                                         </div>
                                     </div>
                                 @else
-                                    @foreach ($posts as $key => $item)
+                                    @foreach ($ads as $key => $item)
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="post-item">
                                                     <div class="user-post-data py-3">
                                                         <div class="d-flex justify-content-between">
                                                             <div class="me-3 user-img">
-                                                                @if($user->profilePicture && $user->profilePicture->file_path)
-                                    <img src="{{ Storage::url($user->profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"/>
+                                                                @if($business->profilePicture && $business->profilePicture->file_path)
+                                    <img src="{{ Storage::url($business->profilePicture->file_path) }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"/>
                                 @else
                                     <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="profile-img" class="avatar-60 img-fluid rounded-circle" style="width: 60px; height: 55px; border-radius: 50%; object-fit: cover;" />
                                 @endif
@@ -323,7 +340,7 @@
                                                                 <div class="d-flex justify-content-between">
                                                                     <div class="">
                                                                         <h5 class="mb-0 d-inline-block"><a href="#"
-                                                                                class="">{{ $user->name }}</a>
+                                                                                class="">{{ $business->name }}</a>
                                                                         </h5>
                                                                         <p class="ms-1 mb-0 d-inline-block">
 
@@ -414,11 +431,10 @@
                                                         </p>
                                                     </div>
                                                     {{-- Check if the post has images and display them --}}
-                                                    @if ($item->images->isNotEmpty())
+                                                    @if ($item->adimages && $item->adimages->isNotEmpty()) <!-- Check if adimages is not null and not empty -->
                                                         <div class="post-images">
-                                                            @foreach ($item->images as $image)
-                                                                <img src="{{ Storage::url($image->file_path) }}"
-                                                                    alt="Post Image" class="img-fluid rounded">
+                                                            @foreach ($item->adimages as $image)
+                                                                <img src="{{ asset($image->file_path) }}" alt="Post Image" class="img-fluid rounded">
                                                             @endforeach
                                                         </div>
                                                     @endif
@@ -428,7 +444,7 @@
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="like-data">
                                                                         <button class="btn btn-link p-0 like-button" data-post-id="{{ $post->id }}">
-                                                                            @if($post->likes->where('user_id', auth()->id())->count())
+                                                                            @if($item->adLikes->where('user_id', auth()->id())->count()|| ($item->adLikes->where('business_id', Auth::guard('business')->id())->count()))
                                                                                 Unlike
                                                                             @else
                                                                                 Like
@@ -438,11 +454,12 @@
                                                                     <div class="total-like-block ms-2 me-3">
                                                                         <div class="dropdown">
                                                                             <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                                                <span class="like-count">{{ $post->likes->count() }}</span> {{ $post->likes->count() == 1 ? 'Like' : 'Likes' }}
+                                                                                <span class="like-count">{{ $item->adLikes->count() }}</span>
+                                                                                <span class="like-text">{{ $item->adLikes->count() === 1 ? 'Like' : 'Likes' }}</span>
                                                                             </span>
                                                                             <div class="dropdown-menu">
-                                                                                @foreach($post->likes as $like)
-                                                                                    <a class="dropdown-item" href="#">{{ $like->user->name }}</a>
+                                                                                @foreach($item->adLikes as $like)
+                                                                                    <a class="dropdown-item" href="#">  {{ $like->user ? $like->user->name : ($like->business ? $like->business->name : 'Unknown') }}</a>
                                                                                 @endforeach
                                                                             </div>
                                                                         </div>
@@ -451,11 +468,11 @@
                                                                 <div class="total-comment-block">
                                                                     <div class="dropdown">
                                                                         <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                                            {{ $post->comments->count() }} {{ $post->comments->count() == 1 ? 'Comment' : 'Comments' }}
+                                                                            {{ $item->comments->count() }} {{ $item->comments->count() == 1 ? 'Comment' : 'Comments' }}
                                                                         </span>
                                                                         <div class="dropdown-menu">
-                                                                            @foreach($post->comments as $comment)
-                                                                                <a class="dropdown-item" href="#">{{ $comment->user->name }}: {{ $comment->comment }}</a>
+                                                                            @foreach($item->comments as $comment)
+                                                                                <a class="dropdown-item" href="#">{{ $comment->user?->name ?? $comment->business?->name ?? 'Unknown' }}: {{ $comment->comment }}</a>
                                                                             @endforeach
                                                                         </div>
                                                                     </div>
@@ -464,18 +481,25 @@
                                                         </div>
                                                         <hr>
                                                         <ul class="post-comments list-inline p-0 m-0">
-                                                            @foreach($post->comments as $comment)
+                                                            @foreach($item->comments as $comment)
                                                                 <li class="mb-2">
                                                                     <div class="d-flex">
                                                                         <div class="user-img">
-                                                                            @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
-                                                                                <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
-                                                                            @else
-                                                                                <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
-                                                                            @endif
+                                                                            @php
+                                                                            $profilePath = null;
+
+                                                                            if ($comment->user && $comment->user->profilePicture && $comment->user->profilePicture->file_path) {
+                                                                                $profilePath = Storage::url($comment->user->profilePicture->file_path);
+                                                                            } elseif ($comment->business && $comment->business->profilePicture && $comment->business->profilePicture->file_path) {
+                                                                                $profilePath = Storage::url($comment->business->profilePicture->file_path);
+                                                                            }
+                                                                            @endphp
+                                                                            <img src="{{ $profilePath ?? asset('/images/template/user/default.jpg') }}"
+                                                                            alt="userimg"
+                                                                            class="avatar-40 rounded-circle img-fluid">
                                                                         </div>
                                                                         <div class="comment-data-block ms-3">
-                                                                            <h6>{{ $comment->user->name }}</h6>
+                                                                            <h6>{{ $comment->user?->name ?? $comment->business?->name ?? 'Unknown' }}</h6>
                                                                             <p class="mb-0">{{ $comment->comment }}</p>
                                                                             <div class="d-flex flex-wrap align-items-center comment-activity">
 
@@ -693,1527 +717,28 @@
                             <div class="tab-pane fade" id="recently-add" role="tabpanel">
                                 <div class="card-body p-0">
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/07.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Otto Matic</h5>
-                                                            <p class="mb-0">4 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton31"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton31">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/08.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Moe Fugga</h5>
-                                                            <p class="mb-0">16 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton32"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton32">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/09.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Tom Foolery</h5>
-                                                            <p class="mb-0">14 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton33"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton33">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/10.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Bud Wiser</h5>
-                                                            <p class="mb-0">16 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton34"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton34">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/15.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Polly Tech</h5>
-                                                            <p class="mb-0">10 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton35"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton35">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/16.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Holly Graham</h5>
-                                                            <p class="mb-0">8 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton36"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton36">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/17.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Tara Zona</h5>
-                                                            <p class="mb-0">5 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton37"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton37">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/18.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Barry Cade</h5>
-                                                            <p class="mb-0">20 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton38"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton38">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="closefriends" role="tabpanel">
                                 <div class="card-body p-0">
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/19.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Bud Wiser</h5>
-                                                            <p class="mb-0">32 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton39"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton39">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/05.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Otto Matic</h5>
-                                                            <p class="mb-0">9 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton40"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton40">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/06.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Peter Pants</h5>
-                                                            <p class="mb-0">2 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton41"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton41">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/07.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Zack Lee</h5>
-                                                            <p class="mb-0">15 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton42"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton42">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/08.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Barry Wine</h5>
-                                                            <p class="mb-0">36 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton43"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton43">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/09.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Robin Banks</h5>
-                                                            <p class="mb-0">22 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton44"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton44">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/10.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Cory Ander</h5>
-                                                            <p class="mb-0">18 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton45"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton45">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/15.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Moe Fugga</h5>
-                                                            <p class="mb-0">12 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton46"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton46">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/16.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Polly Tech</h5>
-                                                            <p class="mb-0">30 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton47"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton47">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item" href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/17.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Hal Appeno</h5>
-                                                            <p class="mb-0">25 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton48"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton48">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="home-town" role="tabpanel">
                                 <div class="card-body p-0">
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/18.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Paul Molive</h5>
-                                                            <p class="mb-0">14 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton49"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton49">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/19.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Paige Turner</h5>
-                                                            <p class="mb-0">8 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton50"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton50">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/05.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Barb Ackue</h5>
-                                                            <p class="mb-0">23 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton51"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton51">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/06.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Ira Membrit</h5>
-                                                            <p class="mb-0">16 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton52"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton52">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/07.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Maya Didas</h5>
-                                                            <p class="mb-0">12 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton53"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton53">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="following" role="tabpanel">
                                 <div class="card-body p-0">
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/05.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Maya Didas</h5>
-                                                            <p class="mb-0">20 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton54"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton54">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/06.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Monty Carlo</h5>
-                                                            <p class="mb-0">3 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton55"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton55">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/07.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Cliff Hanger</h5>
-                                                            <p class="mb-0">20 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton56"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton56">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/08.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>b Ackue</h5>
-                                                            <p class="mb-0">12 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton57"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton57">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/09.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Bob Frapples</h5>
-                                                            <p class="mb-0">12 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton58"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton58">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/10.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Anna Mull</h5>
-                                                            <p class="mb-0">6 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton59"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton59">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/15.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>ry Wine</h5>
-                                                            <p class="mb-0">15 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton60"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton60">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/16.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Don Stairs</h5>
-                                                            <p class="mb-0">12 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton61"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton61">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/17.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Peter Pants</h5>
-                                                            <p class="mb-0">8 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton62"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton62">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/18.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Polly Tech</h5>
-                                                            <p class="mb-0">18 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton63"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton63">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/19.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Tara Zona</h5>
-                                                            <p class="mb-0">30 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton64"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton64">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/05.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Arty Ficial</h5>
-                                                            <p class="mb-0">15 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton65"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton65">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/06.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Bill Emia</h5>
-                                                            <p class="mb-0">25 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton66"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton66">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/07.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Bill Yerds</h5>
-                                                            <p class="mb-0">9 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton67"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton67">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6 mb-3">
-                                            <div class="iq-friendlist-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#">
-                                                            <img src="{{ asset('/images/template/user/08.jpg') }}"
-                                                                alt="profile-img" class="img-fluid">
-                                                        </a>
-                                                        <div class="friend-info ms-3">
-                                                            <h5>Matt Innae</h5>
-                                                            <p class="mb-0">19 friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-header-toolbar d-flex align-items-center">
-                                                        <div class="dropdown">
-                                                            <span class="dropdown-toggle btn btn-secondary me-2"
-                                                                id="dropdownMenuButton68"
-                                                                data-bs-toggle="dropdown" aria-expanded="true"
-                                                                role="button">
-                                                                <i class="ri-check-line me-1 text-white"></i>
-                                                                Friend
-                                                            </span>
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="dropdownMenuButton68">
-                                                                <a class="dropdown-item" href="#">Get
-                                                                    Notification</a>
-                                                                <a class="dropdown-item" href="#">Close
-                                                                    Friend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfollow</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Unfriend</a>
-                                                                <a class="dropdown-item"
-                                                                    href="#">Block</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -2249,7 +774,7 @@
                                                     class="img-fluid rounded" alt="Responsive image">
                                              </a> --}}
                                                 <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                                                    @foreach ($posts as $post)
+                                                    {{-- @foreach ($ads as $post)
                                                         @if ($post->images->isNotEmpty())
                                                             @foreach ($post->images as $image)
                                                                 <li class=""><a href="#"><img
@@ -2269,9 +794,9 @@
                                                                     </ul>
                                                                 </div>
                                                             </div> --}}
-                                                            @endforeach
+                                                            {{-- @endforeach
                                                         @endif
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 </ul>
 
                                                 {{-- <a href="#" class="image-edit-btn"
@@ -2387,6 +912,60 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('like-button')) {
+            event.preventDefault();
+
+            const button = event.target;
+            const adId = button.dataset.adId;
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            console.log('Clicked Like button for ad:', adId);
+
+            fetch(`/business/ads/${adId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ _token: token })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Request failed');
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response from server:', data);
+
+                const likeBlock = button.closest('.like-block');
+                const likeCountSpan = likeBlock.querySelector('.like-count');
+                const likeTextSpan = likeBlock.querySelector('.like-text');
+                const dropdownMenu = likeBlock.querySelector('.ad-like-list');
+
+                // Update count and label
+                const newCount = data.likes_count;
+                likeCountSpan.textContent = newCount;
+                likeTextSpan.textContent = newCount === 1 ? 'Like' : 'Likes';
+
+                // Update button text
+                button.textContent = data.liked ? 'Unlike' : 'Like';
+
+                // Update dropdown list — for now, just show "You" if liked
+                dropdownMenu.innerHTML = ''; // Clear previous items
+                if (data.liked) {
+                    const newItem = document.createElement('a');
+                    newItem.className = 'dropdown-item';
+                    newItem.textContent = 'You';
+                    dropdownMenu.appendChild(newItem);
+                }
+            })
+            .catch(error => console.error('Like error:', error));
+        }
+    });
+});
+
 
 </script>
 @endsection

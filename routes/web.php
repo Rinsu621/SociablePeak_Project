@@ -83,7 +83,10 @@ Route::prefix('business')->group(function(){
     Route::post('/ads/post', [BusinessController::class, 'postAdStore'])->name('business.ads.post');
     Route::post('/ads/{id}/like', [BusinessController::class, 'likeAd'])->name('business.likeAd');
     Route::post('/ads/{id}/comment', [BusinessController::class, 'storeComment'])->name('businesscomment');
-    Route::get('/{id}/profile', [BusinessController::class, 'show'])->name('businessprofile');
+    Route::get('/{id}/profile', [ProfileController::class, 'show'])->name('businessprofile');
+    Route::post('/{businessId}/follow', [ProfileController::class, 'follow'])->name('business.follow');
+
+    Route::get('dashboard', [BusinessController::class, 'dashboard'])->name('businessDashboard');
 
 
 

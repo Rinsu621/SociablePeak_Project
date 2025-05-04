@@ -77,7 +77,16 @@ class User extends Authenticatable
         return $this->hasMany(AdComment::class);
     }
 
+    public function followings()
+    {
+        return $this->belongsToMany(Business::class, 'follows', 'follower_id', 'following_id');
+    }
 
+    // Relationship to get the followers of the user
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+    }
 
 }
 
