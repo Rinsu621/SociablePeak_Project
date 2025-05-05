@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
+            $user=auth()->user();
             $userId = auth()->id();
             $unreadCount = 0;
             $notifications = collect();
@@ -50,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
                  ->with('viewedUser', $viewedUser)
                  ->with('businessName', $businessName);
         });
+
+        // View::composer('*', function ($view) {
+        //     $view->with('user', Auth::user());
+        // });
     }
 
     public function register(): void

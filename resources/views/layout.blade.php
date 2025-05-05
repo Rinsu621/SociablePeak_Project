@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome-line-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/toastr/toastr.min.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet" />
     @yield('style')
 
@@ -58,6 +58,11 @@
                                 <i class="ri-mail-line"></i><span>Chat</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('posts.trending')}}" class=" ">
+                                <i class="las la-fire"></i><span>Trending</span>
+                            </a>
+                        </li>
 
                         <li class=" ">
                             <a href="#mailbox" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false">
@@ -81,7 +86,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('profileView', ['id' => $viewedUser->id]) }}">
+                                    <a href="{{ route('profile.view', ['userId' => Auth::id()]) }}">
                                         <i class="las la-chart-pie"></i><span>Profile View</span>
                                     </a>
                                 </li>

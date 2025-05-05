@@ -168,7 +168,7 @@
                                     <li class="text-center ps-3">
                                         <h6>Followers</h6>
                                         {{-- <p class="mb-0">{{$friendsCount}}</p> --}}
-                                        <p class="mb-0">100</p>
+                                        <p class="mb-0">{{$followersCount}}</p>
                                     </li>
                                     <li class="text-center ps-3">
                                         <h6>Ads</h6>
@@ -241,10 +241,10 @@
                                             <h4 class="card-title">Followers</h4>
                                         </div>
                                     </div>
-                                    <div class="card-body">
+                                    {{-- <div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                                             {{-- {{-- @if (empty($friends)) --}}
-                                                <p>You have no followers.</p>
+                                                {{-- <p>You have no followers.</p> --}}
                                             {{-- @else
                                                 @foreach ($friends as $key => $item)
                                                     <li class="">
@@ -258,6 +258,26 @@
                                                     </li>
                                                 @endforeach --}}
                                             {{-- @endif --}}
+                                    {{-- </ul>
+                                </div>  --}}
+                                <div class="card-body">
+                                    <ul class="profile-img-gallary p-0 m-0 list-unstyled">
+                                        @if ($followers->isEmpty())
+                                            <p>No followers.</p>
+                                        @else
+                                                {{-- Loop through the followers --}}
+                                                @foreach ($followers as $follower)
+                                                    <li>
+                                                        <a href="#">
+                                                            <img class="timeline-friends-profile-img"
+                                                            src="{{ $follower->user && $follower->user->profilePicture ? Storage::url($follower->user->profilePicture->file_path) : asset('/images/template/user/noprofile.jpg') }}"
+                                                            alt="gallery-image" class="img-fluid rounded-circle" />
+
+                                                        </a>
+                                                        <h6 class="mt-2 text-center">{{ $follower->name }}</h6>
+                                                    </li>
+                                                @endforeach
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

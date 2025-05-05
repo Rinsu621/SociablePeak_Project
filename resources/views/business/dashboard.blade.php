@@ -26,6 +26,54 @@
         }
 </style>
 @endsection
+@section('script')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('followerGrowthChart').getContext('2d');
+
+        const labels = @json($followerGrowthLabels); // Dynamic labels
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Follower Growth',
+                data: @json($followerGrowthData), // Dynamic data
+                fill: false,
+                borderColor: 'rgb(153, 102, 255)', // Color change for differentiation
+                tension: 0.1
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Followers'
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, config);
+    });
+</script>
+
+@endsection
+
+
 
 
 @section('content')
@@ -51,6 +99,24 @@
         </div> --}}
         <div class="row">
             <!-- Total Ads Card -->
+
+            <div class="col-md-4">
+                <div class="card text-white mb-3 custom-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <!-- Icon for Total Comments -->
+                                <i class="ri-chat-3-line"></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0" style="color: white">Total Followers</h5>
+                                <h2 class="card-text" style="color: white">{{ $totalFollowers }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-4">
                 <div class="card text-white mb-3 custom-card">
                     <div class="card-body">
@@ -103,27 +169,24 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
 
 
 
-        <!-- Total Reports Card -->
-        {{-- <div class="col-md-4">
-            <div class="card text-white mb-3 custom-card" style="background-color: rgba(102, 3, 3, 0.85);">
+
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <i class="fas fa-exclamation-triangle fa-3x"></i>
-                        </div>
-                        <div>
-                            <h5 class="card-title mb-0" style="color: white">Total Reports</h5>
-                            <h2 class="card-text" style="color: white">{{ $totalReports }}</h2>
-                        </div>
-                    </div>
-                    <a href="{{ route('admin.reports.index') }}" class="stretched-link"></a>
+                    <h5 class="card-title">Follower Growth Over Time</h5>
+                    <canvas id="followerGrowthChart"></canvas>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 </div>
 
@@ -131,12 +194,16 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">User Growth Over Time</h5>
-                <canvas id="userGrowthChart"></canvas>
+                <h5 class="card-title">Follower Growth Over Time</h5>
+                <canvas id="followerGrowthChart"></canvas>
             </div>
         </div>
     </div>
 </div> --}}
 
 
+
+
+
 @endsection
+

@@ -64,12 +64,17 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profilePicture = $user->profilePicture;
 
+       
+
+
         return view('profile.index', [
             'posts' => $posts,
             'friends' => $friendDetails,
             'postCount' => $postCount, // Pass the post count to the view
             'profilePicture' => $profilePicture,
-            'friendsCount' => $friendsCount
+            'friendsCount' => $friendsCount,
+            'user'=>$user,
+
         ]);
     }
 
@@ -101,34 +106,7 @@ class ProfileController extends Controller
     return redirect()->back()->withErrors('Invalid image file.');
 }
 
-public function view($userId)
-{
-    $currentUser = Auth::user();
-    $viewedUser = User::find($userId);
 
-    if (!$viewedUser || $currentUser->id == $viewedUser->id) {
-        return redirect()->back();
-    }
-
-    // Record the profile view
-    ProfileView::create([
-        'viewer_id' => $currentUser->id,
-        'viewed_id' => $viewedUser->id,
-        'viewed_at' => now(),
-    ]);
-
-    // Get the list of users who have viewed this profile
-    $profileViews = ProfileView::where('viewed_id', $viewedUser->id)
-                               ->with('viewer')
-                               ->get();
-
-    // Pass 'viewedUser' to the layout and the profile view
-    return view('analytics.profileview', [
-        'user' => $viewedUser,
-        'profileViews' => $profileViews,
-        'viewedUser' => $viewedUser,  // Pass 'viewedUser' to the layout
-    ]);
-}
 
 public function show($id)
     {
@@ -181,6 +159,45 @@ public function show($id)
         }
     }
 
+    public function viewProfile($userId)
+    { $currentUser = Auth::user(); // Get the currently authenticated user (the viewer)
+        $viewedUser = User::findOrFail($userId); // Get the user whose profile is being viewed
 
+        // Log the profile view action for debugging
+        \Log::info('Recording profile view: ', ['viewer_id' => $currentUser->id, 'viewed_id' => $viewedUser->id]);
+
+        // Track profile views for other users viewing the profile
+        if ($currentUser->id != $viewedUser->id) { // Avoid tracking when the user views their own profile
+            // Check if the profile view has already been recorded
+            $existingView = ProfileView::where('viewer_id', $currentUser->id)
+                                       ->where('viewed_id', $viewedUser->id)
+                                       ->exists();
+
+            if (!$existingView) {
+                // Record the profile view if not already recorded
+                ProfileView::create([
+                    'viewer_id' => $currentUser->id,   // User who viewed the profile
+                    'viewed_id' => $viewedUser->id     // User whose profile is being viewed
+                ]);
+            }
+        }
+
+        // Fetch the number of people who have viewed this user's profile
+        $viewsCount = ProfileView::where('viewed_id', $viewedUser->id)->count();
+
+        // Get a list of users who have viewed this profile, along with their details
+        $viewers = ProfileView::where('viewed_id', $viewedUser->id)
+                              ->with('viewer')  // Eager load the viewer's user data
+                              ->get()
+                              ->pluck('viewer'); // Extract the viewer data
+
+        // Return the view with profile view data
+        return view('analytics.profileView', [
+            'viewedUser' => $viewedUser,
+            'viewsCount' => $viewsCount,
+            'viewers' => $viewers,
+            'user' => $currentUser
+        ]);
+    }
 
 }

@@ -100,6 +100,7 @@ Route::get('user-engagement', [UserEngagementController::class, 'userEngagementD
 Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEngagement'])->name('seedUserEngagement');
 Route::post('store-user-data', [UserEngagementController::class, 'storeUserData'])->name('storeUserData');
 Route::get('seed-user-engagement', [UserEngagementController::class, 'seedUserEngagement'])->name('seedUserEngagement');
+
 //Analytics
 
 //Posts
@@ -113,7 +114,7 @@ Route::get('/analytics/most-interacted-users', [PostController::class, 'getMostI
 //Profile
 Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 Route::post('/profile/update-picture', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
-Route::get('/profile/view/{id}', [ProfileController::class, 'view'])->name('profileView');
+Route::get('/profile/view/{userId}', [ProfileController::class, 'viewProfile'])->name('profile.view');
 
 
 //Profile
@@ -159,5 +160,6 @@ Route::prefix('admin')->group(function () {
     //Notification
     Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('show.notifications');
 
+    Route::get('/trending-posts', [PostController::class, 'trendingPosts'])->name('posts.trending');
 });
 

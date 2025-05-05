@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\BusinessProfilePicture;
+use Illuminate\Support\Facades\DB;
 use App\Models\Business;
 use App\Models\Ad;
 use App\Models\AdLike;
@@ -13,6 +14,8 @@ use App\Models\AdComment;
 use App\Models\AdImage;
 use App\Models\User;
 use App\Models\Follow;
+use Carbon\Carbon;
+
 
 class BusinessController extends Controller
 {
@@ -27,10 +30,10 @@ class BusinessController extends Controller
         // $ads = Ads::where('business_id', $business->id)->latest()->get();
         $ads = Ad::with('adimages','adLikes.user','adLikes.business')->where('business_id', $business->id)->latest()->get();
 
+        $followersCount = $business->followers()->count();  // Get the number of followers
+        $followers = $business->followers;
 
-
-
-        return view('business.profile', compact('businessName', 'profilePicture', 'ads','userAdsCount'));
+        return view('business.profile', compact('businessName', 'profilePicture', 'ads','userAdsCount','followersCount', 'followers'));
     }
 
     public function ProfilePicture(Request $request)
@@ -200,8 +203,11 @@ public function likeAd($id)
 
     public function dashboard()
     {
+
         $business = Auth::guard('business')->user(); // define $business
+        $businessId = $business->id;
         $totalAds = Ad::where('business_id', $business->id)->count();
+        $totalFollowers = $business->followers()->count();
 
         $ads = Ad::where('business_id', $business->id)
         ->with('adLikes')  // Eager load adLikes
@@ -214,10 +220,30 @@ public function likeAd($id)
                     ->withCount('comments')
                     ->get()
                     ->sum('comments_count');
+
+                    $followerGrowth = DB::table('follows')
+                    ->selectRaw('COUNT(*) as count, MONTH(created_at) as month')
+                    ->where('following_id', $businessId) // Filter by the business
+                    ->whereYear('created_at', Carbon::now()->year) // Filter for this year
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('count', 'month'); // Pluck the count and month values
+
+                // Convert month numbers to human-readable month names (January, February, etc.)
+                $followerGrowthLabels = collect($followerGrowth->keys())->map(function ($month) {
+                    return Carbon::create()->month($month)->format('F'); // Convert month number to name
+                });
+
+                // Get the follower counts for the chart data
+                $followerGrowthData = $followerGrowth->values();
+
         return view('business.dashboard', compact(
             'totalAds',
             'totalLikes',
             'totalComments',
+            'totalFollowers',
+            'followerGrowthLabels',
+             'followerGrowthData'
 
         ));
     }

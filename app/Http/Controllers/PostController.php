@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Post;
+use App\Heaps\PostHeap;
+use Carbon\Carbon;
 use App\Models\Like;
 use App\Models\Comment;
 use App\Models\Message;
@@ -180,5 +182,32 @@ class PostController extends Controller
             return redirect()->back()->withErrors($e->getMessage());
         }
     }
+
+
+    public function trendingPosts()
+{
+
+    $heap = new PostHeap();
+
+    $posts = Post::withCount(['likes', 'comments'])
+    ->with(['user.profilePicture'])
+        ->where('created_at', '>=', Carbon::now()->subDay()) // past 24 hours
+        ->get();
+
+    foreach ($posts as $post) {
+        $score = $post->likes_count + $post->comments_count;
+        $heap->insert([
+            'post' => $post,
+            'score' => $score
+        ]);
+    }
+
+    $topPosts = [];
+    for ($i = 0; $i < 5 && !$heap->isEmpty(); $i++) {
+        $topPosts[] = $heap->extract()['post'];
+    }
+
+    return view('auth.trending', compact('topPosts'));
+}
 
 }
