@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>SociablePeak </title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ asset('/images/template/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('/images/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/css/libs.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/socialv.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}"> --}}

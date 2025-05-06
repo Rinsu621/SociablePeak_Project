@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                {{-- <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
+                                <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
                                     @forelse($messages as $key => $message)
                                         <li class="chat-item">
                                             <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
@@ -93,8 +93,8 @@
                                     @endforelse
 
 
-                                </ul> --}}
-                                <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
+                                </ul>
+                                {{-- <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
                                     @forelse($messages as $key => $message)
                                         <li class="chat-item">
                                             <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
@@ -124,7 +124,7 @@
                                     @empty
                                         <p>No messages found.</p>
                                     @endforelse
-                                </ul>
+                                </ul> --}}
 
                             </div>
                         </div>
@@ -195,7 +195,7 @@
 
 @endsection
 
-{{-- @section('script')
+@section('script')
 <script>
     $(document).ready(function(){
         $('#chat-search').on('keyup', function(){
@@ -281,4 +281,5 @@
     .catch(error => console.error('Error:', error));
 });
 </script>
-@endsection --}}
+@endsection
+

@@ -485,7 +485,7 @@
                                                                             @if($comment->user->profilePicture && $comment->user->profilePicture->file_path)
                                                                                 <img src="{{ Storage::url($comment->user->profilePicture->file_path) }}" alt="userimg" class="avatar-40 rounded-circle img-fluid">
                                                                             @else
-                                                                                <img src="{{ asset('/images/template/user/default.jpg') }}" alt="userimg" class="avatar-35 rounded-circle img-fluid">
+                                                                                <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="userimg" class="avatar-35 rounded-circle img-fluid">
                                                                             @endif
                                                                         </div>
                                                                         <div class="comment-data-block ms-3">
