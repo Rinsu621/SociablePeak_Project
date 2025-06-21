@@ -27,6 +27,22 @@
             color: #ffff;
             padding: 3px 3px 3px 3px;
         }
+
+        .chatbot-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 30%;
+        padding: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .chatbot-icon:hover {
+        background-color: #0056b3;
+    }
     </style>
 </head>
 
@@ -248,6 +264,35 @@
         <div id="content-page" class="content-page">
             <div class="container">
                 @yield('content')
+   <div class="chatbot-icon" data-bs-toggle="modal" data-bs-target="#chatModal">
+            <i class="ri-chat-3-line"></i>
+        </div>
+
+        <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="chatModalLabel">Chat with Us</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="chatbox" style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+                            <!-- Chat content will go here -->
+                        </div>
+                        <form action="" id="formchat">
+                            <div class="input-group mt-3">
+                                <input type="text" class="form-control" id="chatInput" placeholder="Type your message...">
+                                <button class="btn btn-primary" id="sendMessage">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
             </div>
         </div>
     </div>
@@ -268,7 +313,98 @@
                 </div>
             </div>
         </div>
-    </footer> <!-- Backend Bundle JavaScript -->
+    </footer>
+<script>
+    document.getElementById('sendMessage').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const message = document.getElementById('chatInput').value;
+        const sendButton = document.getElementById('sendMessage');
+
+        if (message.trim()) {
+            // Disable send button and show loading
+            sendButton.disabled = true;
+            sendButton.innerHTML = '<i class="ri-loader-4-line"></i> Generating...';
+
+            // Add the user's message to the chatbox
+            addMessageToChatbox("You: " + message, 'right');
+
+            // Clear the input field
+            document.getElementById('chatInput').value = '';
+
+            // Add loading message
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-message';
+            loadingDiv.classList.add('left');
+            loadingDiv.innerHTML = '<i class="ri-loader-4-line"></i> Bot: Generating caption...';
+            document.getElementById('chatbox').appendChild(loadingDiv);
+            document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+
+            // Send message to the server for caption generation
+            axios.post('/generate-caption', { text: message })
+                .then(response => {
+                    // Remove loading message
+                    const loadingMessage = document.getElementById('loading-message');
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+
+                    // Add bot response
+                    addMessageToChatbox("Bot: " + response.data.caption, 'left');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+
+                    // Remove loading message
+                    const loadingMessage = document.getElementById('loading-message');
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+
+                    // Show error message
+                    let errorMessage = "Bot: Sorry, I couldn't generate a caption.";
+                    if (error.response && error.response.data && error.response.data.error) {
+                        errorMessage = "Bot: " + error.response.data.error;
+                    }
+                    addMessageToChatbox(errorMessage, 'left');
+                })
+                .finally(() => {
+                    // Re-enable send button
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = 'Send';
+                });
+        }
+    });
+
+    // Also handle Enter key press
+    document.getElementById('chatInput').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('sendMessage').click();
+        }
+    });
+
+    function addMessageToChatbox(message, side) {
+        const chatbox = document.getElementById('chatbox');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', side);
+        messageDiv.style.cssText = `
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+            ${side === 'right' ?
+                'background-color: #007bff; color: white; margin-left: auto;' :
+                'background-color: #f1f1f1; color: #333; margin-right: auto;'
+            }
+        `;
+        messageDiv.textContent = message;
+        chatbox.appendChild(messageDiv);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+</script>
+    </script><!-- Backend Bundle JavaScript -->
     <script src="{{ asset('/js/libs.min.js') }}"></script>
     <!-- slider JavaScript -->
     <script src="{{ asset('/js/slider.js') }}"></script>
@@ -288,6 +424,8 @@
     <script src="{{ asset('/js/preview.js') }}"></script>
 
     <script src="{{ asset('/js/profilepreview.js') }}"></script>
+<!-- Axios for HTTP requests -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
