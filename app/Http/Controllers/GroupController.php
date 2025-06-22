@@ -21,7 +21,9 @@ class GroupController extends Controller
             'name' => $request->group_name,
         ]);
 
-        $group->members()->attach($request->group_members);
+      $allMembers = array_unique(array_merge($request->group_members, [Auth::id()]));
+
+    $group->members()->attach($allMembers);
 
         return response()->json(['message' => 'Group created successfully!', 'group' => $group], 200);
     }

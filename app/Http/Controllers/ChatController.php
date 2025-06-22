@@ -6,6 +6,8 @@ use Exception;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Group;
+use App\Models\GroupMessage;
+
 use App\Models\UserDetail;
 use App\Models\ProfilePicture;
 use Illuminate\Http\Request;
@@ -20,16 +22,17 @@ class ChatController extends Controller
         $userId = Auth::id();
         $users = User::where('id', '!=', $userId)->get();
 
+        // Get user's profile picture
+        $profilePicture = Auth::user()->profilePicture;
 
-
-        // Retrieve messages where friend_id or user_id is the logged-in user's ID
+        // Retrieve individual messages where friend_id or user_id is the logged-in user's ID
         $messages = Message::where('user_id', $userId)
                             ->orWhere('friend_id', $userId)
-                            // ->orderBy('created_at', 'desc')
                             ->get()
                             ->groupBy(function($message) use ($userId) {
                                 return $message->user_id == $userId ? $message->friend_id : $message->user_id;
                             });
+
         // Convert the created_at to Kathmandu timezone and sort each message group by created_at in descending order
         $sortedMessages = $messages->map(function ($group) {
             return $group->map(function ($message) {
@@ -39,10 +42,12 @@ class ChatController extends Controller
             });
         });
 
+        // Get groups where the user is a member
         $groups = Group::whereHas('members', function($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
 
+        // Get group messages for each group
         $groupMessages = $groups->map(function($group) {
             $messages = GroupMessage::where('group_id', $group->id)
                 ->orderBy('created_at', 'desc')
@@ -64,33 +69,45 @@ class ChatController extends Controller
         // Fetch the friend details using the grouped friend IDs
         $friendIds = $sortedMessages->keys();
         $friends = User::whereIn('id', $friendIds)->with('profilePicture')->get()->keyBy('id');
-        $friendDetails = UserDetail::whereIn('user_id', $friendIds)->get()->keyBy('user_id');
 
-        $chatData = $sortedMessages->map(function ($messages, $friendId) use ($friends) {
+        // Prepare individual chat data
+        $individualChatData = $sortedMessages->map(function ($messages, $friendId) use ($friends) {
             $friendName = $friends[$friendId]->name ?? 'Unknown';
             $friendProfilePicture = $friends[$friendId]->profilePicture
                 ? asset(Storage::url($friends[$friendId]->profilePicture->file_path))
-                : asset('images/template/user/11.png');
-
+                : asset('images/template/user/Noprofile.jpg');
 
             return [
+                'type' => 'individual',
                 'friend_id' => $friendId,
                 'friend_name' => $friendName,
                 'friend_profile_picture' => $friendProfilePicture,
-                'conversations' => $messages->toArray()
+                'conversations' => $messages->toArray(),
+                'last_message_time' => $messages->max('created_at')
             ];
         });
 
-        $userProfilePicture = Auth::user()->profilePicture ? Auth::user()->profilePicture->file_path : 'images/template/user/11.png';
-        $userImage = asset('storage/' . $userProfilePicture);
+        // Prepare group chat data
+        $groupChatData = $groupMessages->map(function ($groupData) {
+            return [
+                'type' => 'group',
+                'group_id' => $groupData['group_id'],
+                'group_name' => $groupData['group_name'],
+                'group_profile_picture' => asset('images/template/user/11.png'), // Use existing image
+                'conversations' => $groupData['messages']->toArray(),
+                'last_message_time' => $groupData['messages']->max('created_at')
+            ];
+        });
 
+        // Combine individual and group chats and sort by last message time
+        $allChats = $individualChatData->concat($groupChatData)->sortByDesc('last_message_time');
 
         // Pass the grouped messages to the view
         return view('chat.index',[
-            'messages' => $chatData,
-            'groups'=>$groupMessages,
-            'userImage' => $userImage,
-            'users' => $users
+            'messages' => $allChats,
+            'groups' => $groupMessages,
+            'users' => $users,
+            'profilePicture' => $profilePicture
         ]);
     }
 
@@ -104,7 +121,6 @@ class ChatController extends Controller
             $message = new Message();
             $message->user_id = auth()->id();
             $message->friend_id = $validatedData['friend_id'];
-            // $message->message = $validatedData['message'];
             $message->message = $this->encryptMessage($validatedData['message']);
             $message->save();
 
@@ -117,47 +133,41 @@ class ChatController extends Controller
 
             return response()->json(['message' => 'Message Sent','data' => $savedMessage ], 200);
         } catch (ValidationException $e) {
-            // If a validation error occurs, catch the ValidationException
-            // and redirect back with the validation error messages
             return response()->json(['message' => $e->validator->getMessageBag()], 500);
         } catch (Exception $e) {
-            // If any other type of exception occurs, catch it and
-            // redirect back with the exception message
             return response()->json(['message' => $e->getMessage()], 500);
         }
-
     }
 
     public function sendGroupMessage(Request $request)
-{
-    try {
-        $validatedData = $request->validate([
-            'group_id' => 'required|integer',
-            'message' => 'required|string'
-        ]);
+    {
+        try {
+            $validatedData = $request->validate([
+                'group_id' => 'required|integer',
+                'message' => 'required|string'
+            ]);
 
-        // Save the group message
-        $message = new GroupMessage();
-        $message->user_id = auth()->id();
-        $message->group_id = $validatedData['group_id'];
-        $message->message = $this->encryptMessage($validatedData['message']);
-        $message->save();
+            // Save the group message
+            $message = new GroupMessage();
+            $message->user_id = auth()->id();
+            $message->group_id = $validatedData['group_id'];
+            $message->message = $this->encryptMessage($validatedData['message']);
+            $message->save();
 
-        // Fetch the saved message
-        $savedMessage = GroupMessage::find($message->id);
-        $savedMessage->message = $this->decryptMessage($savedMessage->message);
+            // Fetch the saved message
+            $savedMessage = GroupMessage::find($message->id);
+            $savedMessage->message = $this->decryptMessage($savedMessage->message);
 
-        // Convert the created_at timestamp to 'Asia/Kathmandu'
-        $savedMessage->created_at = $savedMessage->created_at->timezone('Asia/Kathmandu');
+            // Convert the created_at timestamp to 'Asia/Kathmandu'
+            $savedMessage->created_at = $savedMessage->created_at->timezone('Asia/Kathmandu');
 
-        return response()->json(['message' => 'Message Sent', 'data' => $savedMessage], 200);
-    } catch (ValidationException $e) {
-        return response()->json(['message' => $e->validator->getMessageBag()], 500);
-    } catch (Exception $e) {
-        return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Message Sent', 'data' => $savedMessage], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => $e->validator->getMessageBag()], 500);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
-}
-
 
     protected function encryptMessage($message) {
         $encryptMethod = "AES-256-CBC";

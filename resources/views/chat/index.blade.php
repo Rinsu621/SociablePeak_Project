@@ -13,6 +13,15 @@
         border-radius: 50%; /* Make the image circular */
         object-fit: cover;
     }
+    .group-avatar {
+        background: linear-gradient(45deg, #007bff, #28a745);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+    }
 </style>
 @endsection
 
@@ -41,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="chat-sidebar-channel scroller mt-4 ps-3">
-                                <h5 class="mt-3">Direct Message</h5>
+                                <h5 class="mt-3">Conversations</h5>
 
                                 <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#createGroupModal"> Create Group</button>
                                 <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
@@ -78,37 +87,22 @@
                                             <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar me-2">
-                                                        <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle" onerror="this.onerror=null; this.src='{{ asset('images/template/user/Noprofile.jpg') }}'">
+                                                        @if($message['type'] == 'group')
+                                                            <div class="avatar-50 rounded-circle group-avatar">
+                                                                {{ strtoupper(substr($message['group_name'], 0, 1)) }}
+                                                            </div>
+                                                        @else
+                                                            <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle" onerror="this.onerror=null; this.src='{{ asset('images/template/user/Noprofile.jpg') }}'">
+                                                        @endif
                                                         <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-dark"></i></span>
                                                     </div>
                                                     <div class="chat-sidebar-name">
-                                                        <h6 class="mb-0">{{ $message['friend_name'] }}</h6>
-                                                        <span>{{ ((end($message['conversations'])['user_id'] != auth()->id()) ? '' : 'You:').''.end($message['conversations'])['message'] }}</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @empty
-                                        <p>No messages found.</p>
-                                    @endforelse
-
-
-                                </ul>
-                                {{-- <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
-                                    @forelse($messages as $key => $message)
-                                        <li class="chat-item">
-                                            <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar me-2">
-                                                        <img src="{{ $message['friend_profile_picture'] ?: asset('/images/template/user/Noprofile.jpg') }}"
-                                                             alt="Friend Image" class="avatar-50 rounded-circle">
-                                                        <span class="avatar-status">
-                                                            <i class="ri-checkbox-blank-circle-fill text-dark"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="chat-sidebar-name">
                                                         <h6 class="mb-0">
-                                                            {{ $message['group_name'] ?? $message['friend_name'] }}
+                                                            @if($message['type'] == 'group')
+                                                                <i class="ri-group-line me-1"></i>{{ $message['group_name'] }}
+                                                            @else
+                                                                {{ $message['friend_name'] }}
+                                                            @endif
                                                         </h6>
                                                         <span>
                                                             @if (count($message['conversations']) > 0)
@@ -122,10 +116,9 @@
                                             </a>
                                         </li>
                                     @empty
-                                        <p>No messages found.</p>
+                                        <p>No conversations found.</p>
                                     @endforelse
-                                </ul> --}}
-
+                                </ul>
                             </div>
                         </div>
                         <div class="col-lg-9 chat-data p-0 chat-data-right">
@@ -145,10 +138,22 @@
                                                         <i class="ri-menu-3-line"></i>
                                                     </div>
                                                     <div class="avatar chat-user-profile m-0 me-3">
-                                                        <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle">
+                                                        @if($message['type'] == 'group')
+                                                            <div class="avatar-50 rounded-circle group-avatar">
+                                                                {{ strtoupper(substr($message['group_name'], 0, 1)) }}
+                                                            </div>
+                                                        @else
+                                                            <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle">
+                                                        @endif
                                                         <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-success"></i></span>
                                                     </div>
-                                                    <h5 class="mb-0">{{ $message['friend_name'] }}</h5>
+                                                    <h5 class="mb-0">
+                                                        @if($message['type'] == 'group')
+                                                            <i class="ri-group-line me-1"></i>{{ $message['group_name'] }}
+                                                        @else
+                                                            {{ $message['friend_name'] }}
+                                                        @endif
+                                                    </h5>
                                                 </div>
                                             </header>
                                         </div>
@@ -157,12 +162,29 @@
                                                 <div class="chat {{ ($chatText['user_id'] != auth()->id()) ? 'chat-left' : 'd-flex other-user'}}">
                                                     <div class="chat-user">
                                                         <a class="avatar m-0">
-                                                            <img src="{{ ($chatText['user_id'] != auth()->id()) ? $message['friend_profile_picture'] : Storage::url($profilePicture->file_path) }}" alt="avatar" class="avatar-35 rounded-circle">
+                                                            @if($message['type'] == 'group')
+                                                                @if($chatText['user_id'] != auth()->id())
+                                                                    @php
+                                                                        $sender = \App\Models\User::find($chatText['user_id']);
+                                                                        $senderProfilePicture = $sender && $sender->profilePicture
+                                                                            ? asset(Storage::url($sender->profilePicture->file_path))
+                                                                            : asset('images/template/user/Noprofile.jpg');
+                                                                    @endphp
+                                                                    <img src="{{ $senderProfilePicture }}" alt="avatar" class="avatar-35 rounded-circle">
+                                                                @else
+                                                                    <img src="{{ Storage::url($profilePicture->file_path) }}" alt="avatar" class="avatar-35 rounded-circle">
+                                                                @endif
+                                                            @else
+                                                                <img src="{{ ($chatText['user_id'] != auth()->id()) ? $message['friend_profile_picture'] : Storage::url($profilePicture->file_path) }}" alt="avatar" class="avatar-35 rounded-circle">
+                                                            @endif
                                                         </a>
                                                         <span class="chat-time mt-1">{{ date('h:i a', strtotime($chatText['converted_date'])) }}</span>
                                                     </div>
                                                     <div class="chat-detail">
                                                         <div class="chat-message">
+                                                            @if($message['type'] == 'group' && $chatText['user_id'] != auth()->id())
+                                                                <small class="text-muted">{{ \App\Models\User::find($chatText['user_id'])->name ?? 'Unknown' }}</small>
+                                                            @endif
                                                             <p>{{ $chatText['message'] }}</p>
                                                         </div>
                                                     </div>
@@ -176,7 +198,16 @@
                                                     <a href="#"><i class="fa fa-paperclip pe-3" aria-hidden="true"></i></a>
                                                 </div>
                                                 <input type="text" class="chatMessage{{ $key + 1 }} form-control me-3" placeholder="Type your message">
-                                                <button type="submit" data-chat-box="chatContent{{ $key + 1 }}" data-message-class="chatMessage{{ $key + 1 }}" data-friend-id="{{ $message['friend_id'] }}" class="sendChat btn btn-primary d-flex align-items-center px-2">
+                                                <button type="submit"
+                                                        data-chat-box="chatContent{{ $key + 1 }}"
+                                                        data-message-class="chatMessage{{ $key + 1 }}"
+                                                        data-chat-type="{{ $message['type'] }}"
+                                                        @if($message['type'] == 'group')
+                                                            data-group-id="{{ $message['group_id'] }}"
+                                                        @else
+                                                            data-friend-id="{{ $message['friend_id'] }}"
+                                                        @endif
+                                                        class="sendChat btn btn-primary d-flex align-items-center px-2">
                                                     <i class="far fa-paper-plane" aria-hidden="true"></i>
                                                     <span class="d-none d-lg-block ms-1">Send</span>
                                                 </button>
@@ -211,25 +242,35 @@
             var $this = $(this);
             var messageClass = $this.data('message-class');
             var chatBox = $this.data('chat-box');
+            var chatType = $this.data('chat-type');
             var textarea = $('.' + messageClass);
             var chatMessage = textarea.val();
-            var friendId = $this.data('friend-id');
-            var userImage = '{{ Storage::url($profilePicture->file_path) }}'; // Replace with the actual user image path
-            var friendProfileImage = '{{ $message['friend_profile_picture'] }}';
-            var groupId = $this.data('group-id'); // Get the group ID
+          var userImage = @json($profilePicture && $profilePicture->file_path
+        ? Storage::url($profilePicture->file_path)
+        : asset('/images/template/user/Noprofile.jpg'));
 
             if (textarea.val().trim() === '') {
                 return; // Do nothing if the textarea is empty
             }
 
+            var requestData = {
+                message: chatMessage,
+                _token: "{{ csrf_token() }}"
+            };
+
+            var url = '';
+            if (chatType === 'group') {
+                requestData.group_id = $this.data('group-id');
+                url = "{{ route('chat.sendGroupMessage') }}";
+            } else {
+                requestData.friend_id = $this.data('friend-id');
+                url = "{{ route('chat.sendMessage') }}";
+            }
+
             $.ajax({
-                url: "{{ route('chat.sendMessage') }}",
+                url: url,
                 type: "POST",
-                data: {
-                    message: chatMessage,
-                    friend_id: friendId,
-                    _token: "{{ csrf_token() }}"
-                },
+                data: requestData,
                 success: function(response) {
                     toastr.success(response.message);
 
@@ -256,30 +297,34 @@
                     toastr.error('An error occurred while sending the message.');
                 }
             });
-
-
-
         });
     });
 
     document.getElementById('createGroupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    let formData = new FormData(this);
+        e.preventDefault();
+        let formData = new FormData(this);
 
-    fetch("{{ route('group.create') }}", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        location.reload();
-    })
-    .catch(error => console.error('Error:', error));
-});
+        fetch("{{ route('group.create') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                toastr.success(data.message);
+                location.reload();
+            } else {
+                toastr.error('Error creating group');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            toastr.error('Error creating group');
+        });
+    });
 </script>
 @endsection
 

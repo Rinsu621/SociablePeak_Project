@@ -127,8 +127,11 @@ Route::get('/profile/view/{userId}', [ProfileController::class, 'viewProfile'])-
 //Chat
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
 Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
-Route::post('/group/send-message', [ChatController::class, 'sendGroupMessage'])->name('group.sendMessage');
+// Route::post('/group/send-message', [ChatController::class, 'sendGroupMessage'])->name('group.sendMessage');
 Route::post('/group/create', [GroupController::class, 'store'])->name('group.create');
+
+Route::post('/chat/send-group-message', [ChatController::class, 'sendGroupMessage'])->name('chat.sendGroupMessage');
+
 
 
 //Chat
