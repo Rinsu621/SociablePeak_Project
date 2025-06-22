@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
 
-                                <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
+                                {{-- <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
                                     @forelse($messages as $key => $message)
                                         <li class="chat-item">
                                             <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
@@ -118,7 +118,50 @@
                                     @empty
                                         <p>No conversations found.</p>
                                     @endforelse
-                                </ul>
+                                </ul> --}}
+                                <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
+    @forelse($messages as $key => $message)
+        @php
+            $sortedConversations = collect($message['conversations'])->sortBy('converted_date')->values();
+            $lastMessage = $sortedConversations->last();
+        @endphp
+        <li class="chat-item">
+            <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
+                <div class="d-flex align-items-center">
+                    <div class="avatar me-2">
+                        @if($message['type'] == 'group')
+                            <div class="avatar-50 rounded-circle group-avatar">
+                                {{ strtoupper(substr($message['group_name'], 0, 1)) }}
+                            </div>
+                        @else
+                            <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle" onerror="this.onerror=null; this.src='{{ asset('images/template/user/Noprofile.jpg') }}'">
+                        @endif
+                        <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-dark"></i></span>
+                    </div>
+                    <div class="chat-sidebar-name">
+                        <h6 class="mb-0">
+                            @if($message['type'] == 'group')
+                                <i class="ri-group-line me-1"></i>{{ $message['group_name'] }}
+                            @else
+                                {{ $message['friend_name'] }}
+                            @endif
+                        </h6>
+                        <span>
+                            @if ($lastMessage)
+                                {{ ($lastMessage['user_id'] == auth()->id() ? 'You: ' : '') . $lastMessage['message'] }}
+                            @else
+                                No messages yet.
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </li>
+    @empty
+        <p>No conversations found.</p>
+    @endforelse
+</ul>
+
                             </div>
                         </div>
                         <div class="col-lg-9 chat-data p-0 chat-data-right">
@@ -158,7 +201,7 @@
                                             </header>
                                         </div>
                                         <div class="chat-content scroller chatContent{{ $key + 1 }}">
-                                            @foreach($message['conversations'] as $chatText)
+                                             @foreach(collect($message['conversations'])->sortBy('converted_date') as $chatText)
                                                 <div class="chat {{ ($chatText['user_id'] != auth()->id()) ? 'chat-left' : 'd-flex other-user'}}">
                                                     <div class="chat-user">
                                                         <a class="avatar m-0">
