@@ -33,4 +33,29 @@ class NotificationController extends Controller
 
         return view('layout', compact('notifications', 'unreadCount'));
     }
+
+    public function storeLikeNotification($postOwnerId, $likerName)
+{
+    if (auth()->id() !== $postOwnerId) {
+        Notification::create([
+            'user_id' => $postOwnerId,
+            'type' => 'like',
+            'message' => "$likerName liked your post.",
+            'is_read' => false,
+        ]);
+    }
+}
+
+public function storeCommentNotification($postOwnerId, $commenterName)
+{
+    if (auth()->id() !== $postOwnerId) {
+        Notification::create([
+            'user_id' => $postOwnerId,
+            'type' => 'comment',
+            'message' => "$commenterName commented on your post.",
+            'is_read' => false,
+        ]);
+    }
+}
+
 }

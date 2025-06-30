@@ -32,7 +32,7 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: #007bff;
+        background-color: #50b5ff;
         color: white;
         border-radius: 30%;
         padding: 15px;
@@ -226,7 +226,7 @@
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">My Profile</h6>
-                                                        <p class="mb-0 font-size-12">View personal profile details.</p>
+                                                        <p class="mb-0 font-size-12"style="font-size: 11px;">View personal profile details.</p>
                                                     </div>
                                                 </div>
                                             </a>
@@ -237,7 +237,7 @@
                                                     </div>
                                                     <div class="ms-3">
                                                         <h6 class="mb-0 ">Change Password</h6>
-                                                        <p class="mb-0 font-size-12">Update your account password securely.</p>
+                                                        <p class="mb-0 font-size-12" style="font-size: 11px;">Update your account password securely.</p>
                                                     </div>
                                                 </div>
                                             </a>
@@ -272,7 +272,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="chatModalLabel">Chat with Us</h5>
+                        <h5 class="modal-title" id="chatModalLabel">Create Caption for your post!</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -281,7 +281,7 @@
                         </div>
                         <form action="" id="formchat">
                             <div class="input-group mt-3">
-                                <input type="text" class="form-control" id="chatInput" placeholder="Type your message...">
+                                <input type="text" class="form-control" id="chatInput" placeholder="Explain your post detail...">
                                 <button class="btn btn-primary" id="sendMessage">Send</button>
                             </div>
                         </form>

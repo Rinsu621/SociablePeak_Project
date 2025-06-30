@@ -32,6 +32,7 @@
 
 
 
+
 </style>
 @endsection
 @section('content')
@@ -403,8 +404,10 @@
             <img src="{{ asset('/images/template/page-img/page-load-loader.gif') }}" alt="loader" style="height: 100px;">
         </div>
                     </div>
-        <div class="col-lg-4">
-            <div class="card">
+        <div class="col-lg-4" style="position: fixed; top: 90px; left: 66%; z-index: 80; width: 350px;">
+
+
+            <div class="card" ">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
                         <h4 class="card-title">Friend Request</h4>
@@ -420,7 +423,7 @@
                                     <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="story-img" class="rounded-circle img-fluid">
                                 @endif
                             <div class="stories-data ms-3">
-                                <h5>{{ $request->user->name }}</h5>
+                                <h6>{{ $request->user->name }}</h6>
                                 <p class="mb-0">{{ $request->created_at->diffForHumans() }}</p>
                             </div>
                         </li>
@@ -447,10 +450,11 @@
                                     <img src="{{ asset('/images/template/user/Noprofile.jpg') }}" alt="story-img" class="rounded-circle img-fluid">
                                 @endif
                                 <div class="stories-data ms-3">
-                                    <h5>{{ $suggestedFriend->name }}</h5>
+                                    <h6>{{ $suggestedFriend->name }}</h6>
                                     <form action="{{ route('friends.add', ['id' => $suggestedFriend->id]) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-primary">Add Friend</button>
+                                        <button type="submit" class="btn btn-primary px-2 py-1" style="font-size: 12px;">Add Friend</button>
+
                                     </form>
                                 </div>
                             </li>
@@ -459,6 +463,7 @@
                 </div>
             </div>
             </div>
+
     </div>
 @endsection
 
