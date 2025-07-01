@@ -241,7 +241,9 @@
                                             <h4 class="card-title">Followers</h4>
                                         </div>
                                     </div>
-                                    {{-- <div class="card-body">
+
+
+                                    {{-- \\<div class="card-body">
                                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                                             {{-- {{-- @if (empty($friends)) --}}
                                                 {{-- <p>You have no followers.</p> --}}
@@ -260,6 +262,8 @@
                                             {{-- @endif --}}
                                     {{-- </ul>
                                 </div>  --}}
+
+
                                 <div class="card-body">
                                     <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                                         @if ($followers->isEmpty())
@@ -269,12 +273,12 @@
                                                 @foreach ($followers as $follower)
                                                     <li>
                                                         <a href="#">
-                                                            <img class="timeline-friends-profile-img"
-                                                            src="{{ $follower->user && $follower->user->profilePicture ? Storage::url($follower->user->profilePicture->file_path) : asset('/images/template/user/noprofile.jpg') }}"
-                                                            alt="gallery-image" class="img-fluid rounded-circle" />
+    <img class="timeline-friends-profile-img rounded-circle"
+         src="{{ $follower->user && $follower->user->profilePicture ? Storage::url($follower->user->profilePicture->file_path) : asset('/images/template/user/noprofile.jpg') }}"
+         alt="profile-image" />
+</a>
 
-                                                        </a>
-                                                        <h6 class="mt-2 text-center">{{ $follower->name }}</h6>
+                                                        <h6 class="mt-2 text-center">{{ $follower->user->name }}</h6>
                                                     </li>
                                                 @endforeach
                                         @endif
@@ -523,11 +527,11 @@
                                                         <form class="comment-text d-flex align-items-center mt-3" action="{{ route('businesscomment', $item->id) }}" method="POST">
                                                             @csrf
                                                             <input type="text" name="comment" class="form-control rounded" placeholder="Enter Your Comment" required>
-                                                            <div class="comment-attagement d-flex">
+                                                            {{-- <div class="comment-attagement d-flex">
                                                                 <a href="javascript:void(0);"><i class="ri-link me-3"></i></a>
                                                                 <a href="javascript:void(0);"><i class="ri-user-smile-line me-3"></i></a>
                                                                 <a href="javascript:void(0);"><i class="ri-camera-line me-3"></i></a>
-                                                            </div>
+                                                            </div> --}}
                                                         </form>
                                                     </div>
                                             </div>
@@ -540,21 +544,25 @@
                 </div>
             </div>
         </div>
+
         <div class="tab-pane fade" id="about" role="tabpanel">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <ul class="nav nav-pills basic-info-items list-inline d-block p-0 m-0">
-                                <li>
+                             <ul class="nav nav-pills flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            {{-- <ul class="nav nav-pills basic-info-items list-inline d-block p-0 m-0"> --}}
+                                <li class="nav-item">
                                     <a class="nav-link active" href="#v-pills-basicinfo-tab"
                                         data-bs-toggle="pill" data-bs-target="#v-pills-basicinfo-tab"
                                         role="button">Contact and Basic Info</a>
                                 </li>
 
-
                             </ul>
                         </div>
+
+                    </div>
+                </div>
                         <div class="col-md-9 ps-4">
                             <div class="tab-content">
                                 <div class="tab-pane fade active show" id="v-pills-basicinfo-tab" role="tabpanel"
@@ -848,10 +856,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
     </div>
-{{-- </div>
-</div> --}}
+</div>
+</div>
 <div class="col-sm-12 text-center">
 <img src="{{ asset('/images/template/page-img/page-load-loader.gif') }}" alt="loader"
     style="height: 100px;">

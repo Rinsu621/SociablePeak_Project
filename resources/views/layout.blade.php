@@ -154,7 +154,7 @@
                                     aria-haspopup="true" aria-expanded="false"><i class="ri-group-line"></i></a>
 
                             </li>
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop"
                                     data-bs-toggle="dropdown">
                                     <i class="ri-notification-4-line"></i>
@@ -185,7 +185,44 @@
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </li> --}}
+
+                            <li class="nav-item dropdown">
+    <a href="#" class="dropdown-toggle" id="notification-drop" data-bs-toggle="dropdown">
+        <i class="ri-notification-4-line"></i>
+    </a>
+    <div class="sub-drop dropdown-menu" aria-labelledby="notification-drop">
+        <div class="card shadow-none m-0">
+            <div class="card-header d-flex justify-content-between bg-primary">
+                <div class="header-title bg-primary">
+                    <h5 class="mb-0 text-white">All Notifications</h5>
+                </div>
+                <small class="badge bg-light text-dark">{{ $unreadCount }}</small>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @forelse($notifications->take(3) as $notification)
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>{{ $notification->message }}</span>
+                                <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                            </div>
+                        </li>
+                    @empty
+                        <li class="list-group-item">
+                            <span>No notifications available.</span>
+                        </li>
+                    @endforelse
+                </ul>
+                <div class="text-center mt-2">
+                    <a href="{{ route('notifications.index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+
                             <li class="nav-item dropdown">
                                 <a href="{{ route('chat.index') }}"  id="mail-drop"
                                     aria-haspopup="true" aria-expanded="false">

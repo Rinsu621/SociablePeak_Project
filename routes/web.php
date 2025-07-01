@@ -248,3 +248,7 @@ Route::post('/generate-caption', [OAuthController::class, 'generateCaption']);
 
 Route::get('oauth/redirect', [OAuthController::class, 'redirectToGoogle']);
 Route::get('oauth/callback', [OAuthController::class, 'handleGoogleCallback']);
+
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+

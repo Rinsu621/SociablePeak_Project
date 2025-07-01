@@ -58,4 +58,16 @@ public function storeCommentNotification($postOwnerId, $commenterName)
     }
 }
 
+public function index()
+{
+    $userId = auth()->id();
+
+    $notifications = Notification::where('user_id', $userId)
+                                 ->orderBy('created_at', 'desc')
+                                 ->paginate(10);
+
+    return view('notifications.index', compact('notifications'));
+}
+
+
 }

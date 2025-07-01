@@ -24,4 +24,9 @@ class Follow extends Model
     {
         return $this->belongsTo(Business::class, 'following_id');
     }
+    public function user()
+{
+    return $this->belongsTo(User::class, 'follower_id');
+}
+
 }

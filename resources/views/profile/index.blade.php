@@ -659,7 +659,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <a href="#">
                                                                     <img class="timeline-friends-profile-img"
-                                                                    src="{{ $item['profile_picture'] ? Storage::url($item['profile_picture']) : asset('/images/template/user/1.jpg') }}"
+                                                                    src="{{ $item['profile_picture'] ? Storage::url($item['profile_picture']) : asset('/images/template/user/noprofile.jpg') }}"
                                                                  alt="gallery-image" class="img-fluid rounded-circle" />
                                                                 </a>
                                                                 <div class="friend-info ms-3">

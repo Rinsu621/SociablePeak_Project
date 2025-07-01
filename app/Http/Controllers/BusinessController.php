@@ -31,7 +31,10 @@ class BusinessController extends Controller
         $ads = Ad::with('adimages','adLikes.user','adLikes.business')->where('business_id', $business->id)->latest()->get();
 
         $followersCount = $business->followers()->count();  // Get the number of followers
-        $followers = $business->followers;
+        // $followers = $business->followers;
+        $followers = Follow::with(['user.profilePicture'])
+    ->where('following_id', $business->id)
+    ->get();
 
         return view('business.profile', compact('businessName', 'profilePicture', 'ads','userAdsCount','followersCount', 'followers'));
     }
