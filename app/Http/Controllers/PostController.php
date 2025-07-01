@@ -118,32 +118,72 @@ class PostController extends Controller
         }
     }
 
+    // public function getPostEngagement()
+    // {
+    //     try {
+    //         // Group posts by month or any other criteria you need
+    //         $postCounts = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+    //             ->groupBy('month')
+    //             ->orderBy('month')
+    //             ->get()
+    //             ->pluck('count', 'month');
+
+    //         $labels = $postCounts->keys()->map(function($month) {
+    //             return date('F', mktime(0, 0, 0, $month, 1));
+    //         })->toArray();
+
+    //         $postsData = $postCounts->values()->toArray();
+    //         $posts = Post::with(['likes', 'comments', 'images'])
+    //     ->withCount(['likes', 'comments'])
+    //     ->orderByDesc('likes_count')
+    //     ->orderByDesc('comments_count')
+    //     ->get();
+
+    //         return view('analytics.postEngagement', compact('labels', 'postsData', 'posts'));
+    //     } catch (Exception $e) {
+    //         return redirect()->back()->withErrors($e->getMessage());
+    //     }
+    // }
+
+
     public function getPostEngagement()
-    {
-        try {
-            // Group posts by month or any other criteria you need
-            $postCounts = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get()
-                ->pluck('count', 'month');
+{
+    try {
+        $userId = auth()->id();
 
-            $labels = $postCounts->keys()->map(function($month) {
-                return date('F', mktime(0, 0, 0, $month, 1));
-            })->toArray();
+        // Only count *your* posts by month
+        $postCounts = Post::where('user_id', $userId)
+            // ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->selectRaw("MONTH(CONVERT_TZ(created_at, '+00:00', '+05:45')) as month, COUNT(*) as count")
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->pluck('count', 'month');
 
-            $postsData = $postCounts->values()->toArray();
-            $posts = Post::with(['likes', 'comments', 'images'])
-        ->withCount(['likes', 'comments'])
-        ->orderByDesc('likes_count')
-        ->orderByDesc('comments_count')
-        ->get();
+        $labels = $postCounts->keys()->map(function ($month) {
+            return date('F', mktime(0, 0, 0, $month, 1));
+        })->toArray();
 
-            return view('analytics.postEngagement', compact('labels', 'postsData', 'posts'));
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors($e->getMessage());
-        }
+        $postsData = $postCounts->values()->toArray();
+
+        // Fetch only your posts
+        $posts = Post::where('user_id', $userId)
+            ->with(['likes.user', 'comments.user', 'images'])
+            ->withCount(['likes', 'comments'])
+            ->orderByDesc('likes_count')
+            ->orderByDesc('comments_count')
+            ->get();
+
+        // Fetch profile picture of current user
+        $profilePicture = auth()->user()->profilePicture;
+
+        return view('analytics.postEngagement', compact('labels', 'postsData', 'posts', 'profilePicture'));
+
+    } catch (Exception $e) {
+        return redirect()->back()->withErrors($e->getMessage());
     }
+}
+
     public function getMostInteractedUsers()
     {
         try {

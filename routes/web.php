@@ -131,6 +131,9 @@ Route::post('send-message', [ChatController::class, 'sendMessage'])->name('chat.
 Route::post('/group/create', [GroupController::class, 'store'])->name('group.create');
 
 Route::post('/chat/send-group-message', [ChatController::class, 'sendGroupMessage'])->name('chat.sendGroupMessage');
+Route::get('/group/{group}/members', [GroupController::class, 'members'])->name('group.members');
+Route::post('/group/{group}/leave', [GroupController::class, 'leave'])->name('group.leave');
+
 
 
 

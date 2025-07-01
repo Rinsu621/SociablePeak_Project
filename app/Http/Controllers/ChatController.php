@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Models\GroupMessage;
 
 use App\Models\UserDetail;
+use App\Models\Friend;
 use App\Models\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,17 @@ class ChatController extends Controller
         // Get the logged-in user's ID
         $userId = Auth::id();
         $users = User::where('id', '!=', $userId)->get();
+
+// $friendIds = Friend::where(function ($query) use ($userId) {
+//     $query->where('user_id', $userId)
+//           ->orWhere('friend_id', $userId);
+// })->where('status', 'accepted')
+//   ->get()
+//   ->map(function ($friend) use ($userId) {
+//       return $friend->user_id == $userId ? $friend->friend_id : $friend->user_id;
+//   });
+
+// $users = User::whereIn('id', $friendIds)->get();
 
         // Get user's profile picture
         $profilePicture = Auth::user()->profilePicture;
@@ -59,12 +71,15 @@ class ChatController extends Controller
                 return $message;
             });
 
+
             return [
                 'group_id' => $group->id,
                 'group_name' => $group->name,
                 'messages' => $sortedGroupMessages
             ];
         });
+
+
 
         // Fetch the friend details using the grouped friend IDs
         $friendIds = $sortedMessages->keys();
@@ -88,16 +103,31 @@ class ChatController extends Controller
         });
 
         // Prepare group chat data
+        // $groupChatData = $groupMessages->map(function ($groupData) {
+        //     return [
+        //         'type' => 'group',
+        //         'group_id' => $groupData['group_id'],
+        //         'group_name' => $groupData['group_name'],
+        //         'group_profile_picture' => asset('images/template/user/11.png'), // Use existing image
+        //         'conversations' => $groupData['messages']->toArray(),
+        //         'last_message_time' => $groupData['messages']->max('created_at')
+        //     ];
+        // });
+
         $groupChatData = $groupMessages->map(function ($groupData) {
-            return [
-                'type' => 'group',
-                'group_id' => $groupData['group_id'],
-                'group_name' => $groupData['group_name'],
-                'group_profile_picture' => asset('images/template/user/11.png'), // Use existing image
-                'conversations' => $groupData['messages']->toArray(),
-                'last_message_time' => $groupData['messages']->max('created_at')
-            ];
-        });
+    $hasMessages = $groupData['messages']->isNotEmpty();
+    return [
+        'type' => 'group',
+        'group_id' => $groupData['group_id'],
+        'group_name' => $groupData['group_name'],
+        'group_profile_picture' => asset('images/template/user/11.png'),
+        'conversations' => $groupData['messages']->toArray(),
+        'last_message_time' => $hasMessages
+            ? $groupData['messages']->max('created_at')
+            : \App\Models\Group::find($groupData['group_id'])->created_at
+    ];
+});
+
 
         // Combine individual and group chats and sort by last message time
         $allChats = $individualChatData->concat($groupChatData)->sortByDesc('last_message_time');

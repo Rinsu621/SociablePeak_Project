@@ -81,44 +81,6 @@
                                     </div>
                                 </div>
 
-                                {{-- <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
-                                    @forelse($messages as $key => $message)
-                                        <li class="chat-item">
-                                            <a data-bs-toggle="pill" href="#chatbox{{ $key + 1 }}">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar me-2">
-                                                        @if($message['type'] == 'group')
-                                                            <div class="avatar-50 rounded-circle group-avatar">
-                                                                {{ strtoupper(substr($message['group_name'], 0, 1)) }}
-                                                            </div>
-                                                        @else
-                                                            <img src="{{ $message['friend_profile_picture'] }}" alt="Friend Image" class="avatar-50 rounded-circle" onerror="this.onerror=null; this.src='{{ asset('images/template/user/Noprofile.jpg') }}'">
-                                                        @endif
-                                                        <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-dark"></i></span>
-                                                    </div>
-                                                    <div class="chat-sidebar-name">
-                                                        <h6 class="mb-0">
-                                                            @if($message['type'] == 'group')
-                                                                <i class="ri-group-line me-1"></i>{{ $message['group_name'] }}
-                                                            @else
-                                                                {{ $message['friend_name'] }}
-                                                            @endif
-                                                        </h6>
-                                                        <span>
-                                                            @if (count($message['conversations']) > 0)
-                                                                {{ ((end($message['conversations'])['user_id'] != auth()->id()) ? '' : 'You:') . end($message['conversations'])['message'] }}
-                                                            @else
-                                                                No messages yet.
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @empty
-                                        <p>No conversations found.</p>
-                                    @endforelse
-                                </ul> --}}
                                 <ul id="chat-list" class="iq-chat-ui nav flex-column nav-pills">
     @forelse($messages as $key => $message)
         @php

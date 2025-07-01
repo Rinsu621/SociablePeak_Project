@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Friend;
+
 use Illuminate\Support\Facades\Storage;
 
 class GroupController extends Controller
@@ -51,4 +53,7 @@ public function leave(Group $group)
     $group->members()->detach(Auth::id());
     return response()->json(['message' => 'You have left the group.']);
 }
+
+
+
 }
