@@ -174,75 +174,6 @@ Route::prefix('admin')->group(function () {
 });
 
 
-// Route::post('api/gemini/caption-suggest', function (Request $request) {
-//     try {
-//         // Log received prompt
-//         \Log::debug('Gemini API route triggered');
-//         $prompt = $request->input('prompt');
-//         \Log::debug('Received prompt:', ['prompt' => $prompt]);
-
-//         // Get access token from session
-//         $accessToken = session('gemini_access_token');
-
-//         if (!$accessToken) {
-//             \Log::error('No access token found in session.');
-//             return response()->json(['error' => 'No access token found'], 401);
-//         }
-
-//         // Make a request to the Gemini API
-//         $response = Http::withHeaders([
-//             'Content-Type' => 'application/json',
-//             'Authorization' => 'Bearer ' . $accessToken,  // Use access token obtained from OAuth
-//         ])->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' . env('GEMINI_API_KEY'), [
-//             'contents' => [
-//                 [
-//                     'parts' => [
-//                         ['text' => "Suggest a creative and short Instagram caption for: $prompt"]
-//                     ]
-//                 ]
-//             ]
-//         ]);
-
-//         // Log the API response for debugging
-//         \Log::debug('Gemini API Response:', $response->json());
-
-//         // Check if the response is valid
-//         if ($response->failed()) {
-//             \Log::error('Gemini API request failed', ['response' => $response->body()]);
-//             return response()->json([
-//                 'error' => 'Failed to fetch caption from Gemini API.',
-//                 'details' => $response->body()
-//             ], 500);
-//         }
-
-//         return response()->json([
-//             'reply' => $response['candidates'][0]['content']['parts'][0]['text'] ?? 'No caption generated.'
-//         ]);
-//     } catch (\Exception $e) {
-//         \Log::error('Error during Gemini API call', ['error' => $e->getMessage()]);
-//         return response()->json([
-//             'error' => 'An error occurred while processing your request.',
-//             'details' => $e->getMessage()
-//         ], 500);
-//     }
-// });
-
-// // Step 1: Redirect to Google OAuth consent screen
-// Route::get('oauth/redirect', [OAuthController::class, 'redirectToGoogle'])->name('oauth.redirect');
-
-
-// // Step 2: Handle the callback after the user grants consent
-// Route::get('oauth/callback', [OAuthController::class, 'handleCallback'])->name('oauth.callback');
-// Route::get('api/gemini/check-auth', function() {
-//     return response()->json([
-//         'authenticated' => session()->has('gemini_access_token')
-//     ]);
-// });
-// Route::get('/chat/check-pending', function() {
-//     return response()->json([
-//         'hasPending' => session()->has('pending_message')
-//     ]);
-// });
 
 Route::post('/generate-caption', [OAuthController::class, 'generateCaption']);
 
@@ -251,4 +182,11 @@ Route::get('oauth/callback', [OAuthController::class, 'handleGoogleCallback']);
 
 
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+
+Route::get('/group/{group}/members', [GroupController::class, 'members'])->name('group.members');
+Route::post('/group/{group}/leave', [GroupController::class, 'leave'])->name('group.leave');
+
+
+
 

@@ -190,7 +190,14 @@
                                                         @endif
                                                         <span class="avatar-status"><i class="ri-checkbox-blank-circle-fill text-success"></i></span>
                                                     </div>
-                                                    <h5 class="mb-0">
+                                                    {{-- <h5 class="mb-0">
+                                                        @if($message['type'] == 'group')
+                                                            <i class="ri-group-line me-1"></i>{{ $message['group_name'] }}
+                                                        @else
+                                                            {{ $message['friend_name'] }}
+                                                        @endif
+                                                    </h5> --}}
+                                                    <h5 class="mb-0 me-auto">
                                                         @if($message['type'] == 'group')
                                                             <i class="ri-group-line me-1"></i>{{ $message['group_name'] }}
                                                         @else
@@ -198,6 +205,19 @@
                                                         @endif
                                                     </h5>
                                                 </div>
+
+                                                 @if($message['type'] == 'group')
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" type="button" id="groupOptions{{ $message['group_id'] }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-fill"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="groupOptions{{ $message['group_id'] }}">
+                                                        <li><a class="dropdown-item view-members" href="#" data-group-id="{{ $message['group_id'] }}">Members</a></li>
+                                                        <li><a class="dropdown-item leave-group" href="#" data-group-id="{{ $message['group_id'] }}">Leave Group</a></li>
+                                                    </ul>
+                                                </div>
+                                                @endif
+
                                             </header>
                                         </div>
                                         <div class="chat-content scroller chatContent{{ $key + 1 }}">
@@ -265,6 +285,22 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- Group Members Modal -->
+<div class="modal fade" id="groupMembersModal" tabindex="-1" aria-labelledby="groupMembersModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="groupMembersModalLabel">Group Members</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="groupMembersList">
+        <!-- Filled via JS -->
+      </div>
+    </div>
+  </div>
 </div>
 
 @endsection
@@ -367,6 +403,54 @@
             console.error('Error:', error);
             toastr.error('Error creating group');
         });
+    });
+
+
+
+
+    $(document).on('click', '.view-members', function(e) {
+        e.preventDefault();
+        const groupId = $(this).data('group-id');
+        fetch(`/group/${groupId}/members`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.members) {
+                    let listHtml = '<ul class="list-group">';
+                    data.members.forEach(member => {
+                        listHtml += `<li class="list-group-item d-flex align-items-center">
+                            <img src="${member.profile_picture}" class="rounded-circle me-2" style="width:35px;height:35px;object-fit:cover;">
+                            ${member.name}
+                        </li>`;
+                    });
+                    listHtml += '</ul>';
+                    $('#groupMembersList').html(listHtml);
+                    $('#groupMembersModal').modal('show');
+                }
+            });
+    });
+
+    $(document).on('click', '.leave-group', function(e) {
+        e.preventDefault();
+        const groupId = $(this).data('group-id');
+        if (confirm("Are you sure you want to leave the group?")) {
+            fetch(`/group/${groupId}/leave`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message) {
+                    toastr.success(data.message);
+                    location.reload();
+                } else {
+                    toastr.error("Something went wrong");
+                }
+            });
+        }
     });
 </script>
 @endsection
