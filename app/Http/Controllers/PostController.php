@@ -18,23 +18,93 @@ use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
-    public function postStore(Request $request){
-        // dd($request->all());
-        try {
-            // Retrieve the authenticated user's ID
-            $userId = auth()->id();
+    // public function postStore(Request $request){
+    //     // dd($request->all());
+    //     try {
+    //         // Retrieve the authenticated user's ID
+    //         $userId = auth()->id();
 
-            // Validate request data
-            $request->validate([
-                'description' => 'string',
-                'image.*' => 'nullable|image|mimes:jpeg,jpg,png,gif',
+    //         // Validate request data
+    //         $request->validate([
+    //             'description' => 'string',
+    //             'image.*' => 'nullable|image|mimes:jpeg,jpg,png,gif',
 
+
+    //         ]);
+
+    //         //new
+    //         $post = Post::create([
+    //             'user_id' => $userId,
+    //             'description' => $request->input('description'),
+    //         ]);
+
+    //         if ($request->hasFile('image')) {
+    //             foreach ($request->file('image') as $image) {
+    //                 $path = $image->store('public/images/postimg');
+    //                 $post->images()->create([
+    //                     'file_path' => $path,
+    //                 ]);
+    //             }
+    //         }
+
+    //         $set_time = $request->input('set_time');
+    //     if (!empty($set_time)) {
+    //         $post->set_time = $set_time;
+    //         $post->status = 0; // Assuming status 0 is for 'scheduled'
+    //         $post->save();
+    //     }
+    //     $userPostsCount = Post::where('user_id', $userId)->count();
+
+    //         // Create or update user engagement data
+    //         return redirect()->back()->with('message', 'Successfully Posted')->with('userPostsCount', $userPostsCount);
+    //     } catch (ValidationException $e) {
+    //         // If a validation error occurs, catch the ValidationException
+    //         // and redirect back with the validation error messages
+    //         return redirect()->back()->withErrors($e->getMessage())->withInput();
+
+    //     } catch (Exception $e) {
+    //         // If any other type of exception occurs, catch it and
+    //         // redirect back with the exception message
+    //         return redirect()->back()->withErrors($e->getMessage())->withInput();
+    //     }
+    // }
+public function postStore(Request $request)
+{
+    try {
+        $userId = auth()->id();
+
+        $request->validate([
+            'description' => 'string',
+            'image.*' => 'nullable|image|mimes:jpeg,jpg,png,gif',
+            'set_time' => 'nullable|date|after_or_equal:today',
+        ]);
+
+        $set_time = $request->input('set_time');
+
+        if (!empty($set_time)) {
+            // Create scheduled post
+            $scheduledPost = ScheduledPost::create([
+                'user_id' => $userId,
+                'description' => $request->input('description'),
+                'set_time' => $set_time,
+                'status' => 0, // scheduled
             ]);
 
-            //new
+            if ($request->hasFile('image')) {
+                foreach ($request->file('image') as $image) {
+                    $path = $image->store('public/images/postimg');
+                    $scheduledPost->images()->create([
+                        'file_path' => $path,
+                    ]);
+                }
+            }
+
+        } else {
+            // Create immediate post
             $post = Post::create([
                 'user_id' => $userId,
                 'description' => $request->input('description'),
+                'status' => 1, // published
             ]);
 
             if ($request->hasFile('image')) {
@@ -45,28 +115,18 @@ class PostController extends Controller
                     ]);
                 }
             }
-
-            $set_time = $request->input('set_time');
-        if (!empty($set_time)) {
-            $post->set_time = $set_time;
-            $post->status = 0; // Assuming status 0 is for 'scheduled'
-            $post->save();
         }
+
         $userPostsCount = Post::where('user_id', $userId)->count();
 
-            // Create or update user engagement data
-            return redirect()->back()->with('message', 'Successfully Posted')->with('userPostsCount', $userPostsCount);
-        } catch (ValidationException $e) {
-            // If a validation error occurs, catch the ValidationException
-            // and redirect back with the validation error messages
-            return redirect()->back()->withErrors($e->getMessage())->withInput();
+        return redirect()->back()->with('message', 'Successfully Posted')->with('userPostsCount', $userPostsCount);
 
-        } catch (Exception $e) {
-            // If any other type of exception occurs, catch it and
-            // redirect back with the exception message
-            return redirect()->back()->withErrors($e->getMessage())->withInput();
-        }
+    } catch (ValidationException $e) {
+        return redirect()->back()->withErrors($e->getMessage())->withInput();
+    } catch (Exception $e) {
+        return redirect()->back()->withErrors($e->getMessage())->withInput();
     }
+}
 
     public function likePost($id)
     {
@@ -150,15 +210,27 @@ class PostController extends Controller
 {
     try {
         $userId = auth()->id();
+          $currentYear = now()->year;
+        $currentMonth = now()->month;
 
         // Only count *your* posts by month
+        // $postCounts = Post::where('user_id', $userId)
+        //     // ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+        //     ->selectRaw("MONTH(CONVERT_TZ(created_at, '+00:00', '+05:45')) as month, COUNT(*) as count")
+        //     ->groupBy('month')
+        //     ->orderBy('month')
+        //     ->get()
+        //     ->pluck('count', 'month');
+
         $postCounts = Post::where('user_id', $userId)
-            // ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', '<=', $currentMonth)
             ->selectRaw("MONTH(CONVERT_TZ(created_at, '+00:00', '+05:45')) as month, COUNT(*) as count")
             ->groupBy('month')
             ->orderBy('month')
             ->get()
             ->pluck('count', 'month');
+
 
         $labels = $postCounts->keys()->map(function ($month) {
             return date('F', mktime(0, 0, 0, $month, 1));

@@ -111,10 +111,7 @@ class AuthController extends Controller
 
     $action_link = route('resetPasswordform', ['token' => $token, 'email' => $request->email]);
     $body = "We are received a request to reset the password for <b>SociablePeak</b> account associated with " . $request->email . ". You can reset your password by clicking the link below";
-    // Mail::send('auth.email-forget', ['action_link' => $action_link, 'body' => $body], function ($message) use ($request) {
-    //     $message->from('sociablepeak@gmail.com', 'SociablePeak');
-    //     $message->to($request->email)->subject('Reset Password');
-    // });
+ 
     Mail::to($request->email)->send(new SendMail($action_link, $body));
 
 

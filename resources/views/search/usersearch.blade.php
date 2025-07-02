@@ -29,7 +29,11 @@
                                 <li style="font-size: 20px; list-style-type: none;">{{ $user->name }}</li>
                             </div>
                         </div>
-                        <a href="{{ route('user.show', ['id' => $user->id]) }}" class="btn btn-primary">View Profile</a>
+                        {{-- <a href="{{ route('user.show', ['id' => $user->id]) }}" class="btn btn-primary">View Profile</a> --}}
+                        <button class="btn btn-primary record-view-btn" data-user-id="{{ $user->id }}" data-redirect-url="{{ route('user.show', ['id' => $user->id]) }}">
+    View Profile
+</button>
+
                     </div>
                     <hr>
                 </div>
@@ -38,3 +42,39 @@
     </div>
 </div>
 @endsection
+
+@section("script")
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.record-view-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const viewedId = this.getAttribute('data-user-id');
+            const redirectUrl = this.getAttribute('data-redirect-url');
+
+            fetch("{{ route('profile.recordView') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ viewed_id: viewedId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'recorded') {
+                    // Redirect after recording
+                    window.location.href = redirectUrl;
+                }
+            })
+            .catch(() => {
+                // Even if AJAX fails, redirect anyway (optional)
+                window.location.href = redirectUrl;
+            });
+        });
+    });
+});
+</script>
+
+
+@endsection
+

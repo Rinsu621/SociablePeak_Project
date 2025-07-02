@@ -64,7 +64,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profilePicture = $user->profilePicture;
 
-       
+
 
 
         return view('profile.index', [
@@ -200,4 +200,26 @@ public function show($id)
         ]);
     }
 
+
+
+    public function recordView(Request $request)
+{
+    $currentUser = Auth::user();
+    $viewedId = $request->input('viewed_id');
+
+    if ($currentUser->id != $viewedId) {
+        $exists = ProfileView::where('viewer_id', $currentUser->id)
+                             ->where('viewed_id', $viewedId)
+                             ->exists();
+
+        if (!$exists) {
+            ProfileView::create([
+                'viewer_id' => $currentUser->id,
+                'viewed_id' => $viewedId
+            ]);
+        }
+    }
+
+    return response()->json(['status' => 'recorded']);
+}
 }

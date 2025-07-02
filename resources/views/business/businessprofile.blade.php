@@ -108,7 +108,7 @@
                 <div class="card-body profile-page p-0">
                     <div class="profile-header">
                         <div class="position-relative">
-                            <img src="{{ asset('/images/template/page-img/kbanner.png') }}" alt="profile-bg"
+                            <img src="{{ asset('/images/template/page-img/college1.jpg') }}" alt="profile-bg"
                                 class="rounded img-fluid">
 
                         </div>

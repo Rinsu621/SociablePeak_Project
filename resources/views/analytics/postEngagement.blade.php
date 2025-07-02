@@ -18,6 +18,84 @@
 }
 </style>
 @endsection
+{{--
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const labels = @json($labels); // Example: ['January', 'February', ...]
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Posts',
+                data: @json($postsData), // Example: [10, 20, 15, ...]
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+        };
+
+        const postsChart = new Chart(
+            document.getElementById('postsChart'),
+            config
+        );
+    });
+</script>
+@endsection --}}
+
+
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('postsChart').getContext('2d');
+
+        const labels = @json($labels); // Dynamic labels for months
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Posts',
+                data: @json($postsData), // Dynamic data for post counts
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Posts'
+                        }
+                    }
+                }
+            }
+        };
+
+        const postsChart = new Chart(ctx, config);
+    });
+</script>
+@endsection
+
 
 @section('content')
 <div class="container">
@@ -144,30 +222,4 @@
     @endforeach
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const labels = @json($labels); // Example: ['January', 'February', ...]
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'Number of Posts',
-                data: @json($postsData), // Example: [10, 20, 15, ...]
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data: data,
-        };
-
-        const postsChart = new Chart(
-            document.getElementById('postsChart'),
-            config
-        );
-    });
-</script>
 @endsection

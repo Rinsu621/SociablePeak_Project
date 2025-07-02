@@ -191,5 +191,9 @@ Route::get('/group/{group}/members', [GroupController::class, 'members'])->name(
 Route::post('/group/{group}/leave', [GroupController::class, 'leave'])->name('group.leave');
 
 
+Route::post('/profile/view', [ProfileController::class, 'recordView'])->name('profile.recordView');
+
+
+
 
 

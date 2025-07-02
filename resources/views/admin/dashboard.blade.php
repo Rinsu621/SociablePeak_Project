@@ -70,6 +70,41 @@
 
         const userGrowthChart = new Chart(ctx, config);
     });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const btx = document.getElementById('businessGrowthChart').getContext('2d');
+
+    const businessLabels = @json($businessGrowthLabels);
+    const businessData = {
+        labels: businessLabels,
+        datasets: [{
+            label: 'Business Growth',
+            data: @json($businessGrowthData),
+            fill: false,
+            borderColor: '#4caf50',
+            tension: 0.1
+        }]
+    };
+
+    new Chart(btx, {
+        type: 'line',
+        data: businessData,
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: { display: true, text: 'Month' }
+                },
+                y: {
+                    title: { display: true, text: 'Number of Businesses' }
+                }
+            }
+        }
+    });
+});
 </script>
 @endsection
 @section('content')
@@ -78,7 +113,7 @@
     <div class="row">
         <!-- Total Users Card -->
         <div class="col-md-4">
-            <div class="card text-white mb-3 custom-card">
+          <div class="card text-white mb-3 custom-card" style="background: linear-gradient(135deg, rgba(54, 162, 235, 0.9), rgba(75, 192, 192, 0.85));">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="me-3">
@@ -96,7 +131,7 @@
 
         <!-- Total Reports Card -->
         <div class="col-md-4">
-            <div class="card text-white mb-3 custom-card" style="background-color: rgba(102, 3, 3, 0.85);">
+            <div class="card text-white mb-3 custom-card" style="background: linear-gradient(135deg, rgba(102, 3, 3, 0.85), rgba(139, 0, 0, 0.8));">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="me-3">
@@ -122,6 +157,57 @@
                 <canvas id="userGrowthChart"></canvas>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+    <div class="card text-white mb-3 custom-card" style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(139, 195, 74, 0.85));">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-briefcase fa-3x"></i>
+                </div>
+                <div>
+                    <h5 class="card-title mb-0"style="color: white;">Total Businesses</h5>
+                    <h2 class="card-text"style="color: white;">{{ $totalBusinesses }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card text-white mb-3 custom-card" style="background: linear-gradient(135deg, rgba(255, 152, 0, 0.9), rgba(255, 193, 7, 0.85));">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-bullhorn fa-3x"></i>
+                </div>
+                <div>
+                    <h5 class="card-title mb-0" style="color: white;">Total Business Ads</h5>
+                    <h2 class="card-text"  style="color: white;">{{ $totalBusinessAds }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Business Growth Over Time</h5>
+                <canvas id="businessGrowthChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     </div>
 </div>
 
