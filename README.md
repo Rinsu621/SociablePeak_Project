@@ -1,6 +1,6 @@
-# Sociolytics
+# SociablePeak
 
-Sociolytics is a Laravel project for building a social media web application.
+SociablePeak is a Laravel project for building a social media web application.
 
 ## Getting Started
 
@@ -18,13 +18,13 @@ Follow these steps to set up the project locally:
 1. Clone the repository:
 
     ```bash
-    git clone git@github.com:BipinJoshi2052/sociolytics.git
+    git clone git@github.com:Rinsu621/SociablePeak_Project.git
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd sociolytics
+    cd sociablepeak
     ```
 
 3. Install PHP dependencies using Composer:
