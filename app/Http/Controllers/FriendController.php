@@ -35,6 +35,7 @@ class FriendController extends Controller
 
     public function addFriend($id)
     {
+        //Get Loggedin user
         $loggedInUserId = Auth::id();
 
         // Check if this friendship already exists

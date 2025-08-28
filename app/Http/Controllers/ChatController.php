@@ -202,6 +202,7 @@ class ChatController extends Controller
     protected function encryptMessage($message) {
         $encryptMethod = "AES-256-CBC";
         $secretKey = config('app.encryption_key');
+        //Generate a random IV(Initialization Vector)
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($encryptMethod));
         $encryptedMessage = openssl_encrypt($message, $encryptMethod, $secretKey, 0, $iv) . "::" . bin2hex($iv);
         return $encryptedMessage;

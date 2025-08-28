@@ -25,7 +25,7 @@ class BusinessController extends Controller
         $businessName = $business->name;
         $userAdsCount = Ad::where('business_id', $business->id)->count();
         $profilePicture = BusinessProfilePicture::where('business_id', $business->id)
-        ->latest('id') // or ->latest('created_at') if you prefer
+        ->latest('id')
         ->first();
         // $ads = Ads::where('business_id', $business->id)->latest()->get();
         $ads = Ad::with('adimages','adLikes.user','adLikes.business')->where('business_id', $business->id)->latest()->get();

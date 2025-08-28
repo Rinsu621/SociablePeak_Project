@@ -16,18 +16,18 @@ class ReportController extends Controller
         return view('admin.report', compact('reports'));
     }
 
-    public function viewProfile($id)
-    {
-        $user = User::findOrFail($id);
+   public function viewProfile($id)
+{
+    $user = User::with('profilePicture')->findOrFail($id);
 
-        $posts = Post::with(['images', 'likes.user', 'comments.user.profilePicture'])
-                     ->where('user_id', $id)
-                     ->orderBy('id', 'desc')
-                     ->get();
+    $posts = Post::with(['images', 'likes.user', 'comments.user.profilePicture'])
+                 ->where('user_id', $id)
+                 ->orderBy('id', 'desc')
+                 ->get();
 
-        $postCount = $posts->count();
+    $postCount = $posts->count();
 
-        $friends = Friend::where(function($query) use ($id) {
+    $friends = Friend::where(function($query) use ($id) {
             $query->where('user_id', $id)
                   ->orWhere('friend_id', $id);
         })
@@ -35,31 +35,30 @@ class ReportController extends Controller
         ->orderBy('id', 'desc')
         ->get();
 
-        $friendDetails = [];
-        $friendsCount = $friends->count();
+    $friendDetails = [];
+    $friendsCount = $friends->count();
 
-        foreach ($friends as $friend) {
-            $friendUserId = ($friend->friend_id == $id) ? $friend->user_id : $friend->friend_id;
-            $friendUser = User::find($friendUserId);
-            $profilePicture = $friendUser->profilePicture;
+    foreach ($friends as $friend) {
+        $friendUserId = ($friend->friend_id == $id) ? $friend->user_id : $friend->friend_id;
 
-            $friendDetails[] = [
-                'user' => $friendUser ? $friendUser->toArray() : null,
-                'profile_picture' => $profilePicture ? $profilePicture->file_path : null,
-            ];
-        }
+        $friendUser = User::with('profilePicture')->find($friendUserId);
 
-        $profilePicture = $user->profilePicture;
-
-        return view('admin.profile', [
-            'user' => $user,
-            'posts' => $posts,
-            'postCount' => $postCount,
-            'friends' => $friendDetails,
-            'friendsCount' => $friendsCount,
-            'profilePicture' => $profilePicture
-        ]);
+        $friendDetails[] = [
+            'user' => $friendUser ? $friendUser->toArray() : null,
+            'profile_picture' => $friendUser && $friendUser->profilePicture ? $friendUser->profilePicture->file_path : null,
+        ];
     }
+
+    return view('admin.profile', [
+        'user' => $user,
+        'posts' => $posts,
+        'postCount' => $postCount,
+        'friends' => $friendDetails,
+        'friendsCount' => $friendsCount,
+        'profilePicture' => $user->profilePicture
+    ]);
+}
+
     public function deleteAccount($id)
 {
     $user = User::findOrFail($id);

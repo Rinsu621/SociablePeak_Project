@@ -111,7 +111,7 @@ class AuthController extends Controller
 
     $action_link = route('resetPasswordform', ['token' => $token, 'email' => $request->email]);
     $body = "We are received a request to reset the password for <b>SociablePeak</b> account associated with " . $request->email . ". You can reset your password by clicking the link below";
- 
+
     Mail::to($request->email)->send(new SendMail($action_link, $body));
 
 
@@ -188,7 +188,7 @@ public function changePassword(Request $request)
     }
 
 
-    Session::put('pending_password', $request->new_password); // Use new_password, not newpassword
+    Session::put('pending_password', $request->new_password);
     Session::put('pending_password_user_id', $user->id);
 
     $this->sendTwoFactorCode($user);
